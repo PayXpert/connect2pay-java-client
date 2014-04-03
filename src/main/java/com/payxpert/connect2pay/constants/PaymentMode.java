@@ -7,7 +7,22 @@ package com.payxpert.connect2pay.constants;
  * 
  */
 public enum PaymentMode {
-  SINGLE("Single"), ONSHIPPING("OnShipping"), RECURRENT("Recurrent"), INSTALMENTS("InstalmentsPayments");
+  /**
+   * Single payment
+   */
+  SINGLE("Single"),
+  /**
+   * Payment will be done on shipping
+   */
+  ONSHIPPING("OnShipping"),
+  /**
+   * The payment will be recurrent (subscription)
+   */
+  RECURRENT("Recurrent"),
+  /**
+   * Installment payment (or part payment)
+   */
+  INSTALLMENTS("InstalmentsPayments");
 
   private String value;
 
@@ -35,7 +50,7 @@ public enum PaymentMode {
   public static PaymentMode valueOfFromString(String mode) {
     if (mode != null) {
       for (PaymentMode subType : PaymentMode.values()) {
-        if (mode.toLowerCase().equals(subType.value.toLowerCase())) {
+        if (mode.equalsIgnoreCase(subType.value)) {
           return subType;
         }
       }
@@ -46,7 +61,7 @@ public enum PaymentMode {
   public static PaymentMode valueOfFromName(String name) {
     if (name != null) {
       for (PaymentMode subType : PaymentMode.values()) {
-        if (name.toLowerCase().equals(subType.name().toLowerCase())) {
+        if (name.equalsIgnoreCase(subType.name())) {
           return subType;
         }
       }

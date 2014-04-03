@@ -48,7 +48,7 @@ public enum ResultCode {
   public static ResultCode valueOfFromName(String name) {
     if (name != null) {
       for (ResultCode subType : ResultCode.values()) {
-        if (name.toLowerCase().equals(subType.name().toLowerCase())) {
+        if (name.equalsIgnoreCase(subType.name())) {
           return subType;
         }
       }

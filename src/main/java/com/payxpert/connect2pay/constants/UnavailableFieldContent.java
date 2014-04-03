@@ -49,7 +49,7 @@ public enum UnavailableFieldContent {
   public static UnavailableFieldContent valueOfFromString(String mode) {
     if (mode != null) {
       for (UnavailableFieldContent subType : UnavailableFieldContent.values()) {
-        if (mode.toLowerCase().equals(subType.value.toLowerCase())) {
+        if (mode.equalsIgnoreCase(subType.value)) {
           return subType;
         }
       }
@@ -60,7 +60,7 @@ public enum UnavailableFieldContent {
   public static UnavailableFieldContent valueOfFromName(String name) {
     if (name != null) {
       for (UnavailableFieldContent subType : UnavailableFieldContent.values()) {
-        if (name.toLowerCase().equals(subType.name().toLowerCase())) {
+        if (name.equalsIgnoreCase(subType.name())) {
           return subType;
         }
       }

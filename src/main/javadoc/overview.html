@@ -1,0 +1,89 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE>Connect2pay Payment Page Client</TITLE>
+</HEAD>
+<BODY>
+ <p>This is the Java implementation of the Connect2pay Payment Page
+  API.</p>
+ <p>
+  The main class to use is {@link com.payxpert.connect2pay.client.Connect2payClient} that implements all the API
+  calls.<br> It requires request object as entries and returns
+  response objects.
+ </p>
+ <br>
+
+ <p>Example of a payment creation with user redirection:</p>
+ <pre>
+   // Process a transaction of €39.99 
+   TransactionRequest request = new TransactionRequest();
+   request.setOrderId("1234ABCD").setCurrency("EUR").setAmount(3999);
+   request.setCustomerIP("10.10.10.10").setShippingType(ShippingType.VIRTUAL);
+   request.setPaymentMode(PaymentMode.SINGLE);
+   // User wil be redirected here when clicking on "Go back to merchant" button
+   request.setCtrlRedirectURL("http://my.website/somewhere");
+   // The payment page will do a callback on this URL after the payment is processed
+   request.setCtrlCallbackURL("http://my.website/payment-callback");
+   
+   // Validate the request
+   try {
+     request.validate();
+   } catch (BadRequestException e) {
+     logger.error("Ooops, an error occurred validating the payment request: " + e.getMessage());
+     // Handle the error...
+   }
+   
+   // Instantiate the client and send the prepare request
+   Connect2payClient c2p = new Connect2payClient("https://provided.url", "123456", "GreatP4ssw0rd");
+   TransactionResponse response = null;
+   try {
+     response = c2p.prepareTransaction(request);
+   } catch (Exception e) {
+     logger.error("Ooops, an error occurred preparing the payment: " + e.getMessage());
+     // Handle the error...
+   }
+   
+   if (response != null && ResultCode.SUCCESS.equals(response.getCode()) {
+     // Get the URL to redirect the user to
+     String redirectURL = response.getCustomerRedirectURL();
+     if (redirectURL != null) {
+       // Redirect the user towards this URL, this will display the payment page
+     }
+   } else {
+     // Handle the failure
+   }
+  </pre>
+
+ <p>Example of the payment callback handling:</p>
+
+ <pre>
+   // Instantiate the client and handle the callback
+   Connect2payClient c2p = new Connect2payClient("https://provided.url", "123456", "GreatP4ssw0rd");
+   TransactionStatusResponse response = null;
+   try {
+     response = c2p.handleCallbackStatus(request);
+   } catch (Exception e) {
+     logger.error("Ooops, an error occurred handling the callback: " + e.getMessage());
+     // Handle the error...
+   }
+   
+   if (response != null && ResultCode.SUCCESS.equals(response.getCode()) {
+     // Check the payment status: 000 means success
+     if ("000".equals(response.getErrorCode()) {
+       // Handle the payment success case
+     } else {
+       // Handle the payment failure case
+     }
+     
+     if (handledSuccessfully) {
+       out.write(CallbackStatusResponse.getDefaultSuccessResponse().toJson()) // out is the output stream
+     } else {
+       out.write(CallbackStatusResponse.getDefaultFailureResponse().toJson()) // out is the output stream
+     }
+   } else {
+     // Handle the failure
+     out.write(CallbackStatusResponse.getDefaultFailureResponse().toJson()) // out is the output stream
+   }
+ </pre>
+ </BODY>
+</HTML>

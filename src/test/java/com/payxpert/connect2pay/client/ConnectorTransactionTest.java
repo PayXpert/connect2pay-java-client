@@ -1,7 +1,5 @@
 package com.payxpert.connect2pay.client;
 
-import com.payxpert.connect2pay.client.Connect2payClient;
-
 public abstract class ConnectorTransactionTest {
   protected static final String TEST_URL = "http://127.0.0.1:9001";
   protected static final String DEFAULT_ORIGINATOR = "102019";

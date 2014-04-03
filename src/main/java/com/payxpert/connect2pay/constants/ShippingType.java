@@ -7,7 +7,18 @@ package com.payxpert.connect2pay.constants;
  * 
  */
 public enum ShippingType {
-  PHYSICAL("Physical"), ACCESS("Access"), VIRTUAL("Virtual");
+  /**
+   * Classic physical shipping
+   */
+  PHYSICAL("Physical"),
+  /**
+   * The order gives an access, no physical delivery
+   */
+  ACCESS("Access"),
+  /**
+   * The order concerns a virtual product
+   */
+  VIRTUAL("Virtual");
 
   private String value;
 
@@ -30,7 +41,7 @@ public enum ShippingType {
   public static ShippingType valueOfFromString(String type) {
     if (type != null) {
       for (ShippingType subType : ShippingType.values()) {
-        if (type.toLowerCase().equals(subType.value.toLowerCase())) {
+        if (type.equalsIgnoreCase(subType.value)) {
           return subType;
         }
       }
@@ -41,7 +52,7 @@ public enum ShippingType {
   public static ShippingType valueOfFromName(String name) {
     if (name != null) {
       for (ShippingType subType : ShippingType.values()) {
-        if (name.toLowerCase().equals(subType.name().toLowerCase())) {
+        if (name.equalsIgnoreCase(subType.name())) {
           return subType;
         }
       }

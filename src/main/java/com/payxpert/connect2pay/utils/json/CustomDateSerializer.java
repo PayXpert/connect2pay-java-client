@@ -16,6 +16,8 @@ public class CustomDateSerializer extends StdSerializer<Date> {
   @Override
   public void serialize(Date value, JsonGenerator generator, SerializerProvider provider) throws IOException,
       JsonProcessingException {
-    generator.writeNumber(value.getTime() / 1000);
+    if (generator != null && value != null) {
+      generator.writeNumber(value.getTime() / 1000);
+    }
   }
 }

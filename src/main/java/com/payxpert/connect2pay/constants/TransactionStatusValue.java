@@ -27,7 +27,7 @@ public enum TransactionStatusValue {
   public static TransactionStatusValue valueOfFromLabel(String label) {
     if (label != null) {
       for (TransactionStatusValue status : TransactionStatusValue.values()) {
-        if (status.label.toLowerCase().equals(label.toLowerCase())) {
+        if (status.label.equalsIgnoreCase(label)) {
           return status;
         }
       }
@@ -38,7 +38,7 @@ public enum TransactionStatusValue {
   public static TransactionStatusValue valueOfFromName(String name) {
     if (name != null) {
       for (TransactionStatusValue subType : TransactionStatusValue.values()) {
-        if (name.toLowerCase().equals(subType.name().toLowerCase())) {
+        if (name.equalsIgnoreCase(subType.name())) {
           return subType;
         }
       }

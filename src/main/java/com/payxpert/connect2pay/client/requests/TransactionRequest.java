@@ -12,6 +12,7 @@ import net.sf.oval.constraint.NotNull;
 import net.sf.oval.constraint.Range;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.payxpert.connect2pay.client.Connect2payClient;
 import com.payxpert.connect2pay.constants.PaymentMode;
 import com.payxpert.connect2pay.constants.PaymentType;
 import com.payxpert.connect2pay.constants.ShippingType;
@@ -23,8 +24,13 @@ import com.payxpert.connect2pay.constants.SubscriptionType;
  * <ul>
  * <li>Instantiate</li>
  * <li>Set the value of the variables</li>
- * <li>Call validate() to check that it is ok</li>
- * <li>Use it in Connect2payClient.prepareTransaction()</li>
+ * <li>Call {@link TransactionRequest#validate()} to check that it is ok</li>
+ * <li>Use it in
+ * {@link Connect2payClient#prepareTransaction(TransactionRequest)}</li>
+ * </ul>
+ * 
+ * String fields will be automatically truncated to the maximum length allowed
+ * by the API.
  * 
  * @author jsh
  * 

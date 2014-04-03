@@ -24,7 +24,7 @@ public enum TransactionOperation {
   public static TransactionOperation valueOfFromString(String operation) {
     if (operation != null) {
       for (TransactionOperation op : TransactionOperation.values()) {
-        if (op.name().toLowerCase().equals(operation.toLowerCase())) {
+        if (op.name().equalsIgnoreCase(operation)) {
           return op;
         }
       }

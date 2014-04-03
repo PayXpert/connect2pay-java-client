@@ -141,7 +141,9 @@ public class Connect2payRESTClient {
         rBuilder.setHeader("Content-Length", "0");
       }
     }
-    logger.debug("Request body is: " + this.body);
+    if (this.body != null) {
+      logger.debug("Request body is: " + this.body);
+    }
     // Add the parameters
     for (String param : this.parameters.keySet()) {
       rBuilder.addQueryParameter(param, this.parameters.get(param));
@@ -216,9 +218,9 @@ public class Connect2payRESTClient {
             e.printStackTrace();
           }
         } else {
-          if (new Integer(403).equals(response.getStatusCode())) {
+          if (response.getStatusCode() == 403) {
             throw new HttpForbiddenException();
-          } else if (new Integer(404).equals(response.getStatusCode())) {
+          } else if (response.getStatusCode() == 404) {
             throw new HttpNotFoundException();
           }
         }

@@ -30,7 +30,7 @@ public enum PaymentType {
   public static PaymentType valueOfFromString(String type) {
     if (type != null) {
       for (PaymentType subType : PaymentType.values()) {
-        if (type.toLowerCase().equals(subType.value.toLowerCase())) {
+        if (type.equalsIgnoreCase(subType.value)) {
           return subType;
         }
       }
@@ -41,7 +41,7 @@ public enum PaymentType {
   public static PaymentType valueOfFromName(String name) {
     if (name != null) {
       for (PaymentType subType : PaymentType.values()) {
-        if (name.toLowerCase().equals(subType.name().toLowerCase())) {
+        if (name.equalsIgnoreCase(subType.name())) {
           return subType;
         }
       }

@@ -28,19 +28,21 @@ public class CryptoHelper {
   public static String sha512(String text) {
     String result = null;
 
-    MessageDigest md = null;
+    if (text != null) {
+      MessageDigest md = null;
 
-    try {
-      md = MessageDigest.getInstance("SHA-512");
-    } catch (NoSuchAlgorithmException e) {
-      e.printStackTrace();
-    }
-
-    if (md != null) {
       try {
-        result = Hex.encodeHexString(md.digest(text.getBytes("UTF-8")));
-      } catch (UnsupportedEncodingException e) {
+        md = MessageDigest.getInstance("SHA-512");
+      } catch (NoSuchAlgorithmException e) {
         e.printStackTrace();
+      }
+
+      if (md != null) {
+        try {
+          result = Hex.encodeHexString(md.digest(text.getBytes("UTF-8")));
+        } catch (UnsupportedEncodingException e) {
+          e.printStackTrace();
+        }
       }
     }
 
@@ -59,15 +61,19 @@ public class CryptoHelper {
    * @return An array of bytes filled with the random data
    */
   public static byte[] generateRandom(int size) {
-    size = size / 8;
+    if (size > 0) {
+      size = size / 8;
 
-    byte[] results = new byte[size];
+      byte[] results = new byte[size];
 
-    SecureRandom secRand = new SecureRandom();
+      SecureRandom secRand = new SecureRandom();
 
-    secRand.nextBytes(results);
+      secRand.nextBytes(results);
 
-    return results;
+      return results;
+    } else {
+      return null;
+    }
   }
 
   public static byte[] generateAESKey(int size) {

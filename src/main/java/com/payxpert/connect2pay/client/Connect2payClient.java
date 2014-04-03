@@ -24,21 +24,27 @@ import com.payxpert.connect2pay.utils.CryptoHelper;
 
 /**
  * Client class for the payment page application.<br>
- * The normal workflow is as follows:
+ * The normal transaction creation workflow is as follows:
  * <ul>
- * <li>Instanciate the class</li>
+ * <li>Instantiate the {@link TransactionRequest} class</li>
  * <li>Set all the required parameters of the transaction</li>
- * <li>Call prepareTransaction() to create the transaction</li>
- * <li>Call getCustomerRedirectURL() and redirect the customer to this URL</li>
- * <li>If receiving result via callback, use handleCallbackStatus to initialize
- * the status from the POST request</li>
- * <li>If receiving result via customer redirection, use handleRedirectStatus to
- * initialize the status from the POST data</li>
+ * <li>Validate the request object by calling
+ * {@link TransactionRequest#validate()}</li>
+ * <li>Call {@link Connect2payClient#prepareTransaction(TransactionRequest)} to
+ * create the transaction</li>
+ * <li>Call {@link TransactionResponse#getCustomerRedirectURL()} and redirect
+ * the customer to this URL</li>
+ * <li>If receiving result via callback (recommended), use
+ * {@link Connect2payClient#handleCallbackStatus(String)} to initialize the
+ * status from the POST request</li>
+ * <li>When receiving the result via customer redirection, use
+ * {@link Connect2payClient#handleRedirectStatus(String, String)} to initialize
+ * the status from the POST data</li>
  * </ul>
  * 
  * This class does not do any sanitization on received data. This must be done
  * externally.<br>
- * Every text must be encoded as UTF-8 when passed to this class.
+ * Every text must be encoded as UTF-8 when passed to this class.<br>
  * 
  * @version 1.0 (20140325)
  * @author JsH <jsh@payxpert.com><br>
@@ -64,7 +70,9 @@ public class Connect2payClient {
    *          API key of the originator
    */
   public Connect2payClient(String serviceURL, String originator, String apiKey) {
-    this.serviceUrl = serviceURL;
+    if (serviceURL != null) {
+      this.serviceUrl = serviceURL.replaceAll("/+$", "");
+    }
     this.httpClient = new Connect2payRESTClient().addBasicAuthentication(originator, apiKey);
   }
 
