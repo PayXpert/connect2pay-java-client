@@ -13,6 +13,7 @@ import net.sf.oval.constraint.Range;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.payxpert.connect2pay.client.Connect2payClient;
+import com.payxpert.connect2pay.constants.C2PLang;
 import com.payxpert.connect2pay.constants.PaymentMode;
 import com.payxpert.connect2pay.constants.PaymentType;
 import com.payxpert.connect2pay.constants.ShippingType;
@@ -157,7 +158,6 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
   private Integer rebillMaxIteration;
 
   // Template and control fields
-  @NotNull
   @MatchPattern(pattern = { "^(http|https)\\://[a-zA-Z0-9\\-\\.]+(:[a-zA-Z0-9]*)?/?([a-zA-Z0-9\\-\\._\\?\\,\\'/\\\\\\+&amp;%\\$#\\=~\\!])*$" })
   @MaxLength(2048)
   private String ctrlRedirectURL;
@@ -168,6 +168,18 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
 
   @MaxLength(2048)
   private String ctrlCustomData;
+
+  @MaxLength(10)
+  private String timeOut;
+
+  private Boolean merchantNotification;
+
+  @Email
+  @MaxLength(100)
+  private String merchantNotificationTo;
+
+  private C2PLang merchantNotificationLang;
+
   @JsonProperty("themeID")
   private Long themeId;
 
@@ -1019,6 +1031,76 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
    */
   public TransactionRequest setCtrlCustomData(String ctrlCustomData) {
     this.ctrlCustomData = this.limitLength(ctrlCustomData, 2048);
+    return getThis();
+  }
+
+  /**
+   * @return the timeOut
+   */
+  public String getTimeOut() {
+    return timeOut;
+  }
+
+  /**
+   * @param timeOut
+   *          the timeOut to set
+   * 
+   * @return The current request for method chaining
+   */
+  public TransactionRequest setTimeOut(String timeOut) {
+    this.timeOut = timeOut;
+    return getThis();
+  }
+
+  /**
+   * @return the merchantNotification
+   */
+  public Boolean getMerchantNotification() {
+    return merchantNotification;
+  }
+
+  /**
+   * @param merchantNotification
+   *          the merchantNotification to set
+   * 
+   * @return The current request for method chaining
+   */
+  public TransactionRequest setMerchantNotification(Boolean merchantNotification) {
+    this.merchantNotification = merchantNotification;
+    return getThis();
+  }
+
+  /**
+   * @return the merchantNotificationTo
+   */
+  public String getMerchantNotificationTo() {
+    return merchantNotificationTo;
+  }
+
+  /**
+   * @param merchantNotificationTo
+   *          the merchantNotificationTo to set
+   * 
+   * @return The current request for method chaining
+   */
+  public TransactionRequest setMerchantNotificationTo(String merchantNotificationTo) {
+    this.merchantNotificationTo = merchantNotificationTo;
+    return getThis();
+  }
+
+  /**
+   * @return the merchantNotificationLang
+   */
+  public C2PLang getMerchantNotificationLang() {
+    return merchantNotificationLang;
+  }
+
+  /**
+   * @param merchantNotificationLang
+   *          the merchantNotificationLang to set
+   */
+  public TransactionRequest setMerchantNotificationLang(C2PLang merchantNotificationLang) {
+    this.merchantNotificationLang = merchantNotificationLang;
     return getThis();
   }
 

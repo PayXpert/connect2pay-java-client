@@ -13,6 +13,7 @@ import org.junit.Test;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
+import com.payxpert.connect2pay.constants.C2PLang;
 import com.payxpert.connect2pay.constants.PaymentMode;
 import com.payxpert.connect2pay.constants.PaymentType;
 import com.payxpert.connect2pay.constants.ShippingType;
@@ -76,9 +77,13 @@ public class TransactionRequestTest {
     requestFields.add(new FieldState("subscriptionFields", "rebillPeriod", false));
     requestFields.add(new FieldState("subscriptionFields", "rebillMaxIteration", false));
 
-    requestFields.add(new FieldState("controlFields", "ctrlRedirectURL", true));
+    requestFields.add(new FieldState("controlFields", "ctrlRedirectURL", false));
     requestFields.add(new FieldState("controlFields", "ctrlCallbackURL", false));
     requestFields.add(new FieldState("controlFields", "ctrlCustomData", false));
+    requestFields.add(new FieldState("controlFields", "timeOut", false));
+    requestFields.add(new FieldState("controlFields", "merchantNotification", false));
+    requestFields.add(new FieldState("controlFields", "merchantNotificationTo", false));
+    requestFields.add(new FieldState("controlFields", "merchantNotificationLang", false));
     requestFields.add(new FieldState("controlFields", "themeID", false));
   }
 
@@ -164,7 +169,8 @@ public class TransactionRequestTest {
 
     request.setShipToFirstName("Bernard").setShipToLastName("Ménez").setShipToAddress("Passeig de Gracia, 55")
         .setShipToZipcode("08008").setShipToCity("Barcelona").setShipToState("Barcelona").setShipToCountryCode("ES")
-        .setShipToPhone("+34666666666");
+        .setShipToPhone("+34666666666").setMerchantNotification(true).setMerchantNotificationTo("dev@payxpert.com")
+        .setMerchantNotificationLang(C2PLang.EN);
 
     request.setOrderDescription("orderDescription");
     request.setOfferId(1L);
