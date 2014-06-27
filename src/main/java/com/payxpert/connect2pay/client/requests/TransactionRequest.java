@@ -116,11 +116,6 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
   private Integer orderShippingPrice;
   private Integer orderDiscount;
 
-  @NotNull
-  @NotEmpty
-  @MaxLength(15)
-  private String customerIP;
-
   @MaxLength(50)
   private String orderFOLanguage;
 
@@ -712,9 +707,11 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
 
   /**
    * @return the customerIP
+   * @deprecated This field is not present anymore in the API, the value is
+   *             obtained from the connected user
    */
   public String getCustomerIP() {
-    return customerIP;
+    return null;
   }
 
   /**
@@ -722,9 +719,10 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
    *          the customerIP to set
    * 
    * @return The current request for method chaining
+   * @deprecated This field is not present anymore in the API, the value is
+   *             obtained from the connected user
    */
   public TransactionRequest setCustomerIP(String customerIP) {
-    this.customerIP = this.limitLength(customerIP, 15);
     return getThis();
   }
 

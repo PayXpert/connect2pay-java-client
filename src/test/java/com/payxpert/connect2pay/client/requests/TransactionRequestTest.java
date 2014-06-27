@@ -58,8 +58,6 @@ public class TransactionRequestTest {
     requestFields.add(new FieldState("ecommerceFields", "orderShippingPrice", false));
     requestFields.add(new FieldState("ecommerceFields", "orderDiscount", false));
 
-    requestFields.add(new FieldState("commonFields", "customerIP", true));
-
     requestFields.add(new FieldState("ecommerceFields", "orderFOLanguage", false));
     requestFields.add(new FieldState("ecommerceFields", "orderDescription", false));
     requestFields.add(new FieldState("ecommerceFields", "orderCartContent", false));
@@ -107,13 +105,6 @@ public class TransactionRequestTest {
   }
 
   @Test(expected = BadRequestException.class)
-  public void testSaleRequestMissingCustomerIP() throws Exception {
-    TransactionRequest request = TransactionRequestTest.getDefaultRequest();
-    request.setCustomerIP("");
-    request.validate();
-  }
-
-  @Test(expected = BadRequestException.class)
   public void testSaleRequestMissingAmount() throws Exception {
     TransactionRequest request = TransactionRequestTest.getDefaultRequest();
     request.setAmount(null);
@@ -155,11 +146,11 @@ public class TransactionRequestTest {
 
     request.setPaymentType(PaymentType.CREDIT_CARD).setPaymentMode(PaymentMode.SINGLE)
         .setOrderId(new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date()));
-    request.setCustomerIP("127.0.0.1").setAmount(100).setCurrency("EUR").setShopperFirstName("Bernard")
-        .setShopperLastName("Ménez").setShopperAddress("Passeig de Gracia, 55").setShopperZipcode("08008")
-        .setShopperCity("Barcelona").setShopperState("Barcelona").setShopperCountryCode("ES")
-        .setShopperPhone("+34666666666").setShopperEmail("bernard.menez@gmail.com")
-        .setShippingType(ShippingType.VIRTUAL).setCtrlRedirectURL("https://redirect.here/");
+    request.setAmount(100).setCurrency("EUR").setShopperFirstName("Bernard").setShopperLastName("Ménez")
+        .setShopperAddress("Passeig de Gracia, 55").setShopperZipcode("08008").setShopperCity("Barcelona")
+        .setShopperState("Barcelona").setShopperCountryCode("ES").setShopperPhone("+34666666666")
+        .setShopperEmail("bernard.menez@gmail.com").setShippingType(ShippingType.VIRTUAL)
+        .setCtrlRedirectURL("https://redirect.here/");
 
     return request;
   }
