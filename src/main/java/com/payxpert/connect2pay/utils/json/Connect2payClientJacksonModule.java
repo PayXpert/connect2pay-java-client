@@ -2,6 +2,7 @@ package com.payxpert.connect2pay.utils.json;
 
 import com.fasterxml.jackson.core.Version;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.payxpert.connect2pay.constants.C2PLang;
 import com.payxpert.connect2pay.constants.PaymentMode;
 import com.payxpert.connect2pay.constants.PaymentType;
 import com.payxpert.connect2pay.constants.ResultCode;
@@ -36,6 +37,7 @@ public class Connect2payClientJacksonModule extends SimpleModule {
     context.setMixInAnnotations(ResultCode.class, ResultCodeMixIn.class);
     context.setMixInAnnotations(TransactionOperation.class, TransactionOperationMixIn.class);
     context.setMixInAnnotations(TransactionStatusValue.class, TransactionStatusValueMixIn.class);
+    context.setMixInAnnotations(C2PLang.class, C2PLangMixIn.class);
   }
 
   @Override

@@ -95,11 +95,22 @@ public class TransactionResponse extends GenericResponse<TransactionResponse> {
   }
 
   /**
-   * Get the URL to redirect the customer to.
+   * Get the full URL to redirect the customer to.
    * 
    * @return The payment page URL or null if missing information
    */
   public String getCustomerRedirectURL() {
+    return this.getCustomerRedirectURL(true);
+  }
+
+  /**
+   * Get the URL to redirect the customer to.
+   * 
+   * @param includeHost
+   *          Whether or not to preprend the host to the returned URL
+   * @return The payment page URL or null if missing information
+   */
+  public String getCustomerRedirectURL(Boolean includeHost) {
     if (this.serviceURL != null && this.merchantToken != null) {
       return this.serviceURL + APIRoute.TRANS_DOPAY.getRoute().replaceAll(":merchantToken", this.getMerchantToken());
     }

@@ -35,7 +35,7 @@ import com.payxpert.connect2pay.utils.json.Connect2payClientJacksonModule;
 public abstract class GenericRequest<T extends GenericRequest<T>> {
   protected static final Logger logger = LoggerFactory.getLogger(GenericRequest.class);
 
-  public static final String DEFAULT_API_VERSION = "002";
+  public static final String DEFAULT_API_VERSION = "002.01";
 
   @NotNull
   @NotEmpty
