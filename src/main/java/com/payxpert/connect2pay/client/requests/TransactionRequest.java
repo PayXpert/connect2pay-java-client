@@ -119,7 +119,7 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
   @MaxLength(50)
   private String orderFOLanguage;
 
-  @MaxLength(255)
+  @MaxLength(500)
   private String orderDescription;
   private List<Product> orderCartContent;
 
@@ -758,7 +758,7 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
    * @return The current request for method chaining
    */
   public TransactionRequest setOrderDescription(String orderDescription) {
-    this.orderDescription = this.limitLength(orderDescription, 255);
+    this.orderDescription = this.limitLength(orderDescription, 500);
     return getThis();
   }
 
