@@ -3,7 +3,6 @@ package com.payxpert.connect2pay.client;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.payxpert.connect2pay.client.Connect2payClient;
 import com.payxpert.connect2pay.client.requests.TransactionRequest;
 import com.payxpert.connect2pay.client.requests.TransactionRequestTest;
 import com.payxpert.connect2pay.client.response.TransactionResponse;
@@ -29,6 +28,7 @@ public class ConnectorPrepareTransactionTest extends ConnectorTransactionTest {
     Assert.assertEquals(ResultCode.SUCCESS, response.getCode());
     Assert.assertNotNull(response.getMerchantToken());
     Assert.assertNotNull(response.getCustomerToken());
+    Assert.assertEquals(TEST_URL + "/transaction/" + response.getCustomerToken(), response.getCustomerRedirectURL());
   }
 
   /**

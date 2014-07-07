@@ -11,7 +11,7 @@ public enum APIRoute {
   /* */
   TRANS_STATUS("/transaction/:merchantToken/status"),
   /* */
-  TRANS_DOPAY("/transaction/:customerToken/dopay"),
+  TRANS_DOPAY("/transaction/:customerToken"),
   /* */
   SUB_CANCEL("/subscription/:subscriptionID/cancel");
 

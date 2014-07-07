@@ -91,7 +91,9 @@ public class TransactionResponse extends GenericResponse<TransactionResponse> {
    *          the serviceURL to set
    */
   public void setServiceURL(String serviceURL) {
-    this.serviceURL = serviceURL;
+    if (serviceURL != null) {
+      this.serviceURL = serviceURL.replaceAll("/+$", "");
+    }
   }
 
   /**
@@ -111,8 +113,13 @@ public class TransactionResponse extends GenericResponse<TransactionResponse> {
    * @return The payment page URL or null if missing information
    */
   public String getCustomerRedirectURL(Boolean includeHost) {
-    if (this.serviceURL != null && this.merchantToken != null) {
-      return this.serviceURL + APIRoute.TRANS_DOPAY.getRoute().replaceAll(":merchantToken", this.getMerchantToken());
+    if (this.customerToken != null) {
+      String prefix = "";
+      if (this.serviceURL != null && includeHost) {
+        prefix = this.serviceURL;
+      }
+
+      return prefix + APIRoute.TRANS_DOPAY.getRoute().replaceAll(":customerToken", this.getCustomerToken());
     }
 
     return null;
