@@ -124,4 +124,13 @@ public class TransactionResponse extends GenericResponse<TransactionResponse> {
 
     return null;
   }
+
+  /**
+   * Determine if the current response is a success
+   * 
+   * @return True if the processing was successful, false otherwise
+   */
+  public Boolean isSuccessful() {
+    return (this.code != null && ResultCode.SUCCESS.equals(this.code));
+  }
 }
