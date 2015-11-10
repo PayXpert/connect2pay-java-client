@@ -1,5 +1,10 @@
 package com.payxpert.connect2pay.client;
 
+import static org.junit.Assert.fail;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -58,11 +63,11 @@ public class ConnectorConnectionTest extends ConnectorTransactionTest {
     try {
       response = connector.prepareTransaction(TransactionRequestTest.getDefaultRequest());
       // This must not be executed
-      Assert.assertNotNull(null);
+      fail("Exception not present: An Exception must have been thrown");
     } catch (Exception e) {
       logger.info("connection2UnknowHost, catched error : " + e.getMessage());
       Assert.assertTrue(e.getMessage().startsWith(
-          "java.net.ConnectException: https://UnknownHostException.payxpert.com"));
+          "java.net.UnknownHostException: UnknownHostException.payxpert.com"));
     }
 
     duration = (System.currentTimeMillis() - start);
@@ -88,8 +93,13 @@ public class ConnectorConnectionTest extends ConnectorTransactionTest {
       Assert.assertNotNull(null);
     } catch (Exception e) {
       String errorMessage = "";
-      errorMessage = String.format("java.util.concurrent.TimeoutException: No response received after %d", TIMEOUT);
-
+      URL url = null;
+      try {
+        url = new URL(TEST_URL);
+      } catch (MalformedURLException e1) {
+       fail(String.format("Cannot resolve the URL: %s. Details:", TEST_URL, e.getMessage()));
+      }
+      errorMessage = String.format("java.net.ConnectException: connection timed out: /%s:%d", url.getHost(),url.getDefaultPort());
       if (!errorMessage.equals(e.getMessage())) {
         logger.error("To run this test, the URL " + TEST_URL
             + " must not be on a directly attached network (or change it).");

@@ -20,6 +20,7 @@ import com.payxpert.connect2pay.client.requests.GenericRequest;
 import com.payxpert.connect2pay.exception.HttpForbiddenException;
 import com.payxpert.connect2pay.exception.HttpNotFoundException;
 
+
 /**
  * REST Client for the payment page application. Should not be used directly,
  * use a Connect2payClient instead.
@@ -34,7 +35,17 @@ public class Connect2payRESTClient {
   private String url;
   private Map<String, String> parameters;
   private String body;
+  /**
+   * The virtual host this request will use
+   */
+  private String virtualHost;
+  
   private int timeout;
+  
+  /**
+   * Indicate if SSL/TLS certificate verification should be done. Set it to true to disable it
+   */
+  private Boolean acceptAnyCertificate;
 
   private static final Logger logger = LoggerFactory.getLogger(Connect2payRESTClient.class);
   private static final int DEFAULT_TIMEOUT = 20000;
@@ -85,6 +96,24 @@ public class Connect2payRESTClient {
    */
   public Connect2payRESTClient setTimeout(int timeout) {
     this.timeout = timeout;
+
+    return this;
+  }
+  
+  /**
+   * Set the virtual host this request will use
+   */
+  public Connect2payRESTClient setVirtualHost(String virtualHost) {
+    this.virtualHost = virtualHost;
+
+    return this;
+  }
+
+  /**
+   * Set the state of the SSL/TLS certificate verification. Set it to true to disable it.
+   */
+  public Connect2payRESTClient setAcceptAnyCertificate(Boolean acceptAnyCertificate) {
+    this.acceptAnyCertificate = acceptAnyCertificate;
 
     return this;
   }
@@ -141,12 +170,17 @@ public class Connect2payRESTClient {
         rBuilder.setHeader("Content-Length", "0");
       }
     }
+    
+    if (this.virtualHost != null) {
+      rBuilder.setVirtualHost(this.virtualHost);
+    }
+    
     if (this.body != null) {
       logger.debug("Request body is: " + this.body);
     }
     // Add the parameters
     for (String param : this.parameters.keySet()) {
-      rBuilder.addQueryParameter(param, this.parameters.get(param));
+      rBuilder.addQueryParam(param, this.parameters.get(param));
     }
     // Add the Basic authentication if defined
     if (this.realm != null) {
@@ -180,7 +214,10 @@ public class Connect2payRESTClient {
 
   private void prepareHttpClient() {
     AsyncHttpClientConfig.Builder cBuilder = new AsyncHttpClientConfig.Builder();
-    cBuilder.setRequestTimeoutInMs(this.timeout);
+    cBuilder.setRequestTimeout(this.timeout);
+    if (this.acceptAnyCertificate != null) {
+      cBuilder.setAcceptAnyCertificate(this.acceptAnyCertificate);
+    }
 
     if (this.proxy != null) {
       cBuilder.setProxyServer(this.proxy);
