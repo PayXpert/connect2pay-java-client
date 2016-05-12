@@ -5,7 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
-import com.payxpert.connect2pay.client.Connect2payClient;
+import com.payxpert.connect2pay.client.containers.CreditCardPaymentMeanInfo;
 import com.payxpert.connect2pay.client.response.TransactionStatusResponse;
 import com.payxpert.connect2pay.constants.PaymentType;
 import com.payxpert.connect2pay.constants.ResultCode;
@@ -21,7 +21,11 @@ public class ConnectorHandleCallbackTest extends ConnectorTransactionTest {
    */
   @Test
   public void handleCallbackTestSuccessfull() {
-    String receivedData = "{\"ctrlCustomData\":\"Give that back to me please !!\",\"status\":\"Authorized\","
+    String receivedData = "{\"paymentMeanInfo\":{\"cardNumber\":\"411111XXXXXX1111\",\"cardExpireYear\":\"2024\""
+        + ",\"cardExpireMonth\":\"10\",\"cardHolderName\":\"Tech Payxpert\",\"cardBrand\":\"VISA\""
+        + ",\"cardLevel\":\"other\",\"cardSubType\":\"credit\",\"iinCountry\":\"US\""
+        + ",\"iinBankName\":\"jpmorgan chase bank na\",\"is3DSecure\":false}"
+        + ",\"ctrlCustomData\":\"Give that back to me please !!\",\"status\":\"Authorized\","
         + "\"merchantToken\":\"2NmIsxITW2hrzAowK44nZA\",\"transactionID\":18253,\"paymentType\":\"CreditCard\""
         + ",\"operation\":\"sale\",\"errorCode\":\"000\",\"errorMessage\":\"Transaction successfully completed\","
         + "\"orderID\":\"2014-04-02-14.32.45\",\"currency\":\"EUR\",\"amount\":1000,\"shopperName\":\"Tech Payxpert\","
@@ -46,6 +50,18 @@ public class ConnectorHandleCallbackTest extends ConnectorTransactionTest {
     Assert.assertEquals("support@payxpert.com", response.getShopperEmail());
     Assert.assertEquals(PaymentType.CREDIT_CARD, response.getPaymentType());
     Assert.assertEquals(new Long(18253), response.getTransactionId());
+    CreditCardPaymentMeanInfo pmInfo = response.getCCPaymentMeanInfo();
+    Assert.assertNotNull(pmInfo);
+    Assert.assertEquals("411111XXXXXX1111", pmInfo.getCardNumber());
+    Assert.assertEquals("2024", pmInfo.getCardExpireYear());
+    Assert.assertEquals("10", pmInfo.getCardExpireMonth());
+    Assert.assertEquals("Tech Payxpert", pmInfo.getCardHolderName());
+    Assert.assertEquals("VISA", pmInfo.getCardBrand());
+    Assert.assertEquals("other", pmInfo.getCardLevel());
+    Assert.assertEquals("credit", pmInfo.getCardSubType());
+    Assert.assertEquals("US", pmInfo.getIinCountry());
+    Assert.assertEquals("jpmorgan chase bank na", pmInfo.getIinBankName());
+    Assert.assertFalse(pmInfo.getIs3DSecure());
   }
 
   /**
@@ -64,8 +80,6 @@ public class ConnectorHandleCallbackTest extends ConnectorTransactionTest {
         + "\"shopperCountryCode\":\"FR\",\"shopperPhone\":\"+34666666666\",\"shopperEmail\":\"support@payxpert.com\","
         + "\"shopperIPAddress\":\"127.0.0.1\",\"statementDescriptor\":\"\",\"cardHolderName\":\"Tech Payxpert\"}";
 
-    TransactionStatusResponse response = null;
-
-    response = connector.handleCallbackStatus(receivedData);
+    connector.handleCallbackStatus(receivedData);
   }
 }

@@ -5,12 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.oval.ConstraintViolation;
-import net.sf.oval.Validator;
-import net.sf.oval.constraint.MaxLength;
-import net.sf.oval.constraint.NotEmpty;
-import net.sf.oval.constraint.NotNull;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,7 +15,13 @@ import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.payxpert.connect2pay.exception.BadRequestException;
-import com.payxpert.connect2pay.utils.json.Connect2payClientJacksonModule;
+import com.payxpert.connect2pay.utils.Utils;
+
+import net.sf.oval.ConstraintViolation;
+import net.sf.oval.Validator;
+import net.sf.oval.constraint.MaxLength;
+import net.sf.oval.constraint.NotEmpty;
+import net.sf.oval.constraint.NotNull;
 
 /**
  * Generic API request class.
@@ -35,7 +35,7 @@ import com.payxpert.connect2pay.utils.json.Connect2payClientJacksonModule;
 public abstract class GenericRequest<T extends GenericRequest<T>> {
   protected static final Logger logger = LoggerFactory.getLogger(GenericRequest.class);
 
-  public static final String DEFAULT_API_VERSION = "002.01";
+  public static final String DEFAULT_API_VERSION = "002.02";
 
   @NotNull
   @NotEmpty
@@ -67,8 +67,7 @@ public abstract class GenericRequest<T extends GenericRequest<T>> {
   }
 
   /**
-   * Returns the parameters to be used in the request query string. Should be
-   * overridden by children classes.
+   * Returns the parameters to be used in the request query string. Should be overridden by children classes.
    * 
    * @return A name/value map of parameters
    */
@@ -78,8 +77,8 @@ public abstract class GenericRequest<T extends GenericRequest<T>> {
   }
 
   /**
-   * This method validates the current request. It checks that all mandatory
-   * parameters are present in the call and do the format checks.
+   * This method validates the current request. It checks that all mandatory parameters are present in the call and do
+   * the format checks.
    * 
    * 
    * @throws BadRequestException
@@ -112,9 +111,7 @@ public abstract class GenericRequest<T extends GenericRequest<T>> {
   public String toJson() throws JsonGenerationException, JsonMappingException, IOException {
     String json = null;
 
-    ObjectMapper mapper = new ObjectMapper();
-    // This will load Mixins
-    mapper.registerModule(new Connect2payClientJacksonModule());
+    ObjectMapper mapper = Utils.getJSONObjectMapper();
 
     try {
       json = mapper.writeValueAsString(this);
