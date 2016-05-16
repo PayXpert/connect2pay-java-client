@@ -2,6 +2,14 @@ package com.payxpert.connect2pay.client.requests;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.payxpert.connect2pay.client.Connect2payClient;
+import com.payxpert.connect2pay.constants.C2PLang;
+import com.payxpert.connect2pay.constants.PaymentMode;
+import com.payxpert.connect2pay.constants.PaymentType;
+import com.payxpert.connect2pay.constants.ShippingType;
+import com.payxpert.connect2pay.constants.SubscriptionType;
+
 import net.sf.oval.constraint.CheckWith;
 import net.sf.oval.constraint.CheckWithCheck;
 import net.sf.oval.constraint.Email;
@@ -11,43 +19,21 @@ import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.constraint.Range;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.payxpert.connect2pay.client.Connect2payClient;
-import com.payxpert.connect2pay.constants.C2PLang;
-import com.payxpert.connect2pay.constants.PaymentMode;
-import com.payxpert.connect2pay.constants.PaymentType;
-import com.payxpert.connect2pay.constants.ShippingType;
-import com.payxpert.connect2pay.constants.SubscriptionType;
-
 /**
- * This class represents the initial request made by the merchant to initialize
- * a transaction:
+ * This class represents the initial request made by the merchant to initialize a transaction:
  * <ul>
  * <li>Instantiate</li>
  * <li>Set the value of the variables</li>
  * <li>Call {@link TransactionRequest#validate()} to check that it is ok</li>
- * <li>Use it in
- * {@link Connect2payClient#prepareTransaction(TransactionRequest)}</li>
+ * <li>Use it in {@link Connect2payClient#prepareTransaction(TransactionRequest)}</li>
  * </ul>
  * 
- * String fields will be automatically truncated to the maximum length allowed
- * by the API.
+ * String fields will be automatically truncated to the maximum length allowed by the API.
  * 
  * @author jsh
  * 
  */
 public class TransactionRequest extends GenericRequest<TransactionRequest> {
-
-  /**
-   * Anti Fraud system user name
-   */
-  private Integer afClientId;
-
-  /**
-   * Anti Fraud system password
-   */
-  @MaxLength(64)
-  private String afPassword;
 
   // Customer fields
   // Shipping Information
@@ -153,11 +139,13 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
   private Integer rebillMaxIteration;
 
   // Template and control fields
-  @MatchPattern(pattern = { "^(http|https)\\://[a-zA-Z0-9\\-\\.]+(:[a-zA-Z0-9]*)?/?([a-zA-Z0-9\\-\\._\\?\\,\\'/\\\\\\+&amp;%\\$#\\=~\\!])*$" })
+  @MatchPattern(pattern = {
+      "^(http|https)\\://[a-zA-Z0-9\\-\\.]+(:[a-zA-Z0-9]*)?/?([a-zA-Z0-9\\-\\._\\?\\,\\'/\\\\\\+&amp;%\\$#\\=~\\!])*$" })
   @MaxLength(2048)
   private String ctrlRedirectURL;
 
-  @MatchPattern(pattern = { "^(http|https)\\://[a-zA-Z0-9\\-\\.]+(:[a-zA-Z0-9]*)?/?([a-zA-Z0-9\\-\\._\\?\\,\\'/\\\\\\+&amp;%\\$#\\=~\\!])*$" })
+  @MatchPattern(pattern = {
+      "^(http|https)\\://[a-zA-Z0-9\\-\\.]+(:[a-zA-Z0-9]*)?/?([a-zA-Z0-9\\-\\._\\?\\,\\'/\\\\\\+&amp;%\\$#\\=~\\!])*$" })
   @MaxLength(2048)
   private String ctrlCallbackURL;
 
@@ -185,9 +173,11 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
 
   /**
    * @return the afClientId
+   * @deprecated Removed since API 002.02
    */
+  @Deprecated
   public Integer getAfClientId() {
-    return afClientId;
+    return null;
   }
 
   /**
@@ -195,17 +185,20 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
    *          the afClientId to set
    * 
    * @return The current request for method chaining
+   * @deprecated Removed since API 002.02
    */
+  @Deprecated
   public TransactionRequest setAfClientId(Integer afClientId) {
-    this.afClientId = afClientId;
     return getThis();
   }
 
   /**
    * @return the afPassword
+   * @deprecated Removed since API 002.02
    */
+  @Deprecated
   public String getAfPassword() {
-    return afPassword;
+    return null;
   }
 
   /**
@@ -213,9 +206,10 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
    *          the afPassword to set
    * 
    * @return The current request for method chaining
+   * @deprecated Removed since API 002.02
    */
+  @Deprecated
   public TransactionRequest setAfPassword(String afPassword) {
-    this.afPassword = this.limitLength(afPassword, 64);
     return getThis();
   }
 
@@ -707,8 +701,7 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
 
   /**
    * @return the customerIP
-   * @deprecated This field is not present anymore in the API, the value is
-   *             obtained from the connected user
+   * @deprecated This field is not present anymore in the API, the value is obtained from the connected user
    */
   public String getCustomerIP() {
     return null;
@@ -719,8 +712,7 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
    *          the customerIP to set
    * 
    * @return The current request for method chaining
-   * @deprecated This field is not present anymore in the API, the value is
-   *             obtained from the connected user
+   * @deprecated This field is not present anymore in the API, the value is obtained from the connected user
    */
   public TransactionRequest setCustomerIP(String customerIP) {
     return getThis();
@@ -1121,8 +1113,8 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
   }
 
   /**
-   * Automatically compute orderAmount according to orderTotalWithoutShipping,
-   * orderShippingPrice and orderDiscount values.
+   * Automatically compute orderAmount according to orderTotalWithoutShipping, orderShippingPrice and orderDiscount
+   * values.
    * 
    * @param orderTotalWithoutShipping
    *          Amount of the order without shipping
@@ -1130,8 +1122,7 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
    *          Shipping amount of the order
    * @param orderDiscount
    *          Discount amount of the order
-   * @return The computed orderAmount value or null if orderTotalWithoutShipping
-   *         is null
+   * @return The computed orderAmount value or null if orderTotalWithoutShipping is null
    */
   public static Integer computeOrderAmount(Integer orderTotalWithoutShipping, Integer orderShippingPrice,
       Integer orderDiscount) {
@@ -1168,8 +1159,8 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
           switch (type) {
             case NORMAL:
               if (request.rebillAmount == null || request.rebillPeriod == null || request.rebillMaxIteration == null) {
-                logger
-                    .error("rebillAmount, rebillPeriod and rebillMaxIteration must be set for a subscription of type NORMAL.");
+                logger.error(
+                    "rebillAmount, rebillPeriod and rebillMaxIteration must be set for a subscription of type NORMAL.");
                 return false;
               }
               break;
@@ -1199,8 +1190,8 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
                 return false;
               }
               if (request.trialPeriod != null || request.rebillPeriod != null || request.rebillMaxIteration != null) {
-                logger
-                    .error("trialPeriod, rebillPeriod and rebillMaxIteration must not be set for a subscription of type LIFETIME.");
+                logger.error(
+                    "trialPeriod, rebillPeriod and rebillMaxIteration must not be set for a subscription of type LIFETIME.");
                 return false;
               }
               break;

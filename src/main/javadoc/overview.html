@@ -71,6 +71,10 @@
      // Check the payment status: 000 means success
      if ("000".equals(response.getErrorCode()) {
        // Handle the payment success case
+       // ...
+       // Access the payment mean information
+       CreditCardPaymentMeanInfo pmInfo = response.getCCPaymentMeanInfo();
+       logger.info("Successful payment done by " + pmInfo.getCardHolderName() + "with card " + pmInfo.getCardNumber());
      } else {
        // Handle the payment failure case
      }

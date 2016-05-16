@@ -10,7 +10,6 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.payxpert.connect2pay.client.Connect2payClient;
 import com.payxpert.connect2pay.client.requests.TransactionRequestTest;
 import com.payxpert.connect2pay.client.response.TransactionResponse;
 
@@ -51,8 +50,8 @@ public class ConnectorConnectionTest extends ConnectorTransactionTest {
    */
   @Test
   public void connection2UnknowHost() {
-    Connect2payClient connector = new Connect2payClient("https://UnknownHostException.payxpert.com",
-        DEFAULT_ORIGINATOR, DEFAULT_PASSWORD);
+    Connect2payClient connector = new Connect2payClient("https://UnknownHostException.payxpert.com", DEFAULT_ORIGINATOR,
+        DEFAULT_PASSWORD);
 
     connector.setTimeOutInMilliSeconds(TIMEOUT);
     TransactionResponse response = null;
@@ -66,8 +65,7 @@ public class ConnectorConnectionTest extends ConnectorTransactionTest {
       fail("Exception not present: An Exception must have been thrown");
     } catch (Exception e) {
       logger.info("connection2UnknowHost, catched error : " + e.getMessage());
-      Assert.assertTrue(e.getMessage().startsWith(
-          "java.net.UnknownHostException: UnknownHostException.payxpert.com"));
+      Assert.assertTrue(e.getMessage().startsWith("java.net.UnknownHostException: UnknownHostException.payxpert.com"));
     }
 
     duration = (System.currentTimeMillis() - start);
@@ -97,12 +95,13 @@ public class ConnectorConnectionTest extends ConnectorTransactionTest {
       try {
         url = new URL(TEST_URL);
       } catch (MalformedURLException e1) {
-       fail(String.format("Cannot resolve the URL: %s. Details:", TEST_URL, e.getMessage()));
+        fail(String.format("Cannot resolve the URL: %s. Details: %s", TEST_URL, e.getMessage()));
       }
-      errorMessage = String.format("java.net.ConnectException: connection timed out: /%s:%d", url.getHost(),url.getDefaultPort());
+      errorMessage = String.format("java.net.ConnectException: connection timed out: /%s:%d", url.getHost(),
+          url.getDefaultPort());
       if (!errorMessage.equals(e.getMessage())) {
-        logger.error("To run this test, the URL " + TEST_URL
-            + " must not be on a directly attached network (or change it).");
+        logger.error(
+            "To run this test, the URL " + TEST_URL + " must not be on a directly attached network (or change it).");
       }
       Assert.assertEquals(errorMessage, e.getMessage());
     }

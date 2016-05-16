@@ -1,10 +1,20 @@
 package com.payxpert.connect2pay.client.response;
 
+import java.io.IOException;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.payxpert.connect2pay.client.containers.CreditCardPaymentMeanInfo;
+import com.payxpert.connect2pay.client.containers.PaymentMeanInfo;
 import com.payxpert.connect2pay.constants.PaymentType;
 import com.payxpert.connect2pay.constants.ResultCode;
 import com.payxpert.connect2pay.constants.TransactionOperation;
 import com.payxpert.connect2pay.constants.TransactionStatusValue;
+import com.payxpert.connect2pay.utils.Utils;
+import com.payxpert.connect2pay.utils.json.PaymentMeanInfoDeserializer;
 
 /**
  * This class represents the response to a transaction status request.
@@ -20,6 +30,8 @@ public class TransactionStatusResponse extends GenericResponse<TransactionStatus
   // Fields returned by the API call
   private String merchantToken;
   private PaymentType paymentType;
+  @JsonDeserialize(using = PaymentMeanInfoDeserializer.class)
+  private String paymentMeanInfo;
   private TransactionOperation operation;
   private String errorCode;
   private String errorMessage;
@@ -47,7 +59,6 @@ public class TransactionStatusResponse extends GenericResponse<TransactionStatus
 
   // Credit Card Transaction specific information
   private String statementDescriptor;
-  private String cardHolderName;
 
   /**
    * @return the code
@@ -107,6 +118,51 @@ public class TransactionStatusResponse extends GenericResponse<TransactionStatus
    */
   public void setPaymentType(PaymentType paymentType) {
     this.paymentType = paymentType;
+  }
+
+  /**
+   * Return the payment mean info for Credit Card transaction. This is a shortcut for
+   * getPaymentMeanInfo(CreditCardPaymentMeanInfo.class) (with paymentType check).
+   * 
+   * @return The CreditCardPaymentMeanInfo for this transaction
+   */
+  public CreditCardPaymentMeanInfo getCCPaymentMeanInfo() {
+    if (!PaymentType.CREDIT_CARD.equals(this.paymentType)) {
+      logger.error("Payment type is not Credit Card, can not return payment mean info for credit card.");
+      return null;
+    }
+    return this.getPaymentMeanInfo(CreditCardPaymentMeanInfo.class);
+  }
+
+  /**
+   * @param c
+   *          Class of the PaymentMeanInfo to return, this varies according to the paymentType value
+   * @return the paymentMeanInfo
+   */
+  public <T extends PaymentMeanInfo> T getPaymentMeanInfo(Class<T> c) {
+    T pmInfo = null;
+    if (this.paymentMeanInfo != null) {
+      ObjectMapper mapper = Utils.getJSONObjectMapper();
+      try {
+        pmInfo = mapper.readValue(this.paymentMeanInfo, c);
+      } catch (JsonParseException e) {
+        logger.error("Error parsing payment mean information: " + e.getMessage());
+      } catch (JsonMappingException e) {
+        logger.error("Error mapping payment mean information: " + e.getMessage());
+      } catch (IOException e) {
+        logger.error("IO Error when deserializing payment mean information: " + e.getMessage());
+      }
+    }
+
+    return pmInfo;
+  }
+
+  /**
+   * @param paymentMeanInfo
+   *          the paymentMeanInfo to set
+   */
+  public void setPaymentMeanInfo(String paymentMeanInfo) {
+    this.paymentMeanInfo = paymentMeanInfo;
   }
 
   /**
@@ -411,16 +467,26 @@ public class TransactionStatusResponse extends GenericResponse<TransactionStatus
 
   /**
    * @return the cardHolderName
+   * @deprecated cardHolderName has been moved into paymentMeanInfo.cardHolderName
    */
+  @Deprecated
   public String getCardHolderName() {
-    return cardHolderName;
+    if (this.paymentMeanInfo != null && PaymentType.CREDIT_CARD.equals(this.paymentType)) {
+      CreditCardPaymentMeanInfo pmInfo = this.getPaymentMeanInfo(CreditCardPaymentMeanInfo.class);
+      if (pmInfo != null) {
+        return pmInfo.getCardHolderName();
+      }
+    }
+
+    return null;
   }
 
   /**
    * @param cardHolderName
    *          the cardHolderName to set
+   * @deprecated cardHolderName has been moved into paymentMeanInfo.cardHolderName and cannot be set any more
    */
+  @Deprecated
   public void setCardHolderName(String cardHolderName) {
-    this.cardHolderName = cardHolderName;
   }
 }

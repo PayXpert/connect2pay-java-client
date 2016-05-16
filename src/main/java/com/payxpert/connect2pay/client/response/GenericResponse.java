@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.payxpert.connect2pay.utils.json.Connect2payClientJacksonModule;
+import com.payxpert.connect2pay.utils.Utils;
 
 /**
  * Generic class for the responses received from the API
@@ -22,9 +22,7 @@ abstract public class GenericResponse<T> {
     T response = null;
 
     if (json != null) {
-      ObjectMapper mapper = new ObjectMapper();
-      // This will load Mixins
-      mapper.registerModule(new Connect2payClientJacksonModule());
+      ObjectMapper mapper = Utils.getJSONObjectMapper();
 
       try {
         response = (T) mapper.readValue(json, this.getClass());

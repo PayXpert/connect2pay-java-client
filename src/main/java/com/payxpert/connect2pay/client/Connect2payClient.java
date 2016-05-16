@@ -28,27 +28,21 @@ import com.payxpert.connect2pay.utils.CryptoHelper;
  * <ul>
  * <li>Instantiate the {@link TransactionRequest} class</li>
  * <li>Set all the required parameters of the transaction</li>
- * <li>Validate the request object by calling
- * {@link TransactionRequest#validate()}</li>
- * <li>Call {@link Connect2payClient#prepareTransaction(TransactionRequest)} to
- * create the transaction</li>
- * <li>Call {@link TransactionResponse#getCustomerRedirectURL()} and redirect
- * the customer to this URL</li>
- * <li>If receiving result via callback (recommended), use
- * {@link Connect2payClient#handleCallbackStatus(String)} to initialize the
- * status from the POST request</li>
+ * <li>Validate the request object by calling {@link TransactionRequest#validate()}</li>
+ * <li>Call {@link Connect2payClient#prepareTransaction(TransactionRequest)} to create the transaction</li>
+ * <li>Call {@link TransactionResponse#getCustomerRedirectURL()} and redirect the customer to this URL</li>
+ * <li>If receiving result via callback (recommended), use {@link Connect2payClient#handleCallbackStatus(String)} to
+ * initialize the status from the POST request</li>
  * <li>When receiving the result via customer redirection, use
- * {@link Connect2payClient#handleRedirectStatus(String, String)} to initialize
- * the status from the POST data</li>
+ * {@link Connect2payClient#handleRedirectStatus(String, String)} to initialize the status from the POST data</li>
  * </ul>
  * 
- * This class does not do any sanitization on received data. This must be done
- * externally.<br>
+ * This class does not do any sanitization on received data. This must be done externally.<br>
  * Every text must be encoded as UTF-8 when passed to this class.<br>
  * 
- * @version 1.0 (20140325)
+ * @version 1.0.3 (20160512)
  * @author JsH <jsh@payxpert.com><br>
- *         Copyright 2011-2014 Payxpert
+ *         Copyright 2011-2016 Payxpert
  * 
  */
 public class Connect2payClient {
@@ -77,8 +71,7 @@ public class Connect2payClient {
   }
 
   /**
-   * This is used in blocking scenario. Client will time out after waiting this
-   * amount of time in milliseconds.
+   * This is used in blocking scenario. Client will time out after waiting this amount of time in milliseconds.
    * 
    * @param timeOutInMilliSeconds
    *          : time in MilliSeconds
@@ -127,8 +120,8 @@ public class Connect2payClient {
   }
 
   /**
-   * Prepare a new transaction on the payment page application. This method will
-   * call the payment page application to create a new transaction.
+   * Prepare a new transaction on the payment page application. This method will call the payment page application to
+   * create a new transaction.
    * 
    * @return The TransactionResponse object or null on error
    */
@@ -228,8 +221,7 @@ public class Connect2payClient {
   }
 
   /**
-   * Handle the data received by the POST done when the payment page redirects
-   * the customer to the merchant website.
+   * Handle the data received by the POST done when the payment page redirects the customer to the merchant website.
    * 
    * @param encryptedData
    *          The content of the 'data' field posted
@@ -269,8 +261,7 @@ public class Connect2payClient {
   }
 
   /**
-   * Handle the callback done by the payment page application after a
-   * transaction processing.
+   * Handle the callback done by the payment page application after a transaction processing.
    * 
    * @param requestStream
    *          The received request InputStream
@@ -309,8 +300,7 @@ public class Connect2payClient {
   }
 
   /**
-   * Handle the callback done by the payment page application after a
-   * transaction processing.
+   * Handle the callback done by the payment page application after a transaction processing.
    * 
    * @param requestBody
    *          The body of the received request as String

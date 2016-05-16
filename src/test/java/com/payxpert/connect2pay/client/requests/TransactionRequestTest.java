@@ -25,9 +25,6 @@ public class TransactionRequestTest {
   public static List<FieldState> requestFields = new ArrayList<FieldState>();
 
   public TransactionRequestTest() {
-    requestFields.add(new FieldState("authFields", "afClientId", false));
-    requestFields.add(new FieldState("authFields", "afPassword", false));
-
     requestFields.add(new FieldState("shopperFields", "shopperEmail", false));
     requestFields.add(new FieldState("ecommerceFields", "shipToFirstName", false));
     requestFields.add(new FieldState("ecommerceFields", "shipToLastName", false));
@@ -96,8 +93,8 @@ public class TransactionRequestTest {
   @Test
   public void testRequestLongField() throws Exception {
     TransactionRequest request = TransactionRequestTest.getDefaultRequest();
-    request
-        .setShopperFirstName("123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890");
+    request.setShopperFirstName(
+        "123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890");
 
     // No exception must be thrown
     request.validate();
