@@ -175,6 +175,7 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
    * @return the afClientId
    * @deprecated Removed since API 002.02
    */
+  @Deprecated
   public Integer getAfClientId() {
     return null;
   }
@@ -186,6 +187,7 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
    * @return The current request for method chaining
    * @deprecated Removed since API 002.02
    */
+  @Deprecated
   public TransactionRequest setAfClientId(Integer afClientId) {
     return getThis();
   }
@@ -194,6 +196,7 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
    * @return the afPassword
    * @deprecated Removed since API 002.02
    */
+  @Deprecated
   public String getAfPassword() {
     return null;
   }
@@ -205,6 +208,7 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
    * @return The current request for method chaining
    * @deprecated Removed since API 002.02
    */
+  @Deprecated
   public TransactionRequest setAfPassword(String afPassword) {
     return getThis();
   }

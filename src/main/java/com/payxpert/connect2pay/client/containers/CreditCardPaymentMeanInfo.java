@@ -16,7 +16,7 @@ public class CreditCardPaymentMeanInfo implements PaymentMeanInfo {
    * @return the cardNumber
    */
   public String getCardNumber() {
-    return cardNumber;
+    return this.cardNumber;
   }
 
   /**
@@ -31,7 +31,7 @@ public class CreditCardPaymentMeanInfo implements PaymentMeanInfo {
    * @return the cardExpireYear
    */
   public String getCardExpireYear() {
-    return cardExpireYear;
+    return this.cardExpireYear;
   }
 
   /**
@@ -46,7 +46,7 @@ public class CreditCardPaymentMeanInfo implements PaymentMeanInfo {
    * @return the cardExpireMonth
    */
   public String getCardExpireMonth() {
-    return cardExpireMonth;
+    return this.cardExpireMonth;
   }
 
   /**
@@ -61,7 +61,7 @@ public class CreditCardPaymentMeanInfo implements PaymentMeanInfo {
    * @return the cardHolderName
    */
   public String getCardHolderName() {
-    return cardHolderName;
+    return this.cardHolderName;
   }
 
   /**
@@ -76,7 +76,7 @@ public class CreditCardPaymentMeanInfo implements PaymentMeanInfo {
    * @return the cardBrand
    */
   public String getCardBrand() {
-    return cardBrand;
+    return this.cardBrand;
   }
 
   /**
@@ -91,7 +91,7 @@ public class CreditCardPaymentMeanInfo implements PaymentMeanInfo {
    * @return the cardLevel
    */
   public String getCardLevel() {
-    return cardLevel;
+    return this.cardLevel;
   }
 
   /**
@@ -106,7 +106,7 @@ public class CreditCardPaymentMeanInfo implements PaymentMeanInfo {
    * @return the cardSubType
    */
   public String getCardSubType() {
-    return cardSubType;
+    return this.cardSubType;
   }
 
   /**
@@ -121,7 +121,7 @@ public class CreditCardPaymentMeanInfo implements PaymentMeanInfo {
    * @return the iinCountry
    */
   public String getIinCountry() {
-    return iinCountry;
+    return this.iinCountry;
   }
 
   /**
@@ -136,7 +136,7 @@ public class CreditCardPaymentMeanInfo implements PaymentMeanInfo {
    * @return the iinBankName
    */
   public String getIinBankName() {
-    return iinBankName;
+    return this.iinBankName;
   }
 
   /**
@@ -151,7 +151,7 @@ public class CreditCardPaymentMeanInfo implements PaymentMeanInfo {
    * @return the is3DSecure
    */
   public Boolean getIs3DSecure() {
-    return is3DSecure;
+    return this.is3DSecure;
   }
 
   /**
@@ -159,6 +159,6 @@ public class CreditCardPaymentMeanInfo implements PaymentMeanInfo {
    *          the is3DSecure to set
    */
   public void setIs3DSecure(Boolean is3dSecure) {
-    is3DSecure = is3dSecure;
+    this.is3DSecure = is3dSecure;
   }
 }

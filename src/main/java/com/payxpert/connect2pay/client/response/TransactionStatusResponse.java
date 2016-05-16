@@ -469,6 +469,7 @@ public class TransactionStatusResponse extends GenericResponse<TransactionStatus
    * @return the cardHolderName
    * @deprecated cardHolderName has been moved into paymentMeanInfo.cardHolderName
    */
+  @Deprecated
   public String getCardHolderName() {
     if (this.paymentMeanInfo != null && PaymentType.CREDIT_CARD.equals(this.paymentType)) {
       CreditCardPaymentMeanInfo pmInfo = this.getPaymentMeanInfo(CreditCardPaymentMeanInfo.class);
@@ -485,6 +486,7 @@ public class TransactionStatusResponse extends GenericResponse<TransactionStatus
    *          the cardHolderName to set
    * @deprecated cardHolderName has been moved into paymentMeanInfo.cardHolderName and cannot be set any more
    */
+  @Deprecated
   public void setCardHolderName(String cardHolderName) {
   }
 }
