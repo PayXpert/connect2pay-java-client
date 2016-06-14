@@ -35,7 +35,7 @@ import net.sf.oval.constraint.NotNull;
 public abstract class GenericRequest<T extends GenericRequest<T>> {
   protected static final Logger logger = LoggerFactory.getLogger(GenericRequest.class);
 
-  public static final String DEFAULT_API_VERSION = "002.02";
+  public static final String DEFAULT_API_VERSION = "002.03";
 
   @NotNull
   @NotEmpty
@@ -89,14 +89,14 @@ public abstract class GenericRequest<T extends GenericRequest<T>> {
     List<ConstraintViolation> constraintViolations = validation.validate(this);
 
     if (constraintViolations.size() > 0) {
-      String error = "Error validating request: ";
+      StringBuilder error = new StringBuilder("Error validating request: ");
       // Build the error message
       for (ConstraintViolation violation : constraintViolations) {
-        error += violation.getMessage() + " *** ";
+        error.append(violation.getMessage()).append(" *** ");
       }
-      logger.debug("Request validation error: " + error);
+      logger.debug(String.format("Request validation error: %s",  error.toString()));
 
-      throw new BadRequestException(error);
+      throw new BadRequestException(error.toString());
     }
   }
 

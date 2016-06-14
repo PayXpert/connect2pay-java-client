@@ -1,6 +1,7 @@
 package com.payxpert.connect2pay.utils;
 
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -24,6 +25,9 @@ import org.slf4j.LoggerFactory;
  */
 public class CryptoHelper {
   private static final Logger logger = LoggerFactory.getLogger(CryptoHelper.class);
+  
+  private static final String charsetName = "UTF-8";
+  
 
   public static String sha512(String text) {
     String result = null;
@@ -39,7 +43,7 @@ public class CryptoHelper {
 
       if (md != null) {
         try {
-          result = Hex.encodeHexString(md.digest(text.getBytes("UTF-8")));
+          result = Hex.encodeHexString(md.digest(text.getBytes(charsetName)));
         } catch (UnsupportedEncodingException e) {
           e.printStackTrace();
         }
@@ -123,7 +127,7 @@ public class CryptoHelper {
     if (text != null) {
       byte[] data = null;
       try {
-        data = text.getBytes("UTF-8");
+        data = text.getBytes(charsetName);
       } catch (UnsupportedEncodingException e) {
         e.printStackTrace();
         return null;
@@ -148,17 +152,17 @@ public class CryptoHelper {
   public static String decryptAESBase64ToString(String text, byte[] encryptionKey, byte[] encryptionIV)
       throws Exception {
     byte[] decrypted = decryptAES(Base64.decodeBase64(text), encryptionKey, encryptionIV);
-    return (decrypted != null) ? new String(decrypted) : null;
+    return (decrypted != null) ? new String(decrypted, charsetName) : null;
   }
 
   public static String decryptAESBase64ToString(String text, byte[] encryptionKey) throws Exception {
     byte[] decrypted = decryptAES(Base64.decodeBase64(text), encryptionKey, null);
-    return (decrypted != null) ? new String(decrypted) : null;
+    return (decrypted != null) ? new String(decrypted, charsetName) : null;
   }
 
   public static String decryptAESURLBase64ToString(String text, byte[] encryptionKey) throws Exception {
     byte[] decrypted = decryptAES(Base64.decodeBase64(text), encryptionKey, null);
-    return (decrypted != null) ? new String(decrypted) : null;
+    return (decrypted != null) ? new String(decrypted, charsetName) : null;
   }
 
   public static byte[] decryptAESBase64(String text, byte[] encryptionKey, byte[] encryptionIV) throws Exception {
@@ -171,12 +175,12 @@ public class CryptoHelper {
 
   public static String decryptAESToString(byte[] data, byte[] encryptionKey, byte[] encryptionIV) throws Exception {
     byte[] decrypted = decryptAES(data, encryptionKey, encryptionIV);
-    return (decrypted != null) ? new String(decrypted) : null;
+    return (decrypted != null) ? new String(decrypted, charsetName) : null;
   }
 
   public static String decryptAESToString(byte[] data, byte[] encryptionKey) throws Exception {
     byte[] decrypted = decryptAES(data, encryptionKey, null);
-    return (decrypted != null) ? new String(decrypted) : null;
+    return (decrypted != null) ? new String(decrypted, charsetName) : null;
   }
 
   public static byte[] decryptAES(byte[] data, byte[] encryptionKey) throws Exception {

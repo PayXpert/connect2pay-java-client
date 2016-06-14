@@ -22,7 +22,7 @@ import com.payxpert.connect2pay.exception.BadRequestException;
 
 public class TransactionRequestTest {
 
-  public static List<FieldState> requestFields = new ArrayList<FieldState>();
+  private final static List<FieldState> requestFields = new ArrayList<FieldState>();
 
   public TransactionRequestTest() {
     requestFields.add(new FieldState("shopperFields", "shopperEmail", false));
@@ -63,6 +63,7 @@ public class TransactionRequestTest {
 
     requestFields.add(new FieldState("ecommerceFields", "paymentMode", true));
     requestFields.add(new FieldState("ecommerceFields", "paymentType", true));
+    requestFields.add(new FieldState("ecommerceFields", "operation", false));
     requestFields.add(new FieldState("ecommerceFields", "secure3d", false));
 
     requestFields.add(new FieldState("subscriptionFields", "offerID", false));

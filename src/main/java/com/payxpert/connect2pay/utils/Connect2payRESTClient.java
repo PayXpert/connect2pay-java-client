@@ -69,8 +69,8 @@ public class Connect2payRESTClient {
     Map<String, String> params = request.getRequestParameters();
 
     if (params != null) {
-      for (String name : params.keySet()) {
-        this.setParameter(name, params.get(name));
+      for ( Map.Entry<String, String> entry: params.entrySet()){
+        this.setParameter(entry.getKey() , entry.getValue());
       }
     }
   }
@@ -179,8 +179,8 @@ public class Connect2payRESTClient {
       logger.debug("Request body is: " + this.body);
     }
     // Add the parameters
-    for (String param : this.parameters.keySet()) {
-      rBuilder.addQueryParam(param, this.parameters.get(param));
+    for ( Map.Entry<String, String> entry: this.parameters.entrySet()){
+      rBuilder.addQueryParam(entry.getKey(), entry.getValue());
     }
     // Add the Basic authentication if defined
     if (this.realm != null) {
@@ -234,13 +234,13 @@ public class Connect2payRESTClient {
     }
   }
 
-  private class C2PCompletionHandler extends AsyncCompletionHandler<String> {
+  private static class C2PCompletionHandler extends AsyncCompletionHandler<String> {
     @Override
     public String onCompleted(Response response) throws Exception {
       String body = null;
 
       if (response != null) {
-        if (new Integer(200).equals(response.getStatusCode())) {
+        if ((Integer.valueOf(200)).equals(response.getStatusCode())) {
           // The Content-type must be application/json otherwise we warn
           String contentType = response.getContentType();
           if (contentType == null || !contentType.startsWith("application/json")) {

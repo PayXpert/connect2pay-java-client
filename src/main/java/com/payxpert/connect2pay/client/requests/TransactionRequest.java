@@ -9,6 +9,7 @@ import com.payxpert.connect2pay.constants.PaymentMode;
 import com.payxpert.connect2pay.constants.PaymentType;
 import com.payxpert.connect2pay.constants.ShippingType;
 import com.payxpert.connect2pay.constants.SubscriptionType;
+import com.payxpert.connect2pay.constants.TransactionOperation;
 
 import net.sf.oval.constraint.CheckWith;
 import net.sf.oval.constraint.CheckWithCheck;
@@ -121,6 +122,8 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
 
   @NotNull
   private PaymentType paymentType;
+  
+  private TransactionOperation operation;
 
   private Boolean secure3d;
 
@@ -841,6 +844,24 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
    */
   public TransactionRequest setPaymentType(PaymentType paymentType) {
     this.paymentType = paymentType;
+    return getThis();
+  }
+  
+  /**
+   * @return the operation
+   */
+  public TransactionOperation getOperation() {
+    return this.operation;
+  }
+
+  /**
+   * @param operation
+   *          the operation to set
+   * 
+   * @return The current request for method chaining
+   */
+  public TransactionRequest setOperation(TransactionOperation operation) {
+    this.operation = operation;
     return getThis();
   }
 

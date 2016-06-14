@@ -49,7 +49,7 @@ public class ConnectorHandleCallbackTest extends ConnectorTransactionTest {
     Assert.assertEquals("Tech Payxpert", response.getShopperName());
     Assert.assertEquals("support@payxpert.com", response.getShopperEmail());
     Assert.assertEquals(PaymentType.CREDIT_CARD, response.getPaymentType());
-    Assert.assertEquals(new Long(18253), response.getTransactionId());
+    Assert.assertEquals(Long.valueOf(18253), response.getTransactionId());
     CreditCardPaymentMeanInfo pmInfo = response.getCCPaymentMeanInfo();
     Assert.assertNotNull(pmInfo);
     Assert.assertEquals("411111XXXXXX1111", pmInfo.getCardNumber());
