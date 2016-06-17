@@ -22,65 +22,65 @@ import com.payxpert.connect2pay.exception.BadRequestException;
 
 public class TransactionRequestTest {
 
-  private final static List<FieldState> requestFields = new ArrayList<FieldState>();
+  private final static List<FieldState> REQUEST_FIELDS = new ArrayList<FieldState>();
 
   public TransactionRequestTest() {
-    requestFields.add(new FieldState("shopperFields", "shopperEmail", false));
-    requestFields.add(new FieldState("ecommerceFields", "shipToFirstName", false));
-    requestFields.add(new FieldState("ecommerceFields", "shipToLastName", false));
-    requestFields.add(new FieldState("ecommerceFields", "shipToCompany", false));
-    requestFields.add(new FieldState("ecommerceFields", "shipToPhone", false));
-    requestFields.add(new FieldState("ecommerceFields", "shipToAddress", false));
-    requestFields.add(new FieldState("ecommerceFields", "shipToState", false));
-    requestFields.add(new FieldState("ecommerceFields", "shipToZipcode", false));
-    requestFields.add(new FieldState("ecommerceFields", "shipToCity", false));
-    requestFields.add(new FieldState("ecommerceFields", "shipToCountryCode", false));
+    REQUEST_FIELDS.add(new FieldState("shopperFields", "shopperEmail", false));
+    REQUEST_FIELDS.add(new FieldState("ecommerceFields", "shipToFirstName", false));
+    REQUEST_FIELDS.add(new FieldState("ecommerceFields", "shipToLastName", false));
+    REQUEST_FIELDS.add(new FieldState("ecommerceFields", "shipToCompany", false));
+    REQUEST_FIELDS.add(new FieldState("ecommerceFields", "shipToPhone", false));
+    REQUEST_FIELDS.add(new FieldState("ecommerceFields", "shipToAddress", false));
+    REQUEST_FIELDS.add(new FieldState("ecommerceFields", "shipToState", false));
+    REQUEST_FIELDS.add(new FieldState("ecommerceFields", "shipToZipcode", false));
+    REQUEST_FIELDS.add(new FieldState("ecommerceFields", "shipToCity", false));
+    REQUEST_FIELDS.add(new FieldState("ecommerceFields", "shipToCountryCode", false));
 
-    requestFields.add(new FieldState("shopperFields", "shopperFirstName", false));
-    requestFields.add(new FieldState("shopperFields", "shopperLastName", false));
-    requestFields.add(new FieldState("shopperFields", "shopperPhone", false));
-    requestFields.add(new FieldState("shopperFields", "shopperAddress", false));
-    requestFields.add(new FieldState("shopperFields", "shopperState", false));
-    requestFields.add(new FieldState("shopperFields", "shopperZipcode", false));
-    requestFields.add(new FieldState("shopperFields", "shopperCity", false));
-    requestFields.add(new FieldState("shopperFields", "shopperCountryCode", false));
-    requestFields.add(new FieldState("shopperFields", "shopperCompany", false));
-    requestFields.add(new FieldState("shopperFields", "shopperLoyaltyProgram", false));
+    REQUEST_FIELDS.add(new FieldState("shopperFields", "shopperFirstName", false));
+    REQUEST_FIELDS.add(new FieldState("shopperFields", "shopperLastName", false));
+    REQUEST_FIELDS.add(new FieldState("shopperFields", "shopperPhone", false));
+    REQUEST_FIELDS.add(new FieldState("shopperFields", "shopperAddress", false));
+    REQUEST_FIELDS.add(new FieldState("shopperFields", "shopperState", false));
+    REQUEST_FIELDS.add(new FieldState("shopperFields", "shopperZipcode", false));
+    REQUEST_FIELDS.add(new FieldState("shopperFields", "shopperCity", false));
+    REQUEST_FIELDS.add(new FieldState("shopperFields", "shopperCountryCode", false));
+    REQUEST_FIELDS.add(new FieldState("shopperFields", "shopperCompany", false));
+    REQUEST_FIELDS.add(new FieldState("shopperFields", "shopperLoyaltyProgram", false));
 
-    requestFields.add(new FieldState("commonFields", "orderID", true));
-    requestFields.add(new FieldState("commonFields", "currency", true));
-    requestFields.add(new FieldState("commonFields", "amount", true));
+    REQUEST_FIELDS.add(new FieldState("commonFields", "orderID", true));
+    REQUEST_FIELDS.add(new FieldState("commonFields", "currency", true));
+    REQUEST_FIELDS.add(new FieldState("commonFields", "amount", true));
 
-    requestFields.add(new FieldState("ecommerceFields", "orderTotalWithoutShipping", false));
-    requestFields.add(new FieldState("ecommerceFields", "orderShippingPrice", false));
-    requestFields.add(new FieldState("ecommerceFields", "orderDiscount", false));
+    REQUEST_FIELDS.add(new FieldState("ecommerceFields", "orderTotalWithoutShipping", false));
+    REQUEST_FIELDS.add(new FieldState("ecommerceFields", "orderShippingPrice", false));
+    REQUEST_FIELDS.add(new FieldState("ecommerceFields", "orderDiscount", false));
 
-    requestFields.add(new FieldState("ecommerceFields", "orderFOLanguage", false));
-    requestFields.add(new FieldState("ecommerceFields", "orderDescription", false));
-    requestFields.add(new FieldState("ecommerceFields", "orderCartContent", false));
-    requestFields.add(new FieldState("ecommerceFields", "shippingType", true));
-    requestFields.add(new FieldState("ecommerceFields", "shippingName", false));
+    REQUEST_FIELDS.add(new FieldState("ecommerceFields", "orderFOLanguage", false));
+    REQUEST_FIELDS.add(new FieldState("ecommerceFields", "orderDescription", false));
+    REQUEST_FIELDS.add(new FieldState("ecommerceFields", "orderCartContent", false));
+    REQUEST_FIELDS.add(new FieldState("ecommerceFields", "shippingType", true));
+    REQUEST_FIELDS.add(new FieldState("ecommerceFields", "shippingName", false));
 
-    requestFields.add(new FieldState("ecommerceFields", "paymentMode", true));
-    requestFields.add(new FieldState("ecommerceFields", "paymentType", true));
-    requestFields.add(new FieldState("ecommerceFields", "operation", false));
-    requestFields.add(new FieldState("ecommerceFields", "secure3d", false));
+    REQUEST_FIELDS.add(new FieldState("ecommerceFields", "paymentMode", true));
+    REQUEST_FIELDS.add(new FieldState("ecommerceFields", "paymentType", true));
+    REQUEST_FIELDS.add(new FieldState("ecommerceFields", "operation", false));
+    REQUEST_FIELDS.add(new FieldState("ecommerceFields", "secure3d", false));
 
-    requestFields.add(new FieldState("subscriptionFields", "offerID", false));
-    requestFields.add(new FieldState("subscriptionFields", "subscriptionType", false));
-    requestFields.add(new FieldState("subscriptionFields", "trialPeriod", false));
-    requestFields.add(new FieldState("subscriptionFields", "rebillAmount", false));
-    requestFields.add(new FieldState("subscriptionFields", "rebillPeriod", false));
-    requestFields.add(new FieldState("subscriptionFields", "rebillMaxIteration", false));
+    REQUEST_FIELDS.add(new FieldState("subscriptionFields", "offerID", false));
+    REQUEST_FIELDS.add(new FieldState("subscriptionFields", "subscriptionType", false));
+    REQUEST_FIELDS.add(new FieldState("subscriptionFields", "trialPeriod", false));
+    REQUEST_FIELDS.add(new FieldState("subscriptionFields", "rebillAmount", false));
+    REQUEST_FIELDS.add(new FieldState("subscriptionFields", "rebillPeriod", false));
+    REQUEST_FIELDS.add(new FieldState("subscriptionFields", "rebillMaxIteration", false));
 
-    requestFields.add(new FieldState("controlFields", "ctrlRedirectURL", false));
-    requestFields.add(new FieldState("controlFields", "ctrlCallbackURL", false));
-    requestFields.add(new FieldState("controlFields", "ctrlCustomData", false));
-    requestFields.add(new FieldState("controlFields", "timeOut", false));
-    requestFields.add(new FieldState("controlFields", "merchantNotification", false));
-    requestFields.add(new FieldState("controlFields", "merchantNotificationTo", false));
-    requestFields.add(new FieldState("controlFields", "merchantNotificationLang", false));
-    requestFields.add(new FieldState("controlFields", "themeID", false));
+    REQUEST_FIELDS.add(new FieldState("controlFields", "ctrlRedirectURL", false));
+    REQUEST_FIELDS.add(new FieldState("controlFields", "ctrlCallbackURL", false));
+    REQUEST_FIELDS.add(new FieldState("controlFields", "ctrlCustomData", false));
+    REQUEST_FIELDS.add(new FieldState("controlFields", "timeOut", false));
+    REQUEST_FIELDS.add(new FieldState("controlFields", "merchantNotification", false));
+    REQUEST_FIELDS.add(new FieldState("controlFields", "merchantNotificationTo", false));
+    REQUEST_FIELDS.add(new FieldState("controlFields", "merchantNotificationLang", false));
+    REQUEST_FIELDS.add(new FieldState("controlFields", "themeID", false));
   }
 
   @Test
@@ -131,7 +131,7 @@ public class TransactionRequestTest {
       e.printStackTrace();
     }
 
-    for (FieldState field : requestFields) {
+    for (FieldState field : REQUEST_FIELDS) {
       if (field.isMandatory) {
         assertTrue("Sale Request : field=" + field.group + "[" + field.name + "] must be present in " + json,
             json.contains(field.name));
