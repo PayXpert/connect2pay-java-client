@@ -56,6 +56,17 @@ public class TransactionStatusResponse extends GenericResponse<TransactionStatus
   private String shopperPhone;
   private String shopperEmail;
   private String shopperIPAddress;
+  
+  /**
+   * Date of shopper birth date, format YYYYMMDD
+   * 
+   */
+  private String shopperBirthDate;
+  /**
+   * Customers document (passport number, ID number, taxpayer ID...)
+   */
+  private String shopperIDNumber;
+  
 
   // Credit Card Transaction specific information
   private String statementDescriptor;
@@ -448,6 +459,36 @@ public class TransactionStatusResponse extends GenericResponse<TransactionStatus
    */
   public void setShopperIPAddress(String shopperIPAddress) {
     this.shopperIPAddress = shopperIPAddress;
+  }
+  
+  /**
+   * @return the shopperBirthDate
+   */
+  public String getShopperBirthDate() {
+    return this.shopperBirthDate;
+  }
+
+  /**
+   * @param shopperBirthDate
+   *          the shopperBirthDate to set
+   */
+  public void setShopperBirthDate(String shopperBirthDate) {
+    this.shopperBirthDate = shopperBirthDate;
+  }
+  
+  /**
+   * @return the shopperIDNumber
+   */
+  public String getShopperIDNumber() {
+    return this.shopperIDNumber;
+  }
+
+  /**
+   * @param shopperBirthDate
+   *          the shopperIDNumber to set
+   */
+  public void setShopperIDNumber(String shopperIDNumber) {
+    this.shopperIDNumber = shopperIDNumber;
   }
 
   /**

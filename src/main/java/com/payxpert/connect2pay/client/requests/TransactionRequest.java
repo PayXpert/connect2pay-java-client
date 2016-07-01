@@ -16,6 +16,7 @@ import net.sf.oval.constraint.CheckWithCheck;
 import net.sf.oval.constraint.Email;
 import net.sf.oval.constraint.MatchPattern;
 import net.sf.oval.constraint.MaxLength;
+import net.sf.oval.constraint.MinLength;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.constraint.Range;
@@ -84,6 +85,11 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
   private String shopperCompany;
   @MaxLength(50)
   private String shopperLoyaltyProgram;
+  @MinLength(8)
+  @MaxLength(8)
+  private String shopperBirthDate;
+  @MaxLength(32)
+  private String shopperIDNumber;
 
   // Order fields
   @NotNull
@@ -593,6 +599,43 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
     this.shopperLoyaltyProgram = this.limitLength(shopperLoyaltyProgram, 50);
     return getThis();
   }
+  
+  /**
+   * @return the shopperBirthDate
+   */
+  public String getShopperBirthDate() {
+    return this.shopperBirthDate;
+  }
+
+  /**
+   * @param shopperBirthDate
+   *          the date of shopper birth date, format YYYYMMDD
+   * 
+   * @return The current request for method chaining
+   */
+  public TransactionRequest setShopperBirthDate(String shopperBirthDate) {
+    this.shopperBirthDate = this.limitLength(shopperBirthDate, 8);
+    return getThis();
+  }
+  
+  /**
+   * @return the shopperIDNumber
+   */
+  public String getShopperIDNumber() {
+    return this.shopperIDNumber;
+  }
+
+  /**
+   * @param shopperIDNumber
+   *          Customers document (passport number, ID number, taxpayer ID...) 
+   * 
+   * @return The current request for method chaining
+   */
+  public TransactionRequest setShopperIDNumber(String shopperIDNumber) {
+    this.shopperIDNumber = this.limitLength(shopperIDNumber, 32);
+    return getThis();
+  }
+  
 
   /**
    * @return the orderID

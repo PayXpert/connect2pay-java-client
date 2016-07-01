@@ -53,6 +53,14 @@ public class ConnectorTransactionStatusTest extends ConnectorTransactionTest {
     Assert.assertEquals(ResultCode.SUCCESS, statusResponse.getCode());
     Assert.assertEquals(TransactionStatusValue.NOT_PROCESSED, statusResponse.getStatus());
     Assert.assertEquals(PaymentType.CREDIT_CARD, statusResponse.getPaymentType());
+    
+
+    Assert.assertEquals("ID12345", statusResponse.getShopperIDNumber());
+    Assert.assertEquals("19700101", statusResponse.getShopperBirthDate());
+    
+    Assert.assertNotNull(statusResponse.getCCPaymentMeanInfo());
+    Assert.assertEquals("Bernard Ménez", statusResponse.getCCPaymentMeanInfo().getCardHolderName());
+    
   }
 
   /**

@@ -20,6 +20,8 @@ import com.payxpert.connect2pay.constants.ShippingType;
 import com.payxpert.connect2pay.constants.SubscriptionType;
 import com.payxpert.connect2pay.exception.BadRequestException;
 
+import net.sf.oval.constraint.MaxLength;
+
 public class TransactionRequestTest {
 
   private final static List<FieldState> REQUEST_FIELDS = new ArrayList<FieldState>();
@@ -46,6 +48,8 @@ public class TransactionRequestTest {
     REQUEST_FIELDS.add(new FieldState("shopperFields", "shopperCountryCode", false));
     REQUEST_FIELDS.add(new FieldState("shopperFields", "shopperCompany", false));
     REQUEST_FIELDS.add(new FieldState("shopperFields", "shopperLoyaltyProgram", false));
+    REQUEST_FIELDS.add(new FieldState("shopperFields", "shopperBirthDate", false));
+    REQUEST_FIELDS.add(new FieldState("shopperFields", "shopperIDNumber", false));
 
     REQUEST_FIELDS.add(new FieldState("commonFields", "orderID", true));
     REQUEST_FIELDS.add(new FieldState("commonFields", "currency", true));
@@ -147,7 +151,7 @@ public class TransactionRequestTest {
     request.setAmount(100).setCurrency("EUR").setShopperFirstName("Bernard").setShopperLastName("Ménez")
         .setShopperAddress("Passeig de Gracia, 55").setShopperZipcode("08008").setShopperCity("Barcelona")
         .setShopperState("Barcelona").setShopperCountryCode("ES").setShopperPhone("+34666666666")
-        .setShopperEmail("bernard.menez@gmail.com").setShippingType(ShippingType.VIRTUAL)
+        .setShopperEmail("bernard.menez@gmail.com").setShopperBirthDate("19700101").setShopperIDNumber("ID12345").setShippingType(ShippingType.VIRTUAL)
         .setCtrlRedirectURL("https://redirect.here/");
 
     return request;
