@@ -1,12 +1,15 @@
 package com.payxpert.connect2pay.client.requests;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -20,11 +23,9 @@ import com.payxpert.connect2pay.constants.ShippingType;
 import com.payxpert.connect2pay.constants.SubscriptionType;
 import com.payxpert.connect2pay.exception.BadRequestException;
 
-import net.sf.oval.constraint.MaxLength;
-
 public class TransactionRequestTest {
 
-  private final static List<FieldState> REQUEST_FIELDS = new ArrayList<FieldState>();
+  private final static List<FieldState> REQUEST_FIELDS = new ArrayList<>();
 
   public TransactionRequestTest() {
     REQUEST_FIELDS.add(new FieldState("shopperFields", "shopperEmail", false));
@@ -143,6 +144,35 @@ public class TransactionRequestTest {
     }
   }
 
+  @Test
+  public void testSetBirthDate() {
+    TransactionRequest request = getDefaultFullRequest();
+    Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Etc/UTC"));
+
+    request.setShopperBirthDate("19700208");
+    assertEquals("19700208", request.getShopperBirthDate());
+    request.setShopperBirthDate("197002/08");
+    assertEquals("197002/0", request.getShopperBirthDate());
+    request.setShopperBirthDate("1970/02/08");
+    assertEquals("1970/02/", request.getShopperBirthDate());
+
+    calendar.set(1970, Calendar.FEBRUARY, 8);
+    request.setShopperBirthDate(calendar.getTime());
+    assertEquals("19700208", request.getShopperBirthDate());
+
+    calendar.set(2000, Calendar.DECEMBER, 15);
+    request.setShopperBirthDate(calendar.getTime());
+    assertEquals("20001215", request.getShopperBirthDate());
+
+    calendar.set(2016, Calendar.JANUARY, 01);
+    request.setShopperBirthDate(calendar.getTime());
+    assertEquals("20160101", request.getShopperBirthDate());
+
+    calendar.set(2016, Calendar.AUGUST, 31);
+    request.setShopperBirthDate(calendar.getTime());
+    assertEquals("20160831", request.getShopperBirthDate());
+  }
+
   public static TransactionRequest getDefaultRequest() {
     TransactionRequest request = new TransactionRequest();
 
@@ -151,8 +181,8 @@ public class TransactionRequestTest {
     request.setAmount(100).setCurrency("EUR").setShopperFirstName("Bernard").setShopperLastName("Ménez")
         .setShopperAddress("Passeig de Gracia, 55").setShopperZipcode("08008").setShopperCity("Barcelona")
         .setShopperState("Barcelona").setShopperCountryCode("ES").setShopperPhone("+34666666666")
-        .setShopperEmail("bernard.menez@gmail.com").setShopperBirthDate("19700101").setShopperIDNumber("ID12345").setShippingType(ShippingType.VIRTUAL)
-        .setCtrlRedirectURL("https://redirect.here/");
+        .setShopperEmail("bernard.menez@gmail.com").setShopperBirthDate("19700101").setShopperIDNumber("ID12345")
+        .setShippingType(ShippingType.VIRTUAL).setCtrlRedirectURL("https://redirect.here/");
 
     return request;
   }

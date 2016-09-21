@@ -1,6 +1,9 @@
 package com.payxpert.connect2pay.client.requests;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.payxpert.connect2pay.client.Connect2payClient;
@@ -128,7 +131,7 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
 
   @NotNull
   private PaymentType paymentType;
-  
+
   private TransactionOperation operation;
 
   private Boolean secure3d;
@@ -599,7 +602,7 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
     this.shopperLoyaltyProgram = this.limitLength(shopperLoyaltyProgram, 50);
     return getThis();
   }
-  
+
   /**
    * @return the shopperBirthDate
    */
@@ -617,7 +620,27 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
     this.shopperBirthDate = this.limitLength(shopperBirthDate, 8);
     return getThis();
   }
-  
+
+  /**
+   * @param shopperBirthDate
+   *          the date of shopper birth date
+   * 
+   * @return The current request for method chaining
+   */
+  public TransactionRequest setShopperBirthDate(Date shopperBirthDate) {
+    if (shopperBirthDate == null) {
+      this.shopperBirthDate = null;
+    } else {
+      Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Etc/UTC"));
+      calendar.setTime(shopperBirthDate);
+      // Format as YYYYMMDD
+      this.shopperBirthDate = String.format("%04d%02d%02d", calendar.get(Calendar.YEAR),
+          calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH));
+    }
+
+    return getThis();
+  }
+
   /**
    * @return the shopperIDNumber
    */
@@ -627,7 +650,7 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
 
   /**
    * @param shopperIDNumber
-   *          Customers document (passport number, ID number, taxpayer ID...) 
+   *          Customers document (passport number, ID number, taxpayer ID...)
    * 
    * @return The current request for method chaining
    */
@@ -635,7 +658,6 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
     this.shopperIDNumber = this.limitLength(shopperIDNumber, 32);
     return getThis();
   }
-  
 
   /**
    * @return the orderID
@@ -749,6 +771,7 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
    * @return the customerIP
    * @deprecated This field is not present anymore in the API, the value is obtained from the connected user
    */
+  @Deprecated
   public String getCustomerIP() {
     return null;
   }
@@ -760,6 +783,7 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
    * @return The current request for method chaining
    * @deprecated This field is not present anymore in the API, the value is obtained from the connected user
    */
+  @Deprecated
   public TransactionRequest setCustomerIP(String customerIP) {
     return getThis();
   }
@@ -889,7 +913,7 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
     this.paymentType = paymentType;
     return getThis();
   }
-  
+
   /**
    * @return the operation
    */
@@ -1208,6 +1232,7 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
   private static class SubscriptionValidator implements CheckWithCheck.SimpleCheck {
     private static final long serialVersionUID = -1808037567283704534L;
 
+    @Override
     public boolean isSatisfied(Object validatedObject, Object value) {
       if (validatedObject != null && value != null) {
         SubscriptionType type = null;
