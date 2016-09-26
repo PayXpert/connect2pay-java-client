@@ -23,6 +23,9 @@ import com.payxpert.connect2pay.constants.ShippingType;
 import com.payxpert.connect2pay.constants.SubscriptionType;
 import com.payxpert.connect2pay.exception.BadRequestException;
 
+import net.sf.oval.ConstraintViolation;
+import net.sf.oval.Validator;
+
 public class TransactionRequestTest {
 
   private final static List<FieldState> REQUEST_FIELDS = new ArrayList<>();
@@ -119,6 +122,32 @@ public class TransactionRequestTest {
     TransactionRequest request = TransactionRequestTest.getDefaultRequest();
     request.setCurrency("");
     request.validate();
+  }
+
+  @Test
+  public void testSaleRequestValidShopperEmailValidation() {
+    Validator validation = new Validator();
+    TransactionRequest request = TransactionRequestTest.getDefaultRequest();
+
+    String[] validEmails = new String[] { "NA", "test@test.com" };
+    for (String email : validEmails) {
+      request.setShopperEmail(email);
+      List<ConstraintViolation> constraintViolations = validation.validate(request);
+      assertEquals("Error found on email " + email, 0, constraintViolations.size());
+    }
+  }
+
+  @Test
+  public void testSaleRequestInvalidShopperEmailValidation() {
+    Validator validation = new Validator();
+    TransactionRequest request = TransactionRequestTest.getDefaultRequest();
+
+    String[] invalidEmails = new String[] { "na", "on", "test@test", "test#test.com.test" };
+    for (String email : invalidEmails) {
+      request.setShopperEmail(email);
+      List<ConstraintViolation> constraintViolations = validation.validate(request);
+      assertEquals("No error found on email " + email, 1, constraintViolations.size());
+    }
   }
 
   @Test
