@@ -45,7 +45,8 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
   @JsonProperty("shopperID")
   private Integer shopperId;
 
-  @Email
+  @MatchPattern(pattern = {
+      "NA|[\\w!#$%&'*+/=?^_`{|}~-]+(?:\\.[\\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\\w](?:[\\w-]*[\\w])?\\.)+[a-zA-Z0-9](?:[\\w-]*[\\w])?" })
   @MaxLength(100)
   private String shopperEmail;
   @MaxLength(35)
