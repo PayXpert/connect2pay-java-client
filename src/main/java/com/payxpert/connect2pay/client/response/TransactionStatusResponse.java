@@ -37,7 +37,7 @@ public class TransactionStatusResponse extends GenericResponse<TransactionStatus
   private String errorMessage;
   private TransactionStatusValue status;
   @JsonProperty("transactionID")
-  private Long transactionId;
+  private String transactionId;
   @JsonProperty("subscriptionID")
   private Long subscriptionId;
   private String ctrlCustomData;
@@ -56,7 +56,7 @@ public class TransactionStatusResponse extends GenericResponse<TransactionStatus
   private String shopperPhone;
   private String shopperEmail;
   private String shopperIPAddress;
-  
+
   /**
    * Date of shopper birth date, format YYYYMMDD
    * 
@@ -66,7 +66,6 @@ public class TransactionStatusResponse extends GenericResponse<TransactionStatus
    * Customers document (passport number, ID number, taxpayer ID...)
    */
   private String shopperIDNumber;
-  
 
   // Credit Card Transaction specific information
   private String statementDescriptor;
@@ -239,7 +238,7 @@ public class TransactionStatusResponse extends GenericResponse<TransactionStatus
   /**
    * @return the transactionId
    */
-  public Long getTransactionId() {
+  public String getTransactionId() {
     return transactionId;
   }
 
@@ -247,7 +246,7 @@ public class TransactionStatusResponse extends GenericResponse<TransactionStatus
    * @param transactionId
    *          the transactionId to set
    */
-  public void setTransactionId(Long transactionId) {
+  public void setTransactionId(String transactionId) {
     this.transactionId = transactionId;
   }
 
@@ -460,7 +459,7 @@ public class TransactionStatusResponse extends GenericResponse<TransactionStatus
   public void setShopperIPAddress(String shopperIPAddress) {
     this.shopperIPAddress = shopperIPAddress;
   }
-  
+
   /**
    * @return the shopperBirthDate
    */
@@ -475,7 +474,7 @@ public class TransactionStatusResponse extends GenericResponse<TransactionStatus
   public void setShopperBirthDate(String shopperBirthDate) {
     this.shopperBirthDate = shopperBirthDate;
   }
-  
+
   /**
    * @return the shopperIDNumber
    */

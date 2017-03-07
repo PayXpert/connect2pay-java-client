@@ -26,7 +26,7 @@ public class ConnectorHandleCallbackTest extends ConnectorTransactionTest {
         + ",\"cardLevel\":\"other\",\"cardSubType\":\"credit\",\"iinCountry\":\"US\""
         + ",\"iinBankName\":\"jpmorgan chase bank na\",\"is3DSecure\":false}"
         + ",\"ctrlCustomData\":\"Give that back to me please !!\",\"status\":\"Authorized\","
-        + "\"merchantToken\":\"2NmIsxITW2hrzAowK44nZA\",\"transactionID\":18253,\"paymentType\":\"CreditCard\""
+        + "\"merchantToken\":\"2NmIsxITW2hrzAowK44nZA\",\"transactionID\":\"18253\",\"paymentType\":\"CreditCard\""
         + ",\"operation\":\"sale\",\"errorCode\":\"000\",\"errorMessage\":\"Transaction successfully completed\","
         + "\"orderID\":\"2014-04-02-14.32.45\",\"currency\":\"EUR\",\"amount\":1000,\"shopperName\":\"Tech Payxpert\","
         + "\"shopperAddress\":\"NA\",\"shopperZipcode\":\"NA\",\"shopperCity\":\"NA\",\"shopperState\":\"null\","
@@ -49,7 +49,7 @@ public class ConnectorHandleCallbackTest extends ConnectorTransactionTest {
     Assert.assertEquals("Tech Payxpert", response.getShopperName());
     Assert.assertEquals("support@payxpert.com", response.getShopperEmail());
     Assert.assertEquals(PaymentType.CREDIT_CARD, response.getPaymentType());
-    Assert.assertEquals(Long.valueOf(18253), response.getTransactionId());
+    Assert.assertEquals("18253", response.getTransactionId());
     CreditCardPaymentMeanInfo pmInfo = response.getCCPaymentMeanInfo();
     Assert.assertNotNull(pmInfo);
     Assert.assertEquals("411111XXXXXX1111", pmInfo.getCardNumber());
@@ -73,7 +73,7 @@ public class ConnectorHandleCallbackTest extends ConnectorTransactionTest {
   @Test(expected = InvalidFormatException.class)
   public void handleCallbackTestInvalidData() throws Exception {
     String receivedData = "{\"ctrlCustomData\":\"Give that back to me please !!\",\"status\":\"Authorized\","
-        + "\"merchantToken\":\"2NmIsxITW2hrzAowK44nZA\",\"transactionID\":18253,\"paymentType\":\"CreditCardZZZ\""
+        + "\"merchantToken\":\"2NmIsxITW2hrzAowK44nZA\",\"transactionID\":\"18253\",\"paymentType\":\"CreditCardZZZ\""
         + ",\"operation\":\"sale\",\"errorCode\":\"000\",\"errorMessage\":\"Transaction successfully completed\","
         + "\"orderID\":\"2014-04-02-14.32.45\",\"currency\":\"EUR\",\"amount\":1000,\"shopperName\":\"Tech Payxpert\","
         + "\"shopperAddress\":\"NA\",\"shopperZipcode\":\"NA\",\"shopperCity\":\"NA\",\"shopperState\":\"null\","
