@@ -7,11 +7,13 @@ package com.payxpert.connect2pay.constants;
  * 
  */
 public enum APIRoute {
-  TRANS_PREPARE("/transaction/prepare"),
+  TRANS_PREPARE("/payment/prepare"),
   /* */
-  TRANS_STATUS("/transaction/:merchantToken/status"),
+  TRANS_STATUS("/payment/:merchantToken/status"),
   /* */
-  TRANS_DOPAY("/transaction/:customerToken"),
+  TRANS_DOPAY("/payment/:customerToken"),
+  /* */
+  TRANS_REFUND("/transaction/:transactionId/refund"),
   /* */
   SUB_CANCEL("/subscription/:subscriptionID/cancel");
 

@@ -10,9 +10,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.payxpert.connect2pay.client.requests.SubscriptionCancelRequest;
+import com.payxpert.connect2pay.client.requests.TransactionRefundRequest;
 import com.payxpert.connect2pay.client.requests.TransactionRequest;
 import com.payxpert.connect2pay.client.requests.TransactionStatusRequest;
 import com.payxpert.connect2pay.client.response.SubscriptionCancelResponse;
+import com.payxpert.connect2pay.client.response.TransactionRefundResponse;
 import com.payxpert.connect2pay.client.response.TransactionResponse;
 import com.payxpert.connect2pay.client.response.TransactionStatusResponse;
 import com.payxpert.connect2pay.constants.APIRoute;
@@ -40,9 +42,9 @@ import com.payxpert.connect2pay.utils.CryptoHelper;
  * This class does not do any sanitization on received data. This must be done externally.<br>
  * Every text must be encoded as UTF-8 when passed to this class.<br>
  * 
- * @version 1.0.3 (20160512)
+ * @version 1.0.6 (20170505)
  * @author JsH <jsh@payxpert.com><br>
- *         Copyright 2011-2016 Payxpert
+ *         Copyright 2011-2017 PayXpert
  * 
  */
 public class Connect2payClient {
@@ -181,6 +183,39 @@ public class Connect2payClient {
       response = new TransactionStatusResponse().fromJson(NOT_FOUND_JSON);
     } catch (Exception e) {
       logger.error("Transaction status call failed: " + e.getClass().getSimpleName() + " - " + e.getMessage());
+      throw e;
+    }
+
+    return response;
+  }
+
+  /**
+   * Do a transaction refund request on the payment page application.
+   * 
+   * @param request
+   *          The transaction refund request object to use
+   * @return The transaction refund response object or null on error
+   */
+  public TransactionRefundResponse refundTransaction(TransactionRefundRequest request) throws Exception {
+    if (request == null) {
+      throw new NullPointerException();
+    }
+
+    String url = APIRoute.TRANS_REFUND.getRoute().replaceAll(":transactionId", request.getTransactionId());
+    this.httpClient.setUrl(this.serviceUrl + url).setBody(request.toJson());
+    if (logger.isDebugEnabled()) {
+      logger.debug("Doing Transaction Refund request.");
+    }
+    TransactionRefundResponse response = null;
+    try {
+      String json = this.httpClient.post();
+      response = new TransactionRefundResponse().fromJson(json);
+    } catch (HttpForbiddenException e) {
+      response = new TransactionRefundResponse().fromJson(AUTH_FAILED_JSON);
+    } catch (HttpNotFoundException e) {
+      response = new TransactionRefundResponse().fromJson(NOT_FOUND_JSON);
+    } catch (Exception e) {
+      logger.error("Transaction refund call failed: " + e.getClass().getSimpleName() + " - " + e.getMessage());
       throw e;
     }
 
