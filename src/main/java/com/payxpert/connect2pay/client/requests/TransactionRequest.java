@@ -43,7 +43,8 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
   // Customer fields
   // Shipping Information
   @JsonProperty("shopperID")
-  private Integer shopperId;
+  @MaxLength(32)
+  private String shopperId;
 
   @MatchPattern(pattern = {
       "NA|[\\w!#$%&'*+/=?^_`{|}~-]+(?:\\.[\\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\\w](?:[\\w-]*[\\w])?\\.)+[a-zA-Z0-9](?:[\\w-]*[\\w])?" })
@@ -229,8 +230,8 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
   /**
    * @return the shopperId
    */
-  public Integer getShopperId() {
-    return shopperId;
+  public String getShopperId() {
+    return this.shopperId;
   }
 
   /**
@@ -239,8 +240,25 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
    * 
    * @return The current request for method chaining
    */
-  public TransactionRequest setShopperId(Integer shopperId) {
+  public TransactionRequest setShopperId(String shopperId) {
     this.shopperId = shopperId;
+    return getThis();
+  }
+
+  /**
+   * @param shopperId
+   *          the shopperId to set
+   * 
+   * @return The current request for method chaining
+   * @deprecated since 002.50
+   */
+  @Deprecated
+  public TransactionRequest setShopperId(Integer shopperId) {
+    if (shopperId == null) {
+      this.shopperId = null;
+    } else {
+      this.shopperId = shopperId.toString();
+    }
     return getThis();
   }
 

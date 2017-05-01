@@ -73,7 +73,7 @@ public abstract class GenericRequest<T extends GenericRequest<T>> {
    */
   @JsonIgnore
   public Map<String, String> getRequestParameters() {
-    return new HashMap<String, String>();
+    return new HashMap<>();
   }
 
   /**
