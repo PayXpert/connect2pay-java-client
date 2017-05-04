@@ -165,6 +165,7 @@ public class Connect2payClient {
 
     String url = APIRoute.TRANS_STATUS.getRoute().replaceAll(":merchantToken", request.getMerchantToken());
     this.httpClient.setUrl(this.serviceUrl + url);
+    this.httpClient.setParameter("apiVersion", request.getApiVersion());
     if (logger.isDebugEnabled()) {
       logger.debug("Doing Transaction status request.");
     }

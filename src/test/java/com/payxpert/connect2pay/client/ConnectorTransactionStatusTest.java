@@ -4,7 +4,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.payxpert.connect2pay.client.Connect2payClient;
 import com.payxpert.connect2pay.client.requests.TransactionRequest;
 import com.payxpert.connect2pay.client.requests.TransactionRequestTest;
 import com.payxpert.connect2pay.client.requests.TransactionStatusRequest;
@@ -53,14 +52,55 @@ public class ConnectorTransactionStatusTest extends ConnectorTransactionTest {
     Assert.assertEquals(ResultCode.SUCCESS, statusResponse.getCode());
     Assert.assertEquals(TransactionStatusValue.NOT_PROCESSED, statusResponse.getStatus());
     Assert.assertEquals(PaymentType.CREDIT_CARD, statusResponse.getPaymentType());
-    
 
     Assert.assertEquals("ID12345", statusResponse.getShopperIDNumber());
     Assert.assertEquals("19700101", statusResponse.getShopperBirthDate());
-    
+
     Assert.assertNotNull(statusResponse.getCCPaymentMeanInfo());
     Assert.assertEquals("Bernard Ménez", statusResponse.getCCPaymentMeanInfo().getCardHolderName());
-    
+
+  }
+
+  /**
+   * Successful transaction status request (creation + status) with an old API version
+   */
+  @Test
+  public void transactionStatusTestSuccessfullOldApiVersion() {
+    TransactionResponse response = null;
+    TransactionRequest request = TransactionRequestTest.getDefaultRequest();
+
+    try {
+      response = connector.prepareTransaction(request);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+
+    Assert.assertNotNull(response);
+    Assert.assertNotNull(response.getMerchantToken());
+    Assert.assertEquals(ResultCode.SUCCESS, response.getCode());
+
+    TransactionStatusResponse statusResponse = null;
+    TransactionStatusRequest statusRequest = new TransactionStatusRequest();
+    statusRequest.setMerchantToken(response.getMerchantToken());
+    statusRequest.setApiVersion("002");
+
+    try {
+      statusResponse = connector.getTransactionStatus(statusRequest);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+
+    Assert.assertNotNull(statusResponse);
+    Assert.assertNotNull(statusResponse.getCode());
+    Assert.assertEquals(ResultCode.SUCCESS, statusResponse.getCode());
+    Assert.assertEquals(TransactionStatusValue.NOT_PROCESSED, statusResponse.getStatus());
+    Assert.assertEquals(PaymentType.CREDIT_CARD, statusResponse.getPaymentType());
+
+    Assert.assertNull(statusResponse.getShopperIDNumber());
+    Assert.assertNull(statusResponse.getShopperBirthDate());
+
+    // API version 002 does not contain payment mean info
+    Assert.assertNull(statusResponse.getCCPaymentMeanInfo());
   }
 
   /**
