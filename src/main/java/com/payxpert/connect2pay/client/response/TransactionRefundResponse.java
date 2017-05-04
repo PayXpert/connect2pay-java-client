@@ -1,6 +1,6 @@
 package com.payxpert.connect2pay.client.response;
 
-import com.payxpert.connect2pay.constants.ResultCode;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * This class represents the response to the Transaction Refund API call.
@@ -10,22 +10,25 @@ import com.payxpert.connect2pay.constants.ResultCode;
  * 
  */
 public class TransactionRefundResponse extends GenericResponse<TransactionRefundResponse> {
-  private ResultCode code;
+  private String code;
+
   private String message;
+
+  @JsonProperty("transactionID")
   private String transactionId;
 
   /**
    * @return the code
    */
-  public ResultCode getCode() {
-    return code;
+  public String getCode() {
+    return this.code;
   }
 
   /**
    * @param code
    *          the code to set
    */
-  public void setCode(ResultCode code) {
+  public void setCode(String code) {
     this.code = code;
   }
 
@@ -33,7 +36,7 @@ public class TransactionRefundResponse extends GenericResponse<TransactionRefund
    * @return the message
    */
   public String getMessage() {
-    return message;
+    return this.message;
   }
 
   /**
@@ -48,7 +51,7 @@ public class TransactionRefundResponse extends GenericResponse<TransactionRefund
    * @return the transactionId
    */
   public String getTransactionId() {
-    return transactionId;
+    return this.transactionId;
   }
 
   /**

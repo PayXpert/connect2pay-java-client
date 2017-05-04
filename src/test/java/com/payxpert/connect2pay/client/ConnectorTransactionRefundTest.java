@@ -6,7 +6,6 @@ import org.junit.Test;
 
 import com.payxpert.connect2pay.client.requests.TransactionRefundRequest;
 import com.payxpert.connect2pay.client.response.TransactionRefundResponse;
-import com.payxpert.connect2pay.constants.ResultCode;
 
 public class ConnectorTransactionRefundTest extends ConnectorTransactionTest {
   @Before
@@ -33,7 +32,7 @@ public class ConnectorTransactionRefundTest extends ConnectorTransactionTest {
 
     Assert.assertNotNull(refundResponse);
     Assert.assertNotNull(refundResponse.getCode());
-    Assert.assertEquals(ResultCode.TRANSACTION_NOT_FOUND, refundResponse.getCode());
+    Assert.assertEquals("312", refundResponse.getCode());
   }
 
   /**
@@ -54,6 +53,6 @@ public class ConnectorTransactionRefundTest extends ConnectorTransactionTest {
 
     Assert.assertNotNull(refundResponse);
     Assert.assertNotNull(refundResponse.getCode());
-    Assert.assertEquals(ResultCode.DATA_MISSING_PARAMETER, refundResponse.getCode());
+    Assert.assertEquals("401", refundResponse.getCode());
   }
 }
