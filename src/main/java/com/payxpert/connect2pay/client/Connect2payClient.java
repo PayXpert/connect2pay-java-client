@@ -84,6 +84,15 @@ public class Connect2payClient {
   }
 
   /**
+   * Set the virtual host this request will use
+   * 
+   * @since Version 1.0.6
+   */
+  public void setVirtualHost(String virtualHost) {
+    this.httpClient.setVirtualHost(virtualHost);
+  }
+
+  /**
    * Allows to set outgoing proxy information.
    * 
    * @param host
