@@ -1,6 +1,7 @@
 package com.payxpert.connect2pay.client.containers;
 
 import java.io.IOException;
+import java.util.Date;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +28,8 @@ public class TransactionAttempt {
 
   protected static final Logger logger = LoggerFactory.getLogger(TransactionAttempt.class);
 
+  private Date date;
+
   private PaymentType paymentType;
 
   @JsonDeserialize(using = PaymentMeanInfoDeserializer.class)
@@ -50,6 +53,21 @@ public class TransactionAttempt {
 
   // Credit Card Transaction specific information
   private String statementDescriptor;
+
+  /**
+   * @return the date
+   */
+  public Date getDate() {
+    return date;
+  }
+
+  /**
+   * @param date
+   *          the date to set
+   */
+  public void getDate(Date date) {
+    this.date = date;
+  }
 
   /**
    * @return the paymentType
@@ -92,6 +110,20 @@ public class TransactionAttempt {
       return null;
     }
     return this.getPaymentMeanInfo(BankTransferPaymentMeanInfo.class);
+  }
+
+  /**
+   * Return the payment mean info for Todito transaction. This is a shortcut for
+   * getPaymentMeanInfo(ToditoPaymentMeanInfo.class) (with paymentType check).
+   * 
+   * @return The ToditoPaymentMeanInfo for this transaction
+   */
+  public ToditoPaymentMeanInfo getToditoPaymentMeanInfo() {
+    if (!PaymentType.TODITO_CASH.equals(this.paymentType)) {
+      logger.error("Payment type is not Todito cash, can not return payment mean info for Todito cash.");
+      return null;
+    }
+    return this.getPaymentMeanInfo(ToditoPaymentMeanInfo.class);
   }
 
   /**

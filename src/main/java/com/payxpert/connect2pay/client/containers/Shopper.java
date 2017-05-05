@@ -123,7 +123,7 @@ public class Shopper {
    * @param phone
    *          the phone to set
    */
-  public void setShopperPhone(String phone) {
+  public void setPhone(String phone) {
     this.phone = phone;
   }
 
