@@ -1,6 +1,10 @@
 package com.payxpert.connect2pay.client;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 import java.security.InvalidKeyException;
+import java.util.List;
 
 import javax.crypto.IllegalBlockSizeException;
 
@@ -8,7 +12,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.payxpert.connect2pay.client.Connect2payClient;
+import com.payxpert.connect2pay.client.containers.Shopper;
+import com.payxpert.connect2pay.client.containers.TransactionAttempt;
 import com.payxpert.connect2pay.client.response.TransactionStatusResponse;
 import com.payxpert.connect2pay.constants.PaymentType;
 import com.payxpert.connect2pay.constants.ResultCode;
@@ -39,10 +44,20 @@ public class ConnectorHandleRedirectTest extends ConnectorTransactionTest {
     Assert.assertNotNull(response.getMerchantToken());
     Assert.assertEquals(merchantToken, response.getMerchantToken());
     Assert.assertEquals(ResultCode.SUCCESS, response.getCode());
+
     Assert.assertEquals("000", response.getErrorCode());
-    Assert.assertEquals("Tech Payxpert", response.getShopperName());
-    Assert.assertEquals("support@payxpert.com", response.getShopperEmail());
-    Assert.assertEquals(PaymentType.CREDIT_CARD, response.getPaymentType());
+
+    List<TransactionAttempt> transactionAttempts = response.getTransactions();
+    assertNotNull(transactionAttempts);
+    assertEquals(1, transactionAttempts.size());
+
+    TransactionAttempt transactionAttempt = transactionAttempts.get(0);
+    Assert.assertEquals(PaymentType.CREDIT_CARD, transactionAttempt.getPaymentType());
+
+    Shopper shopper = transactionAttempt.getShopper();
+    assertNotNull(shopper);
+    assertEquals("Tech Payxpert", shopper.getName());
+    assertEquals("support@payxpert.com", shopper.getEmail());
   }
 
   /**

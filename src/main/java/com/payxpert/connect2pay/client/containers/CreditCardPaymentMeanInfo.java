@@ -1,6 +1,6 @@
 package com.payxpert.connect2pay.client.containers;
 
-public class CreditCardPaymentMeanInfo implements PaymentMeanInfo {
+public class CreditCardPaymentMeanInfo extends PaymentMeanInfo {
   private String cardNumber;
   private String cardExpireYear;
   private String cardExpireMonth;
@@ -11,6 +11,7 @@ public class CreditCardPaymentMeanInfo implements PaymentMeanInfo {
   private String iinCountry;
   private String iinBankName;
   private Boolean is3DSecure;
+  private String statementDescriptor;
 
   /**
    * @return the cardNumber
@@ -160,5 +161,13 @@ public class CreditCardPaymentMeanInfo implements PaymentMeanInfo {
    */
   public void setIs3DSecure(Boolean is3dSecure) {
     this.is3DSecure = is3dSecure;
+  }
+
+  public String getStatementDescriptor() {
+    return statementDescriptor;
+  }
+
+  public void setStatementDescriptor(String statementDescriptor) {
+    this.statementDescriptor = statementDescriptor;
   }
 }

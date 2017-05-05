@@ -1,10 +1,17 @@
 package com.payxpert.connect2pay.client;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+
+import java.util.List;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.payxpert.connect2pay.client.Connect2payClient;
+import com.payxpert.connect2pay.client.containers.Shopper;
+import com.payxpert.connect2pay.client.containers.TransactionAttempt;
 import com.payxpert.connect2pay.client.requests.TransactionRequest;
 import com.payxpert.connect2pay.client.requests.TransactionRequestTest;
 import com.payxpert.connect2pay.client.requests.TransactionStatusRequest;
@@ -51,16 +58,25 @@ public class ConnectorTransactionStatusTest extends ConnectorTransactionTest {
     Assert.assertNotNull(statusResponse);
     Assert.assertNotNull(statusResponse.getCode());
     Assert.assertEquals(ResultCode.SUCCESS, statusResponse.getCode());
-    Assert.assertEquals(TransactionStatusValue.NOT_PROCESSED, statusResponse.getStatus());
-    Assert.assertEquals(PaymentType.CREDIT_CARD, statusResponse.getPaymentType());
-    
 
-    Assert.assertEquals("ID12345", statusResponse.getShopperIDNumber());
-    Assert.assertEquals("19700101", statusResponse.getShopperBirthDate());
-    
-    Assert.assertNotNull(statusResponse.getCCPaymentMeanInfo());
-    Assert.assertEquals("Bernard Ménez", statusResponse.getCCPaymentMeanInfo().getCardHolderName());
-    
+    List<TransactionAttempt> transactionAttempts = statusResponse.getTransactions();
+    assertNotNull(transactionAttempts);
+    assertEquals(1, transactionAttempts.size());
+
+    TransactionAttempt transactionAttempt = transactionAttempts.get(0);
+
+    Assert.assertEquals(TransactionStatusValue.NOT_PROCESSED, transactionAttempt.getStatus());
+    Assert.assertEquals(PaymentType.CREDIT_CARD, transactionAttempt.getPaymentType());
+
+    Shopper shopper = transactionAttempt.getShopper();
+    assertNotNull(shopper);
+
+    Assert.assertEquals("ID12345", shopper.getIdNumber());
+    Assert.assertEquals("19700101", shopper.getBirthDate());
+
+    Assert.assertNotNull(transactionAttempt.getCCPaymentMeanInfo());
+    Assert.assertEquals("Bernard Ménez", transactionAttempt.getCCPaymentMeanInfo().getCardHolderName());
+
   }
 
   /**
@@ -82,6 +98,10 @@ public class ConnectorTransactionStatusTest extends ConnectorTransactionTest {
     Assert.assertNotNull(statusResponse);
     Assert.assertNotNull(statusResponse.getCode());
     Assert.assertEquals(ResultCode.NOT_FOUND, statusResponse.getCode());
-    Assert.assertNull(statusResponse.getTransactionId());
+
+    List<TransactionAttempt> transactionAttempts = statusResponse.getTransactions();
+    assertNull(transactionAttempts);
+    assertEquals(0, transactionAttempts.size());
+
   }
 }
