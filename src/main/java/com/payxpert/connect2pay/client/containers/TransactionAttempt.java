@@ -24,7 +24,7 @@ import com.payxpert.connect2pay.utils.json.PaymentMeanInfoDeserializer;
  * 
  */
 
-public class TransactionAttempt {
+public class TransactionAttempt implements Comparable<TransactionAttempt> {
 
   protected static final Logger logger = LoggerFactory.getLogger(TransactionAttempt.class);
 
@@ -51,9 +51,6 @@ public class TransactionAttempt {
    */
   private Shopper shopper;
 
-  // Credit Card Transaction specific information
-  private String statementDescriptor;
-
   /**
    * @return the date
    */
@@ -65,7 +62,7 @@ public class TransactionAttempt {
    * @param date
    *          the date to set
    */
-  public void getDate(Date date) {
+  public void setDate(Date date) {
     this.date = date;
   }
 
@@ -263,21 +260,6 @@ public class TransactionAttempt {
   }
 
   /**
-   * @return the statementDescriptor
-   */
-  public String getStatementDescriptor() {
-    return statementDescriptor;
-  }
-
-  /**
-   * @param statementDescriptor
-   *          the statementDescriptor to set
-   */
-  public void setStatementDescriptor(String statementDescriptor) {
-    this.statementDescriptor = statementDescriptor;
-  }
-
-  /**
    * @return the cardHolderName
    * @deprecated cardHolderName has been moved into paymentMeanInfo.cardHolderName
    */
@@ -302,4 +284,30 @@ public class TransactionAttempt {
   public void setCardHolderName(String cardHolderName) {
   }
 
+  @Override
+  public int compareTo(TransactionAttempt val) {
+    final int BEFORE = -1;
+    final int EQUAL = 0;
+    final int AFTER = 1;
+
+    // this optimization is usually worthwhile,
+    if (this == val) {
+      return EQUAL;
+    }
+
+    int resultCmp = EQUAL;
+
+    // test if "date" defined
+    if (this.date == null && (val != null && val.date == null)) {
+      resultCmp = EQUAL;
+    } else if (this.date == null) {
+      resultCmp = BEFORE;
+    } else if (val == null || val.date == null) {
+      resultCmp = AFTER;
+    } else {
+      resultCmp = this.date.compareTo(val.date);
+    }
+
+    return resultCmp;
+  }
 }

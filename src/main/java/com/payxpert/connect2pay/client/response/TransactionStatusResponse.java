@@ -108,7 +108,7 @@ public class TransactionStatusResponse extends GenericResponse<TransactionStatus
    * @param errorCode
    *          the errorCode to set
    */
-  public void setResultCode(String errorCode) {
+  public void setErrorCode(String errorCode) {
     this.errorCode = errorCode;
   }
 
@@ -236,4 +236,14 @@ public class TransactionStatusResponse extends GenericResponse<TransactionStatus
     return transactions.add(transactionAttempt);
   }
 
+  /**
+   * 
+   * @return The last transaction done
+   */
+  public TransactionAttempt getLastTransactionAttempt() {
+    if (this.transactions != null && this.transactions.size() > 0) {
+      return this.transactions.stream().max(TransactionAttempt::compareTo).orElse(null);
+    }
+    return null;
+  }
 }
