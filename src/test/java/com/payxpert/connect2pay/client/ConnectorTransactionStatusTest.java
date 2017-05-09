@@ -9,11 +9,8 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-<<<<<<< HEAD
 import com.payxpert.connect2pay.client.containers.Shopper;
 import com.payxpert.connect2pay.client.containers.TransactionAttempt;
-=======
->>>>>>> 6471_apiversion_status
 import com.payxpert.connect2pay.client.requests.TransactionRequest;
 import com.payxpert.connect2pay.client.requests.TransactionRequestTest;
 import com.payxpert.connect2pay.client.requests.TransactionStatusRequest;
