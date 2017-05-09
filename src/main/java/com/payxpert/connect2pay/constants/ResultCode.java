@@ -1,15 +1,15 @@
 package com.payxpert.connect2pay.constants;
 
 /**
- * Global result codes of an API call. The Connect2payClient will also interpret
- * some raw HTTP response codes and translate them to ResultCode to ease the
- * implementation.
+ * Global result codes of an API call. The Connect2payClient will also interpret some raw HTTP response codes and
+ * translate them to ResultCode to ease the implementation.
  * 
  * @author jsh
  * 
  */
 public enum ResultCode {
   SUCCESS(200), /* */
+  TRANSACTION_NOT_FOUND(312), /* */
   REQUEST_MISSING_PARAMETER(400), /* */
   DATA_MISSING_PARAMETER(401), /* */
   JSON_ERROR(402), /* */

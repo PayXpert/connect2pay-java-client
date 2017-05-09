@@ -37,7 +37,7 @@ public class ConnectorConnectionTest extends ConnectorTransactionTest {
       Assert.assertNotNull(null);
     } catch (Exception e) {
       logger.info("connection2InvalidIpAddressFails, catched error : " + e.getMessage());
-      Assert.assertTrue(e.getMessage().startsWith("java.net.ConnectException: Connection refused"));
+      Assert.assertTrue(e.getMessage().startsWith("java.net.ConnectException:"));
     }
 
     duration = (System.currentTimeMillis() - start);

@@ -27,8 +27,7 @@ public class ConnectorPrepareTransactionTest extends ConnectorTransactionTest {
     Assert.assertEquals(ResultCode.SUCCESS, response.getCode());
     Assert.assertNotNull(response.getMerchantToken());
     Assert.assertNotNull(response.getCustomerToken());
-    Assert.assertEquals(TEST_URL + "/payment/" + response.getCustomerToken() + "/dopay",
-        response.getCustomerRedirectURL());
+    Assert.assertEquals(TEST_URL + "/payment/" + response.getCustomerToken(), response.getCustomerRedirectURL());
   }
 
   /**
