@@ -10,8 +10,7 @@ import com.payxpert.connect2pay.constants.ResultCode;
 
 public class ConnectorPrepareTransactionTest extends ConnectorTransactionTest {
   /**
-   * Test with a card number considered as valid by the Payment Gateway Test
-   * Provider
+   * Test with a card number considered as valid by the Payment Gateway Test Provider
    */
   @Test
   public void prepareTransactionTestSuccessfull() {
@@ -28,7 +27,8 @@ public class ConnectorPrepareTransactionTest extends ConnectorTransactionTest {
     Assert.assertEquals(ResultCode.SUCCESS, response.getCode());
     Assert.assertNotNull(response.getMerchantToken());
     Assert.assertNotNull(response.getCustomerToken());
-    Assert.assertEquals(TEST_URL + "/transaction/" + response.getCustomerToken(), response.getCustomerRedirectURL());
+    Assert.assertEquals(TEST_URL + "/payment/" + response.getCustomerToken() + "/dopay",
+        response.getCustomerRedirectURL());
   }
 
   /**

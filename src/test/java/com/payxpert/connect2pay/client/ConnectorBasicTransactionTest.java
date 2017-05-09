@@ -1,9 +1,10 @@
 package com.payxpert.connect2pay.client;
 
-import org.junit.Assert;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 import org.junit.Test;
 
-import com.payxpert.connect2pay.client.Connect2payClient;
 import com.payxpert.connect2pay.client.requests.TransactionRequestTest;
 import com.payxpert.connect2pay.client.response.TransactionResponse;
 import com.payxpert.connect2pay.constants.ResultCode;
@@ -24,8 +25,8 @@ public class ConnectorBasicTransactionTest extends ConnectorTransactionTest {
       e.printStackTrace();
     }
 
-    Assert.assertNotNull(response);
-    Assert.assertEquals(ResultCode.AUTH_FAILED, response.getCode());
+    assertNotNull(response);
+    assertEquals(ResultCode.AUTH_FAILED, response.getCode());
   }
 
   /**
@@ -43,7 +44,7 @@ public class ConnectorBasicTransactionTest extends ConnectorTransactionTest {
       e.printStackTrace();
     }
 
-    Assert.assertNotNull(response);
-    Assert.assertEquals(ResultCode.AUTH_FAILED, response.getCode());
+    assertNotNull(response);
+    assertEquals(ResultCode.AUTH_FAILED, response.getCode());
   }
 }

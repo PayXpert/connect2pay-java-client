@@ -7,7 +7,7 @@ package com.payxpert.connect2pay.constants;
  * 
  */
 public enum PaymentType {
-  CREDIT_CARD("CreditCard"), DIRECT_DEBIT("DirectDebit"), TODITO_CASH("ToditoCash");
+    BANK_TRANSFER("BankTransfer"), CREDIT_CARD("CreditCard"), DIRECT_DEBIT("DirectDebit"), TODITO_CASH("ToditoCash");
 
   private String value;
 
