@@ -9,8 +9,11 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+<<<<<<< HEAD
 import com.payxpert.connect2pay.client.containers.Shopper;
 import com.payxpert.connect2pay.client.containers.TransactionAttempt;
+=======
+>>>>>>> 6471_apiversion_status
 import com.payxpert.connect2pay.client.requests.TransactionRequest;
 import com.payxpert.connect2pay.client.requests.TransactionRequestTest;
 import com.payxpert.connect2pay.client.requests.TransactionStatusRequest;
@@ -76,7 +79,41 @@ public class ConnectorTransactionStatusTest extends ConnectorTransactionTest {
 
     assertNotNull(transactionAttempt.getCCPaymentMeanInfo());
     assertEquals("Bernard Ménez", transactionAttempt.getCCPaymentMeanInfo().getCardHolderName());
+  }
 
+  /**
+   * Successful transaction status request (creation + status) with an old API version
+   */
+  @Test
+  public void transactionStatusTestSuccessfullOldApiVersion() {
+    TransactionResponse response = null;
+    TransactionRequest request = TransactionRequestTest.getDefaultRequest();
+
+    try {
+      response = connector.prepareTransaction(request);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+
+    assertNotNull(response);
+    assertNotNull(response.getMerchantToken());
+    assertEquals(ResultCode.SUCCESS, response.getCode());
+
+    TransactionStatusResponse statusResponse = null;
+    TransactionStatusRequest statusRequest = new TransactionStatusRequest();
+    statusRequest.setMerchantToken(response.getMerchantToken());
+    statusRequest.setApiVersion("002");
+
+    try {
+      statusResponse = connector.getTransactionStatus(statusRequest);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+
+    assertNotNull(statusResponse);
+    assertNotNull(statusResponse.getCode());
+    assertEquals(ResultCode.SUCCESS, statusResponse.getCode());
+    assertEquals(TransactionStatusValue.NOT_PROCESSED, statusResponse.getStatus());
   }
 
   /**
