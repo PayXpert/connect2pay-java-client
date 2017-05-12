@@ -26,6 +26,7 @@ public class TransactionAttemptTest {
     calendar.set(Calendar.MILLISECOND, 12);
 
     assertEquals(calendar.getTime(), trans1.getDate());
+    assertEquals(Integer.valueOf(1234), trans1.getAmount());
     assertEquals(TransactionOperation.SALE, trans1.getOperation());
     assertEquals(PaymentType.CREDIT_CARD, trans1.getPaymentType());
     assertEquals("000", trans1.getResultCode());
@@ -95,6 +96,7 @@ public class TransactionAttemptTest {
 
     TransactionAttempt trans1 = new TransactionAttempt();
     trans1.setDate(calendar.getTime());
+    trans1.setAmount(1234);
     trans1.setOperation(TransactionOperation.SALE);
     trans1.setPaymentType(PaymentType.CREDIT_CARD);
     trans1.setResultCode("000");

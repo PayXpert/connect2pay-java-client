@@ -30,6 +30,8 @@ public class TransactionAttempt implements Comparable<TransactionAttempt> {
 
   private Date date;
 
+  private Integer amount;
+
   private PaymentType paymentType;
 
   @JsonDeserialize(using = PaymentMeanInfoDeserializer.class)
@@ -64,6 +66,21 @@ public class TransactionAttempt implements Comparable<TransactionAttempt> {
    */
   public void setDate(Date date) {
     this.date = date;
+  }
+
+  /**
+   * @return the amount
+   */
+  public Integer getAmount() {
+    return amount;
+  }
+
+  /**
+   * @param amount
+   *          the amount to set
+   */
+  public void setAmount(Integer amount) {
+    this.amount = amount;
   }
 
   /**
