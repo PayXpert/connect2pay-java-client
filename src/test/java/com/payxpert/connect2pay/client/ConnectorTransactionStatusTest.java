@@ -9,14 +9,12 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.payxpert.connect2pay.client.containers.Shopper;
 import com.payxpert.connect2pay.client.containers.TransactionAttempt;
 import com.payxpert.connect2pay.client.requests.TransactionRequest;
 import com.payxpert.connect2pay.client.requests.TransactionRequestTest;
 import com.payxpert.connect2pay.client.requests.TransactionStatusRequest;
 import com.payxpert.connect2pay.client.response.TransactionResponse;
 import com.payxpert.connect2pay.client.response.TransactionStatusResponse;
-import com.payxpert.connect2pay.constants.PaymentType;
 import com.payxpert.connect2pay.constants.ResultCode;
 import com.payxpert.connect2pay.constants.TransactionStatusValue;
 
@@ -61,21 +59,10 @@ public class ConnectorTransactionStatusTest extends ConnectorTransactionTest {
 
     List<TransactionAttempt> transactionAttempts = statusResponse.getTransactions();
     assertNotNull(transactionAttempts);
-    assertEquals(1, transactionAttempts.size());
+    // API does not return not processed transaction
+    assertEquals(0, transactionAttempts.size());
 
-    TransactionAttempt transactionAttempt = transactionAttempts.get(0);
-
-    // assertEquals(TransactionStatusValue.NOT_PROCESSED, transactionAttempt.getStatus());
-    assertEquals(PaymentType.CREDIT_CARD, transactionAttempt.getPaymentType());
-
-    Shopper shopper = transactionAttempt.getShopper();
-    assertNotNull(shopper);
-
-    assertEquals("ID12345", shopper.getIdNumber());
-    assertEquals("19700101", shopper.getBirthDate());
-
-    assertNotNull(transactionAttempt.getCCPaymentMeanInfo());
-    assertEquals("Bernard Ménez", transactionAttempt.getCCPaymentMeanInfo().getCardHolderName());
+    // TODO: process the transaction and check updated status
   }
 
   /**
