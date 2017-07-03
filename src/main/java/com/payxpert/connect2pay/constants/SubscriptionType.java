@@ -1,7 +1,7 @@
 package com.payxpert.connect2pay.constants;
 
 /**
- * The different types of subscriptions to use in transaction creation.
+ * The different types of subscriptions to use in payment creation.
  * 
  * @author jsh <jsh@payxpert.com>
  * 
@@ -11,19 +11,20 @@ public enum SubscriptionType {
    * Subscription with a fixed number of iterations, can have a trial period.
    */
   NORMAL("normal"),
+
   /**
-   * Subscription that has an initial payment and then is valid forever without
-   * any other payment.
+   * Subscription that has an initial transaction and then is valid forever without any other transaction.
    */
   LIFETIME("lifetime"),
+
   /**
-   * Subscription that has an initial payment and will expire after a certain
-   * time but will not have other payment iteration.
+   * Subscription that has an initial transaction and will expire after a certain time but will not have other
+   * transaction iteration.
    */
   ONETIME("onetime"),
+
   /**
-   * Normal subscription but without a maximum number of iterations, can
-   * potentially last forever.
+   * Normal subscription but without a maximum number of iterations, can potentially last forever.
    */
   INFINITE("infinite");
 

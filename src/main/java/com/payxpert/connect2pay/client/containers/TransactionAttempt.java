@@ -11,17 +11,16 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.payxpert.connect2pay.constants.PaymentStatusValue;
 import com.payxpert.connect2pay.constants.PaymentType;
 import com.payxpert.connect2pay.constants.TransactionOperation;
-import com.payxpert.connect2pay.constants.TransactionStatusValue;
 import com.payxpert.connect2pay.utils.Utils;
 import com.payxpert.connect2pay.utils.json.PaymentMeanInfoDeserializer;
 
 /**
  * This represents an attempt to process a payment. It varies according to the payment type.
  * 
- * @author Alexandre Ch
- * 
+ * @author AcH
  */
 
 public class TransactionAttempt implements Comparable<TransactionAttempt> {
@@ -41,7 +40,7 @@ public class TransactionAttempt implements Comparable<TransactionAttempt> {
   private String resultCode;
   private String resultMessage;
 
-  private TransactionStatusValue status;
+  private PaymentStatusValue status;
   @JsonProperty("transactionID")
   private String transactionId;
   @JsonProperty("subscriptionID")
@@ -219,7 +218,7 @@ public class TransactionAttempt implements Comparable<TransactionAttempt> {
   /**
    * @return the status
    */
-  public TransactionStatusValue getStatus() {
+  public PaymentStatusValue getStatus() {
     return status;
   }
 
@@ -227,7 +226,7 @@ public class TransactionAttempt implements Comparable<TransactionAttempt> {
    * @param status
    *          the status to set
    */
-  public void setStatus(TransactionStatusValue status) {
+  public void setStatus(PaymentStatusValue status) {
     this.status = status;
   }
 

@@ -5,12 +5,12 @@ import com.payxpert.connect2pay.constants.APIRoute;
 import com.payxpert.connect2pay.constants.ResultCode;
 
 /**
- * This class represents the response received to the transaction prepare call.
+ * This class represents the response received to the payment prepare call.
  * 
  * @author jsh
  * 
  */
-public class TransactionResponse extends GenericResponse<TransactionResponse> {
+public class PaymentResponse extends GenericResponse<PaymentResponse> {
   private ResultCode code;
   private String message;
   private String customerToken;
@@ -119,7 +119,7 @@ public class TransactionResponse extends GenericResponse<TransactionResponse> {
         prefix = this.serviceURL;
       }
 
-      return prefix + APIRoute.TRANS_DOPAY.getRoute().replaceAll(":customerToken", this.getCustomerToken());
+      return prefix + APIRoute.PAYMENT_DOPAY.getRoute().replaceAll(":customerToken", this.getCustomerToken());
     }
 
     return null;

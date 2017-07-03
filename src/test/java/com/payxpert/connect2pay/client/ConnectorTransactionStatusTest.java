@@ -10,13 +10,13 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.payxpert.connect2pay.client.containers.TransactionAttempt;
-import com.payxpert.connect2pay.client.requests.TransactionRequest;
+import com.payxpert.connect2pay.client.requests.PaymentRequest;
 import com.payxpert.connect2pay.client.requests.TransactionRequestTest;
-import com.payxpert.connect2pay.client.requests.TransactionStatusRequest;
-import com.payxpert.connect2pay.client.response.TransactionResponse;
-import com.payxpert.connect2pay.client.response.TransactionStatusResponse;
+import com.payxpert.connect2pay.client.requests.PaymentStatusRequest;
+import com.payxpert.connect2pay.client.response.PaymentResponse;
+import com.payxpert.connect2pay.client.response.PaymentStatusResponse;
 import com.payxpert.connect2pay.constants.ResultCode;
-import com.payxpert.connect2pay.constants.TransactionStatusValue;
+import com.payxpert.connect2pay.constants.PaymentStatusValue;
 
 public class ConnectorTransactionStatusTest extends ConnectorTransactionTest {
   @Before
@@ -29,11 +29,11 @@ public class ConnectorTransactionStatusTest extends ConnectorTransactionTest {
    */
   @Test
   public void transactionStatusTestSuccessfull() {
-    TransactionResponse response = null;
-    TransactionRequest request = TransactionRequestTest.getDefaultRequest();
+    PaymentResponse response = null;
+    PaymentRequest request = TransactionRequestTest.getDefaultRequest();
 
     try {
-      response = connector.prepareTransaction(request);
+      response = connector.preparePayment(request);
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -42,12 +42,12 @@ public class ConnectorTransactionStatusTest extends ConnectorTransactionTest {
     assertNotNull(response.getMerchantToken());
     assertEquals(ResultCode.SUCCESS, response.getCode());
 
-    TransactionStatusResponse statusResponse = null;
-    TransactionStatusRequest statusRequest = new TransactionStatusRequest();
+    PaymentStatusResponse statusResponse = null;
+    PaymentStatusRequest statusRequest = new PaymentStatusRequest();
     statusRequest.setMerchantToken(response.getMerchantToken());
 
     try {
-      statusResponse = connector.getTransactionStatus(statusRequest);
+      statusResponse = connector.getPaymentStatus(statusRequest);
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -55,7 +55,7 @@ public class ConnectorTransactionStatusTest extends ConnectorTransactionTest {
     assertNotNull(statusResponse);
     assertNotNull(statusResponse.getCode());
     assertEquals(ResultCode.SUCCESS, statusResponse.getCode());
-    assertEquals(TransactionStatusValue.NOT_PROCESSED, statusResponse.getStatus());
+    assertEquals(PaymentStatusValue.NOT_PROCESSED, statusResponse.getStatus());
 
     List<TransactionAttempt> transactionAttempts = statusResponse.getTransactions();
     assertNotNull(transactionAttempts);
@@ -70,11 +70,11 @@ public class ConnectorTransactionStatusTest extends ConnectorTransactionTest {
    */
   @Test
   public void transactionStatusTestSuccessfullOldApiVersion() {
-    TransactionResponse response = null;
-    TransactionRequest request = TransactionRequestTest.getDefaultRequest();
+    PaymentResponse response = null;
+    PaymentRequest request = TransactionRequestTest.getDefaultRequest();
 
     try {
-      response = connector.prepareTransaction(request);
+      response = connector.preparePayment(request);
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -83,13 +83,13 @@ public class ConnectorTransactionStatusTest extends ConnectorTransactionTest {
     assertNotNull(response.getMerchantToken());
     assertEquals(ResultCode.SUCCESS, response.getCode());
 
-    TransactionStatusResponse statusResponse = null;
-    TransactionStatusRequest statusRequest = new TransactionStatusRequest();
+    PaymentStatusResponse statusResponse = null;
+    PaymentStatusRequest statusRequest = new PaymentStatusRequest();
     statusRequest.setMerchantToken(response.getMerchantToken());
     statusRequest.setApiVersion("002");
 
     try {
-      statusResponse = connector.getTransactionStatus(statusRequest);
+      statusResponse = connector.getPaymentStatus(statusRequest);
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -97,7 +97,7 @@ public class ConnectorTransactionStatusTest extends ConnectorTransactionTest {
     assertNotNull(statusResponse);
     assertNotNull(statusResponse.getCode());
     assertEquals(ResultCode.SUCCESS, statusResponse.getCode());
-    assertEquals(TransactionStatusValue.NOT_PROCESSED, statusResponse.getStatus());
+    assertEquals(PaymentStatusValue.NOT_PROCESSED, statusResponse.getStatus());
   }
 
   /**
@@ -106,12 +106,12 @@ public class ConnectorTransactionStatusTest extends ConnectorTransactionTest {
    */
   @Test
   public void transactionStatusTestInvalidToken() {
-    TransactionStatusResponse statusResponse = null;
-    TransactionStatusRequest statusRequest = new TransactionStatusRequest();
+    PaymentStatusResponse statusResponse = null;
+    PaymentStatusRequest statusRequest = new PaymentStatusRequest();
     statusRequest.setMerchantToken("666999666");
 
     try {
-      statusResponse = connector.getTransactionStatus(statusRequest);
+      statusResponse = connector.getPaymentStatus(statusRequest);
     } catch (Exception e) {
       e.printStackTrace();
     }

@@ -1,13 +1,13 @@
 package com.payxpert.connect2pay.constants;
 
 /**
- * Available Payment Types to be used to build a new transaction.
+ * Available Payment Types to be used to build a new payment.
  * 
  * @author jsh
  * 
  */
 public enum PaymentType {
-    BANK_TRANSFER("BankTransfer"), CREDIT_CARD("CreditCard"), DIRECT_DEBIT("DirectDebit"), TODITO_CASH("ToditoCash");
+  BANK_TRANSFER("BankTransfer"), CREDIT_CARD("CreditCard"), DIRECT_DEBIT("DirectDebit"), TODITO_CASH("ToditoCash");
 
   private String value;
 

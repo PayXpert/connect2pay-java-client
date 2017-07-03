@@ -1,7 +1,7 @@
 package com.payxpert.connect2pay.constants;
 
 /**
- * Available Shipping Types to be used to build transactions.
+ * Available Shipping Types to be used to build payments.
  * 
  * @author jsh
  * 
@@ -11,10 +11,12 @@ public enum ShippingType {
    * Classic physical shipping
    */
   PHYSICAL("Physical"),
+
   /**
    * The order gives an access, no physical delivery
    */
   ACCESS("Access"),
+
   /**
    * The order concerns a virtual product
    */

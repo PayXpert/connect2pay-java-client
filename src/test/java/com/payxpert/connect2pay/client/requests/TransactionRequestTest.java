@@ -93,7 +93,7 @@ public class TransactionRequestTest {
 
   @Test
   public void testSaleRequestWellformed() throws Exception {
-    TransactionRequest request = TransactionRequestTest.getDefaultRequest();
+    PaymentRequest request = TransactionRequestTest.getDefaultRequest();
 
     // No exception must be thrown
     request.validate();
@@ -101,7 +101,7 @@ public class TransactionRequestTest {
 
   @Test
   public void testRequestLongField() throws Exception {
-    TransactionRequest request = TransactionRequestTest.getDefaultRequest();
+    PaymentRequest request = TransactionRequestTest.getDefaultRequest();
     request.setShopperFirstName(
         "123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890");
 
@@ -112,14 +112,14 @@ public class TransactionRequestTest {
 
   @Test(expected = BadRequestException.class)
   public void testSaleRequestMissingAmount() throws Exception {
-    TransactionRequest request = TransactionRequestTest.getDefaultRequest();
+    PaymentRequest request = TransactionRequestTest.getDefaultRequest();
     request.setAmount(null);
     request.validate();
   }
 
   @Test(expected = BadRequestException.class)
   public void testSaleRequestMissingCurrency() throws Exception {
-    TransactionRequest request = TransactionRequestTest.getDefaultRequest();
+    PaymentRequest request = TransactionRequestTest.getDefaultRequest();
     request.setCurrency("");
     request.validate();
   }
@@ -127,7 +127,7 @@ public class TransactionRequestTest {
   @Test
   public void testSaleRequestValidShopperEmailValidation() {
     Validator validation = new Validator();
-    TransactionRequest request = TransactionRequestTest.getDefaultRequest();
+    PaymentRequest request = TransactionRequestTest.getDefaultRequest();
 
     String[] validEmails = new String[] { "NA", "test@test.com" };
     for (String email : validEmails) {
@@ -140,7 +140,7 @@ public class TransactionRequestTest {
   @Test
   public void testSaleRequestInvalidShopperEmailValidation() {
     Validator validation = new Validator();
-    TransactionRequest request = TransactionRequestTest.getDefaultRequest();
+    PaymentRequest request = TransactionRequestTest.getDefaultRequest();
 
     String[] invalidEmails = new String[] { "na", "on", "test@test", "test#test.com.test" };
     for (String email : invalidEmails) {
@@ -152,7 +152,7 @@ public class TransactionRequestTest {
 
   @Test
   public void testJsonFormating() {
-    TransactionRequest request = getDefaultFullRequest();
+    PaymentRequest request = getDefaultFullRequest();
 
     String json = "";
     try {
@@ -175,7 +175,7 @@ public class TransactionRequestTest {
 
   @Test
   public void testSetBirthDate() {
-    TransactionRequest request = getDefaultFullRequest();
+    PaymentRequest request = getDefaultFullRequest();
     Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Etc/UTC"));
 
     request.setShopperBirthDate("19700208");
@@ -202,8 +202,8 @@ public class TransactionRequestTest {
     assertEquals("20160831", request.getShopperBirthDate());
   }
 
-  public static TransactionRequest getDefaultRequest() {
-    TransactionRequest request = new TransactionRequest();
+  public static PaymentRequest getDefaultRequest() {
+    PaymentRequest request = new PaymentRequest();
 
     request.setPaymentType(PaymentType.CREDIT_CARD).setPaymentMode(PaymentMode.SINGLE)
         .setOrderId(new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date()));
@@ -216,8 +216,8 @@ public class TransactionRequestTest {
     return request;
   }
 
-  public static TransactionRequest getDefaultFullRequest() {
-    TransactionRequest request = getDefaultRequest();
+  public static PaymentRequest getDefaultFullRequest() {
+    PaymentRequest request = getDefaultRequest();
 
     request.setShipToFirstName("Bernard").setShipToLastName("Ménez").setShipToAddress("Passeig de Gracia, 55")
         .setShipToZipcode("08008").setShipToCity("Barcelona").setShipToState("Barcelona").setShipToCountryCode("ES")

@@ -2,6 +2,14 @@ package com.payxpert.connect2pay.client.containers;
 
 import java.util.Date;
 
+/**
+ * Information about a Credit Card.
+ * 
+ * Returned in the status of a payment. Some fields may be empty according to the permissions associated with the
+ * account.
+ * 
+ * @author jsh
+ */
 public class CreditCardPaymentMeanInfo extends PaymentMeanInfo {
 
   private Date date;

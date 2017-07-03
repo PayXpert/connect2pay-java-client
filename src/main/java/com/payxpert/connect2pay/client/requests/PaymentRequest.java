@@ -25,12 +25,12 @@ import net.sf.oval.constraint.NotNull;
 import net.sf.oval.constraint.Range;
 
 /**
- * This class represents the initial request made by the merchant to initialize a transaction:
+ * This class represents the initial request made by the merchant to initialize a payment:
  * <ul>
  * <li>Instantiate</li>
  * <li>Set the value of the variables</li>
- * <li>Call {@link TransactionRequest#validate()} to check that it is ok</li>
- * <li>Use it in {@link Connect2payClient#prepareTransaction(TransactionRequest)}</li>
+ * <li>Call {@link PaymentRequest#validate()} to check that it is ok</li>
+ * <li>Use it in {@link Connect2payClient#preparePayment(PaymentRequest)}</li>
  * </ul>
  * 
  * String fields will be automatically truncated to the maximum length allowed by the API.
@@ -38,7 +38,7 @@ import net.sf.oval.constraint.Range;
  * @author jsh
  * 
  */
-public class TransactionRequest extends GenericRequest<TransactionRequest> {
+public class PaymentRequest extends GenericRequest<PaymentRequest> {
 
   // Customer fields
   // Shipping Information
@@ -181,7 +181,7 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
   private Long themeId;
 
   @Override
-  protected TransactionRequest getThis() {
+  protected PaymentRequest getThis() {
     return this;
   }
 
@@ -202,7 +202,7 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
    * @deprecated Removed since API 002.02
    */
   @Deprecated
-  public TransactionRequest setAfClientId(Integer afClientId) {
+  public PaymentRequest setAfClientId(Integer afClientId) {
     return getThis();
   }
 
@@ -223,7 +223,7 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
    * @deprecated Removed since API 002.02
    */
   @Deprecated
-  public TransactionRequest setAfPassword(String afPassword) {
+  public PaymentRequest setAfPassword(String afPassword) {
     return getThis();
   }
 
@@ -240,7 +240,7 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
    * 
    * @return The current request for method chaining
    */
-  public TransactionRequest setShopperId(String shopperId) {
+  public PaymentRequest setShopperId(String shopperId) {
     this.shopperId = shopperId;
     return getThis();
   }
@@ -253,7 +253,7 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
    * @deprecated since 002.50
    */
   @Deprecated
-  public TransactionRequest setShopperId(Integer shopperId) {
+  public PaymentRequest setShopperId(Integer shopperId) {
     if (shopperId == null) {
       this.shopperId = null;
     } else {
@@ -275,7 +275,7 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
    * 
    * @return The current request for method chaining
    */
-  public TransactionRequest setShopperEmail(String shopperEmail) {
+  public PaymentRequest setShopperEmail(String shopperEmail) {
     this.shopperEmail = this.limitLength(shopperEmail, 100);
     return getThis();
   }
@@ -293,7 +293,7 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
    * 
    * @return The current request for method chaining
    */
-  public TransactionRequest setShipToFirstName(String shipToFirstName) {
+  public PaymentRequest setShipToFirstName(String shipToFirstName) {
     this.shipToFirstName = this.limitLength(shipToFirstName, 35);
     return getThis();
   }
@@ -311,7 +311,7 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
    * 
    * @return The current request for method chaining
    */
-  public TransactionRequest setShipToLastName(String shipToLastName) {
+  public PaymentRequest setShipToLastName(String shipToLastName) {
     this.shipToLastName = this.limitLength(shipToLastName, 35);
     return getThis();
   }
@@ -329,7 +329,7 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
    * 
    * @return The current request for method chaining
    */
-  public TransactionRequest setShipToCompany(String shipToCompany) {
+  public PaymentRequest setShipToCompany(String shipToCompany) {
     this.shipToCompany = this.limitLength(shipToCompany, 128);
     return getThis();
   }
@@ -347,7 +347,7 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
    * 
    * @return The current request for method chaining
    */
-  public TransactionRequest setShipToPhone(String shipToPhone) {
+  public PaymentRequest setShipToPhone(String shipToPhone) {
     this.shipToPhone = this.limitLength(shipToPhone, 20);
     return getThis();
   }
@@ -365,7 +365,7 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
    * 
    * @return The current request for method chaining
    */
-  public TransactionRequest setShipToAddress(String shipToAddress) {
+  public PaymentRequest setShipToAddress(String shipToAddress) {
     this.shipToAddress = this.limitLength(shipToAddress, 255);
     return getThis();
   }
@@ -383,7 +383,7 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
    * 
    * @return The current request for method chaining
    */
-  public TransactionRequest setShipToState(String shipToState) {
+  public PaymentRequest setShipToState(String shipToState) {
     this.shipToState = this.limitLength(shipToState, 30);
     return getThis();
   }
@@ -401,7 +401,7 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
    * 
    * @return The current request for method chaining
    */
-  public TransactionRequest setShipToZipcode(String shipToZipcode) {
+  public PaymentRequest setShipToZipcode(String shipToZipcode) {
     this.shipToZipcode = this.limitLength(shipToZipcode, 10);
     return getThis();
   }
@@ -419,7 +419,7 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
    * 
    * @return The current request for method chaining
    */
-  public TransactionRequest setShipToCity(String shipToCity) {
+  public PaymentRequest setShipToCity(String shipToCity) {
     this.shipToCity = this.limitLength(shipToCity, 50);
     return getThis();
   }
@@ -437,7 +437,7 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
    * 
    * @return The current request for method chaining
    */
-  public TransactionRequest setShipToCountryCode(String shipToCountryCode) {
+  public PaymentRequest setShipToCountryCode(String shipToCountryCode) {
     this.shipToCountryCode = this.limitLength(shipToCountryCode, 2);
     return getThis();
   }
@@ -455,7 +455,7 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
    * 
    * @return The current request for method chaining
    */
-  public TransactionRequest setShopperFirstName(String shopperFirstName) {
+  public PaymentRequest setShopperFirstName(String shopperFirstName) {
     this.shopperFirstName = this.limitLength(shopperFirstName, 35);
     return getThis();
   }
@@ -473,7 +473,7 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
    * 
    * @return The current request for method chaining
    */
-  public TransactionRequest setShopperLastName(String shopperLastName) {
+  public PaymentRequest setShopperLastName(String shopperLastName) {
     this.shopperLastName = this.limitLength(shopperLastName, 35);
     return getThis();
   }
@@ -491,7 +491,7 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
    * 
    * @return The current request for method chaining
    */
-  public TransactionRequest setShopperPhone(String shopperPhone) {
+  public PaymentRequest setShopperPhone(String shopperPhone) {
     this.shopperPhone = this.limitLength(shopperPhone, 20);
     return getThis();
   }
@@ -509,7 +509,7 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
    * 
    * @return The current request for method chaining
    */
-  public TransactionRequest setShopperAddress(String shopperAddress) {
+  public PaymentRequest setShopperAddress(String shopperAddress) {
     this.shopperAddress = this.limitLength(shopperAddress, 255);
     return getThis();
   }
@@ -527,7 +527,7 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
    * 
    * @return The current request for method chaining
    */
-  public TransactionRequest setShopperState(String shopperState) {
+  public PaymentRequest setShopperState(String shopperState) {
     this.shopperState = this.limitLength(shopperState, 30);
     return getThis();
   }
@@ -545,7 +545,7 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
    * 
    * @return The current request for method chaining
    */
-  public TransactionRequest setShopperZipcode(String shopperZipcode) {
+  public PaymentRequest setShopperZipcode(String shopperZipcode) {
     this.shopperZipcode = this.limitLength(shopperZipcode, 10);
     return getThis();
   }
@@ -563,7 +563,7 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
    * 
    * @return The current request for method chaining
    */
-  public TransactionRequest setShopperCity(String shopperCity) {
+  public PaymentRequest setShopperCity(String shopperCity) {
     this.shopperCity = this.limitLength(shopperCity, 50);
     return getThis();
   }
@@ -581,7 +581,7 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
    * 
    * @return The current request for method chaining
    */
-  public TransactionRequest setShopperCountryCode(String shopperCountryCode) {
+  public PaymentRequest setShopperCountryCode(String shopperCountryCode) {
     this.shopperCountryCode = this.limitLength(shopperCountryCode, 2);
     return getThis();
   }
@@ -599,7 +599,7 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
    * 
    * @return The current request for method chaining
    */
-  public TransactionRequest setShopperCompany(String shopperCompany) {
+  public PaymentRequest setShopperCompany(String shopperCompany) {
     this.shopperCompany = this.limitLength(shopperCompany, 128);
     return getThis();
   }
@@ -617,7 +617,7 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
    * 
    * @return The current request for method chaining
    */
-  public TransactionRequest setShopperLoyaltyProgram(String shopperLoyaltyProgram) {
+  public PaymentRequest setShopperLoyaltyProgram(String shopperLoyaltyProgram) {
     this.shopperLoyaltyProgram = this.limitLength(shopperLoyaltyProgram, 50);
     return getThis();
   }
@@ -635,7 +635,7 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
    * 
    * @return The current request for method chaining
    */
-  public TransactionRequest setShopperBirthDate(String shopperBirthDate) {
+  public PaymentRequest setShopperBirthDate(String shopperBirthDate) {
     this.shopperBirthDate = this.limitLength(shopperBirthDate, 8);
     return getThis();
   }
@@ -646,7 +646,7 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
    * 
    * @return The current request for method chaining
    */
-  public TransactionRequest setShopperBirthDate(Date shopperBirthDate) {
+  public PaymentRequest setShopperBirthDate(Date shopperBirthDate) {
     if (shopperBirthDate == null) {
       this.shopperBirthDate = null;
     } else {
@@ -673,7 +673,7 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
    * 
    * @return The current request for method chaining
    */
-  public TransactionRequest setShopperIDNumber(String shopperIDNumber) {
+  public PaymentRequest setShopperIDNumber(String shopperIDNumber) {
     this.shopperIDNumber = this.limitLength(shopperIDNumber, 32);
     return getThis();
   }
@@ -691,7 +691,7 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
    * 
    * @return The current request for method chaining
    */
-  public TransactionRequest setOrderId(String orderId) {
+  public PaymentRequest setOrderId(String orderId) {
     this.orderId = this.limitLength(orderId, 100);
     return getThis();
   }
@@ -709,7 +709,7 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
    * 
    * @return The current request for method chaining
    */
-  public TransactionRequest setCurrency(String currency) {
+  public PaymentRequest setCurrency(String currency) {
     this.currency = this.limitLength(currency, 3);
     return getThis();
   }
@@ -727,7 +727,7 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
    * 
    * @return The current request for method chaining
    */
-  public TransactionRequest setAmount(Integer amount) {
+  public PaymentRequest setAmount(Integer amount) {
     this.amount = amount;
     return getThis();
   }
@@ -745,7 +745,7 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
    * 
    * @return The current request for method chaining
    */
-  public TransactionRequest setOrderTotalWithoutShipping(Integer orderTotalWithoutShipping) {
+  public PaymentRequest setOrderTotalWithoutShipping(Integer orderTotalWithoutShipping) {
     this.orderTotalWithoutShipping = orderTotalWithoutShipping;
     return getThis();
   }
@@ -763,7 +763,7 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
    * 
    * @return The current request for method chaining
    */
-  public TransactionRequest setOrderShippingPrice(Integer orderShippingPrice) {
+  public PaymentRequest setOrderShippingPrice(Integer orderShippingPrice) {
     this.orderShippingPrice = orderShippingPrice;
     return getThis();
   }
@@ -781,7 +781,7 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
    * 
    * @return The current request for method chaining
    */
-  public TransactionRequest setOrderDiscount(Integer orderDiscount) {
+  public PaymentRequest setOrderDiscount(Integer orderDiscount) {
     this.orderDiscount = orderDiscount;
     return getThis();
   }
@@ -803,7 +803,7 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
    * @deprecated This field is not present anymore in the API, the value is obtained from the connected user
    */
   @Deprecated
-  public TransactionRequest setCustomerIP(String customerIP) {
+  public PaymentRequest setCustomerIP(String customerIP) {
     return getThis();
   }
 
@@ -820,7 +820,7 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
    * 
    * @return The current request for method chaining
    */
-  public TransactionRequest setOrderFOLanguage(String orderFOLanguage) {
+  public PaymentRequest setOrderFOLanguage(String orderFOLanguage) {
     this.orderFOLanguage = this.limitLength(orderFOLanguage, 50);
     return getThis();
   }
@@ -838,7 +838,7 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
    * 
    * @return The current request for method chaining
    */
-  public TransactionRequest setOrderDescription(String orderDescription) {
+  public PaymentRequest setOrderDescription(String orderDescription) {
     this.orderDescription = this.limitLength(orderDescription, 500);
     return getThis();
   }
@@ -856,7 +856,7 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
    * 
    * @return The current request for method chaining
    */
-  public TransactionRequest setOrderCartContent(List<Product> orderCartContent) {
+  public PaymentRequest setOrderCartContent(List<Product> orderCartContent) {
     this.orderCartContent = orderCartContent;
     return getThis();
   }
@@ -874,7 +874,7 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
    * 
    * @return The current request for method chaining
    */
-  public TransactionRequest setShippingType(ShippingType shippingType) {
+  public PaymentRequest setShippingType(ShippingType shippingType) {
     this.shippingType = shippingType;
     return getThis();
   }
@@ -892,7 +892,7 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
    * 
    * @return The current request for method chaining
    */
-  public TransactionRequest setShippingName(String shippingName) {
+  public PaymentRequest setShippingName(String shippingName) {
     this.shippingName = this.limitLength(shippingName, 50);
     return getThis();
   }
@@ -910,7 +910,7 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
    * 
    * @return The current request for method chaining
    */
-  public TransactionRequest setPaymentMode(PaymentMode paymentMode) {
+  public PaymentRequest setPaymentMode(PaymentMode paymentMode) {
     this.paymentMode = paymentMode;
     return getThis();
   }
@@ -928,7 +928,7 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
    * 
    * @return The current request for method chaining
    */
-  public TransactionRequest setPaymentType(PaymentType paymentType) {
+  public PaymentRequest setPaymentType(PaymentType paymentType) {
     this.paymentType = paymentType;
     return getThis();
   }
@@ -946,7 +946,7 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
    * 
    * @return The current request for method chaining
    */
-  public TransactionRequest setOperation(TransactionOperation operation) {
+  public PaymentRequest setOperation(TransactionOperation operation) {
     this.operation = operation;
     return getThis();
   }
@@ -964,7 +964,7 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
    * 
    * @return The current request for method chaining
    */
-  public TransactionRequest setSecure3d(Boolean secure3d) {
+  public PaymentRequest setSecure3d(Boolean secure3d) {
     this.secure3d = secure3d;
     return getThis();
   }
@@ -982,7 +982,7 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
    * 
    * @return The current request for method chaining
    */
-  public TransactionRequest setOfferId(Long offerId) {
+  public PaymentRequest setOfferId(Long offerId) {
     this.offerId = offerId;
     return getThis();
   }
@@ -1000,7 +1000,7 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
    * 
    * @return The current request for method chaining
    */
-  public TransactionRequest setSubscriptionType(SubscriptionType subscriptionType) {
+  public PaymentRequest setSubscriptionType(SubscriptionType subscriptionType) {
     this.subscriptionType = subscriptionType;
     return getThis();
   }
@@ -1018,7 +1018,7 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
    * 
    * @return The current request for method chaining
    */
-  public TransactionRequest setTrialPeriod(String trialPeriod) {
+  public PaymentRequest setTrialPeriod(String trialPeriod) {
     this.trialPeriod = this.limitLength(trialPeriod, 10);
     return getThis();
   }
@@ -1036,7 +1036,7 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
    * 
    * @return The current request for method chaining
    */
-  public TransactionRequest setRebillAmount(Integer rebillAmount) {
+  public PaymentRequest setRebillAmount(Integer rebillAmount) {
     this.rebillAmount = rebillAmount;
     return getThis();
   }
@@ -1054,7 +1054,7 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
    * 
    * @return The current request for method chaining
    */
-  public TransactionRequest setRebillPeriod(String rebillPeriod) {
+  public PaymentRequest setRebillPeriod(String rebillPeriod) {
     this.rebillPeriod = this.limitLength(rebillPeriod, 10);
     return getThis();
   }
@@ -1072,7 +1072,7 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
    * 
    * @return The current request for method chaining
    */
-  public TransactionRequest setRebillMaxIteration(Integer rebillMaxIteration) {
+  public PaymentRequest setRebillMaxIteration(Integer rebillMaxIteration) {
     this.rebillMaxIteration = rebillMaxIteration;
     return getThis();
   }
@@ -1090,7 +1090,7 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
    * 
    * @return The current request for method chaining
    */
-  public TransactionRequest setCtrlRedirectURL(String ctrlRedirectURL) {
+  public PaymentRequest setCtrlRedirectURL(String ctrlRedirectURL) {
     this.ctrlRedirectURL = this.limitLength(ctrlRedirectURL, 2048);
     return getThis();
   }
@@ -1108,7 +1108,7 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
    * 
    * @return The current request for method chaining
    */
-  public TransactionRequest setCtrlCallbackURL(String ctrlCallbackURL) {
+  public PaymentRequest setCtrlCallbackURL(String ctrlCallbackURL) {
     this.ctrlCallbackURL = this.limitLength(ctrlCallbackURL, 2048);
     return getThis();
   }
@@ -1126,7 +1126,7 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
    * 
    * @return The current request for method chaining
    */
-  public TransactionRequest setCtrlCustomData(String ctrlCustomData) {
+  public PaymentRequest setCtrlCustomData(String ctrlCustomData) {
     this.ctrlCustomData = this.limitLength(ctrlCustomData, 2048);
     return getThis();
   }
@@ -1144,7 +1144,7 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
    * 
    * @return The current request for method chaining
    */
-  public TransactionRequest setTimeOut(String timeOut) {
+  public PaymentRequest setTimeOut(String timeOut) {
     this.timeOut = timeOut;
     return getThis();
   }
@@ -1162,7 +1162,7 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
    * 
    * @return The current request for method chaining
    */
-  public TransactionRequest setMerchantNotification(Boolean merchantNotification) {
+  public PaymentRequest setMerchantNotification(Boolean merchantNotification) {
     this.merchantNotification = merchantNotification;
     return getThis();
   }
@@ -1180,7 +1180,7 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
    * 
    * @return The current request for method chaining
    */
-  public TransactionRequest setMerchantNotificationTo(String merchantNotificationTo) {
+  public PaymentRequest setMerchantNotificationTo(String merchantNotificationTo) {
     this.merchantNotificationTo = merchantNotificationTo;
     return getThis();
   }
@@ -1196,7 +1196,7 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
    * @param merchantNotificationLang
    *          the merchantNotificationLang to set
    */
-  public TransactionRequest setMerchantNotificationLang(C2PLang merchantNotificationLang) {
+  public PaymentRequest setMerchantNotificationLang(C2PLang merchantNotificationLang) {
     this.merchantNotificationLang = merchantNotificationLang;
     return getThis();
   }
@@ -1214,7 +1214,7 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
    * 
    * @return The current request for method chaining
    */
-  public TransactionRequest setThemeId(Long themeId) {
+  public PaymentRequest setThemeId(Long themeId) {
     this.themeId = themeId;
     return getThis();
   }
@@ -1255,12 +1255,12 @@ public class TransactionRequest extends GenericRequest<TransactionRequest> {
     public boolean isSatisfied(Object validatedObject, Object value) {
       if (validatedObject != null && value != null) {
         SubscriptionType type = null;
-        TransactionRequest request = null;
-        if (validatedObject instanceof TransactionRequest) {
-          request = (TransactionRequest) validatedObject;
+        PaymentRequest request = null;
+        if (PaymentRequest.class.isAssignableFrom(validatedObject.getClass())) {
+          request = PaymentRequest.class.cast(validatedObject);
         }
-        if (value instanceof SubscriptionType) {
-          type = (SubscriptionType) value;
+        if (SubscriptionType.class.isAssignableFrom(value.getClass())) {
+          type = SubscriptionType.class.cast(value);
         }
 
         if (request != null && type != null) {

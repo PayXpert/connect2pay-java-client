@@ -11,7 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.payxpert.connect2pay.client.requests.TransactionRequestTest;
-import com.payxpert.connect2pay.client.response.TransactionResponse;
+import com.payxpert.connect2pay.client.response.PaymentResponse;
 
 public class ConnectorConnectionTest extends ConnectorTransactionTest {
   private static final String TEST_URL = "https://10.1.222.222";
@@ -27,12 +27,12 @@ public class ConnectorConnectionTest extends ConnectorTransactionTest {
     Connect2payClient connector = new Connect2payClient("https://127.0.0.255", DEFAULT_ORIGINATOR, DEFAULT_PASSWORD);
     long duration = 0;
     connector.setTimeOutInMilliSeconds(TIMEOUT);
-    TransactionResponse response = null;
+    PaymentResponse response = null;
 
     long start = System.currentTimeMillis();
 
     try {
-      response = connector.prepareTransaction(TransactionRequestTest.getDefaultRequest());
+      response = connector.preparePayment(TransactionRequestTest.getDefaultRequest());
       // This must not be executed
       Assert.assertNotNull(null);
     } catch (Exception e) {
@@ -54,13 +54,13 @@ public class ConnectorConnectionTest extends ConnectorTransactionTest {
         DEFAULT_PASSWORD);
 
     connector.setTimeOutInMilliSeconds(TIMEOUT);
-    TransactionResponse response = null;
+    PaymentResponse response = null;
     long duration = 0;
 
     long start = System.currentTimeMillis();
 
     try {
-      response = connector.prepareTransaction(TransactionRequestTest.getDefaultRequest());
+      response = connector.preparePayment(TransactionRequestTest.getDefaultRequest());
       // This must not be executed
       fail("Exception not present: An Exception must have been thrown");
     } catch (Exception e) {
@@ -81,12 +81,12 @@ public class ConnectorConnectionTest extends ConnectorTransactionTest {
     Connect2payClient connector = new Connect2payClient(TEST_URL, DEFAULT_ORIGINATOR, DEFAULT_PASSWORD);
 
     connector.setTimeOutInMilliSeconds(TIMEOUT);
-    TransactionResponse response = null;
+    PaymentResponse response = null;
     long duration = 0;
     long start = System.currentTimeMillis();
 
     try {
-      response = connector.prepareTransaction(TransactionRequestTest.getDefaultRequest());
+      response = connector.preparePayment(TransactionRequestTest.getDefaultRequest());
       // This must not be executed
       Assert.assertNotNull(null);
     } catch (Exception e) {

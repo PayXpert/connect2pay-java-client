@@ -15,12 +15,12 @@
 
  <p>Example of a payment creation with user redirection:</p>
  <pre>
-   // Process a transaction of €39.99 
-   TransactionRequest request = new TransactionRequest();
+   // Process a payment of €39.99
+   PaymentRequest request = new PaymentRequest();
    request.setOrderId("1234ABCD").setCurrency("EUR").setAmount(3999);
-   request.setCustomerIP("10.10.10.10").setShippingType(ShippingType.VIRTUAL);
+   request.setShippingType(ShippingType.VIRTUAL);
    request.setPaymentMode(PaymentMode.SINGLE);
-   // User wil be redirected here when clicking on "Go back to merchant" button
+   // User will be redirected here when clicking on "Go back to merchant" button
    request.setCtrlRedirectURL("http://my.website/somewhere");
    // The payment page will do a callback on this URL after the payment is processed
    request.setCtrlCallbackURL("http://my.website/payment-callback");
@@ -34,10 +34,11 @@
    }
    
    // Instantiate the client and send the prepare request
+   // Second argument is the originator ID, third one is the associated API key
    Connect2payClient c2p = new Connect2payClient("https://provided.url", "123456", "GreatP4ssw0rd");
-   TransactionResponse response = null;
+   PaymentResponse response = null;
    try {
-     response = c2p.prepareTransaction(request);
+     response = c2p.preparePayment(request);
    } catch (Exception e) {
      logger.error("Ooops, an error occurred preparing the payment: " + e.getMessage());
      // Handle the error...
@@ -59,8 +60,9 @@
  <pre>
    // Instantiate the client and handle the callback
    Connect2payClient c2p = new Connect2payClient("https://provided.url", "123456", "GreatP4ssw0rd");
-   TransactionStatusResponse response = null;
+   PaymentStatusResponse response = null;
    try {
+     // Request is either the body of the received request as a string or an InputStream pointing to the received body
      response = c2p.handleCallbackStatus(request);
    } catch (Exception e) {
      logger.error("Ooops, an error occurred handling the callback: " + e.getMessage());

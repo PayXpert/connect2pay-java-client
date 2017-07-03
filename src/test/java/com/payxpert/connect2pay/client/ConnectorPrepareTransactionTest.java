@@ -3,9 +3,9 @@ package com.payxpert.connect2pay.client;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.payxpert.connect2pay.client.requests.TransactionRequest;
+import com.payxpert.connect2pay.client.requests.PaymentRequest;
 import com.payxpert.connect2pay.client.requests.TransactionRequestTest;
-import com.payxpert.connect2pay.client.response.TransactionResponse;
+import com.payxpert.connect2pay.client.response.PaymentResponse;
 import com.payxpert.connect2pay.constants.ResultCode;
 
 public class ConnectorPrepareTransactionTest extends ConnectorTransactionTest {
@@ -15,10 +15,10 @@ public class ConnectorPrepareTransactionTest extends ConnectorTransactionTest {
   @Test
   public void prepareTransactionTestSuccessfull() {
     this.connector = new Connect2payClient(TEST_URL, DEFAULT_ORIGINATOR, DEFAULT_PASSWORD);
-    TransactionResponse response = null;
+    PaymentResponse response = null;
 
     try {
-      response = this.connector.prepareTransaction(TransactionRequestTest.getDefaultRequest());
+      response = this.connector.preparePayment(TransactionRequestTest.getDefaultRequest());
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -36,10 +36,10 @@ public class ConnectorPrepareTransactionTest extends ConnectorTransactionTest {
   @Test
   public void prepareTransactionAuthFailed() {
     this.connector = new Connect2payClient(TEST_URL, DEFAULT_ORIGINATOR, "BadPassword");
-    TransactionResponse response = null;
+    PaymentResponse response = null;
 
     try {
-      response = this.connector.prepareTransaction(TransactionRequestTest.getDefaultRequest());
+      response = this.connector.preparePayment(TransactionRequestTest.getDefaultRequest());
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -57,13 +57,13 @@ public class ConnectorPrepareTransactionTest extends ConnectorTransactionTest {
   @Test
   public void prepareTransactionTestInvalidRequest() {
     this.connector = new Connect2payClient(TEST_URL, DEFAULT_ORIGINATOR, DEFAULT_PASSWORD);
-    TransactionResponse response = null;
+    PaymentResponse response = null;
 
-    TransactionRequest request = TransactionRequestTest.getDefaultRequest();
+    PaymentRequest request = TransactionRequestTest.getDefaultRequest();
     request.setCurrency(null);
 
     try {
-      response = this.connector.prepareTransaction(request);
+      response = this.connector.preparePayment(request);
     } catch (Exception e) {
       e.printStackTrace();
     }

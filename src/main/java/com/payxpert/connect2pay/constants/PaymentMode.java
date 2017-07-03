@@ -1,7 +1,7 @@
 package com.payxpert.connect2pay.constants;
 
 /**
- * Available Payment Modes to be used to build the transaction.
+ * Available Payment Modes to be used to build the payment.
  * 
  * @author jsh
  * 
@@ -11,14 +11,17 @@ public enum PaymentMode {
    * Single payment
    */
   SINGLE("Single"),
+
   /**
    * Payment will be done on shipping
    */
   ONSHIPPING("OnShipping"),
+
   /**
    * The payment will be recurrent (subscription)
    */
   RECURRENT("Recurrent"),
+
   /**
    * Installment payment (or part payment)
    */

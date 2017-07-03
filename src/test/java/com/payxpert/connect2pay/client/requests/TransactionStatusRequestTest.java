@@ -7,7 +7,7 @@ import com.payxpert.connect2pay.exception.BadRequestException;
 public class TransactionStatusRequestTest {
   @Test
   public void testTransactionStatusRequestWellformed() throws Exception {
-    TransactionStatusRequest request = getDefaultRequest();
+    PaymentStatusRequest request = getDefaultRequest();
 
     // No exception must be thrown
     request.validate();
@@ -15,13 +15,13 @@ public class TransactionStatusRequestTest {
 
   @Test(expected = BadRequestException.class)
   public void testTransactionStatusRequestMissingTransactionId() throws Exception {
-    TransactionStatusRequest request = getDefaultRequest();
+    PaymentStatusRequest request = getDefaultRequest();
     request.setMerchantToken(null);
     request.validate();
   }
 
-  public static TransactionStatusRequest getDefaultRequest() {
-    TransactionStatusRequest request = new TransactionStatusRequest();
+  public static PaymentStatusRequest getDefaultRequest() {
+    PaymentStatusRequest request = new PaymentStatusRequest();
 
     request.setMerchantToken("a2xta2VyKm1sw6lrbWFza2ZtKmHDqW1MS8OpbWZ6YWxmZGs=");
 
