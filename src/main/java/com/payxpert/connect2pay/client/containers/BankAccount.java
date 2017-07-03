@@ -1,5 +1,10 @@
 package com.payxpert.connect2pay.client.containers;
 
+/**
+ * Information about a bank account used in a bank transfer payment.
+ * 
+ * @author jsh
+ */
 public class BankAccount {
 
   private String holderName;

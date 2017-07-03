@@ -5,17 +5,17 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.payxpert.connect2pay.client.containers.TransactionAttempt;
+import com.payxpert.connect2pay.constants.PaymentStatusValue;
 import com.payxpert.connect2pay.constants.ResultCode;
 import com.payxpert.connect2pay.constants.TransactionOperation;
-import com.payxpert.connect2pay.constants.TransactionStatusValue;
 
 /**
- * This class represents the response to a transaction status request.
+ * This class represents the response to a payment status request.
  * 
  * @author jsh
  * 
  */
-public class TransactionStatusResponse extends GenericResponse<TransactionStatusResponse> {
+public class PaymentStatusResponse extends GenericResponse<PaymentStatusResponse> {
   // Library internal field, not returned by the API call
   private ResultCode code;
   private String message;
@@ -27,7 +27,7 @@ public class TransactionStatusResponse extends GenericResponse<TransactionStatus
   private String errorCode;
   private String errorMessage;
 
-  private TransactionStatusValue status;
+  private PaymentStatusValue status;
 
   private String ctrlCustomData;
   @JsonProperty("orderID")
@@ -130,7 +130,7 @@ public class TransactionStatusResponse extends GenericResponse<TransactionStatus
   /**
    * @return the status
    */
-  public TransactionStatusValue getStatus() {
+  public PaymentStatusValue getStatus() {
     return status;
   }
 
@@ -138,7 +138,7 @@ public class TransactionStatusResponse extends GenericResponse<TransactionStatus
    * @param status
    *          the status to set
    */
-  public void setStatus(TransactionStatusValue status) {
+  public void setStatus(PaymentStatusValue status) {
     this.status = status;
   }
 

@@ -14,7 +14,7 @@ import org.junit.Test;
 
 import com.payxpert.connect2pay.client.containers.Shopper;
 import com.payxpert.connect2pay.client.containers.TransactionAttempt;
-import com.payxpert.connect2pay.client.response.TransactionStatusResponse;
+import com.payxpert.connect2pay.client.response.PaymentStatusResponse;
 import com.payxpert.connect2pay.constants.PaymentType;
 import com.payxpert.connect2pay.constants.ResultCode;
 import com.payxpert.connect2pay.utils.CryptoHelper;
@@ -32,7 +32,7 @@ public class ConnectorHandleRedirectTest extends ConnectorTransactionTest {
   public void handleRedirectTestSuccessfull() {
     String merchantToken = "W2n1yR8UXNJBrJxbsqOy3g";
     String encryptedData = this.getEncryptedData(merchantToken);
-    TransactionStatusResponse response = null;
+    PaymentStatusResponse response = null;
     try {
       response = connector.handleRedirectStatus(encryptedData, merchantToken);
     } catch (Exception e) {
@@ -72,7 +72,7 @@ public class ConnectorHandleRedirectTest extends ConnectorTransactionTest {
     // Set an invalid Key
     merchantToken = "W2n1yR8UXNJBrJxbsqOy";
 
-    TransactionStatusResponse response = connector.handleRedirectStatus(encryptedData, merchantToken);
+    PaymentStatusResponse response = connector.handleRedirectStatus(encryptedData, merchantToken);
 
     assertNull(response);
   }
@@ -88,7 +88,7 @@ public class ConnectorHandleRedirectTest extends ConnectorTransactionTest {
     String encryptedData = this.getEncryptedData(merchantToken);
     encryptedData = encryptedData.substring(0, encryptedData.length() - 5);
 
-    TransactionStatusResponse response = connector.handleRedirectStatus(encryptedData, merchantToken);
+    PaymentStatusResponse response = connector.handleRedirectStatus(encryptedData, merchantToken);
 
     assertNull(response);
   }

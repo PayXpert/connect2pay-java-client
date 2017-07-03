@@ -1,22 +1,22 @@
 package com.payxpert.connect2pay.client.requests;
 
-import net.sf.oval.constraint.NotNull;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import net.sf.oval.constraint.NotNull;
+
 /**
- * Request for the transaction status API call.
+ * Request for the payment status API call.
  * 
  * @author jsh
  * 
  */
-public class TransactionStatusRequest extends GenericRequest<TransactionStatusRequest> {
+public class PaymentStatusRequest extends GenericRequest<PaymentStatusRequest> {
   @NotNull
   @JsonIgnore
   private String merchantToken;
 
   @Override
-  protected TransactionStatusRequest getThis() {
+  protected PaymentStatusRequest getThis() {
     return this;
   }
 
@@ -33,7 +33,7 @@ public class TransactionStatusRequest extends GenericRequest<TransactionStatusRe
    * 
    * @return The current request for method chaining
    */
-  public TransactionStatusRequest setMerchantToken(String merchantToken) {
+  public PaymentStatusRequest setMerchantToken(String merchantToken) {
     this.merchantToken = merchantToken;
     return getThis();
   }

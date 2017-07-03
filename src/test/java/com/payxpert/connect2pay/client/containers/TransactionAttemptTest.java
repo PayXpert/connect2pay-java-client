@@ -9,7 +9,7 @@ import org.junit.Test;
 
 import com.payxpert.connect2pay.constants.PaymentType;
 import com.payxpert.connect2pay.constants.TransactionOperation;
-import com.payxpert.connect2pay.constants.TransactionStatusValue;
+import com.payxpert.connect2pay.constants.PaymentStatusValue;
 
 public class TransactionAttemptTest {
 
@@ -32,7 +32,7 @@ public class TransactionAttemptTest {
     assertEquals("000", trans1.getResultCode());
     assertEquals("Success", trans1.getResultMessage());
 
-    assertEquals(TransactionStatusValue.AUTHORIZED, trans1.getStatus());
+    assertEquals(PaymentStatusValue.AUTHORIZED, trans1.getStatus());
     assertEquals(Long.valueOf(123456L), trans1.getSubscriptionId());
     assertEquals("QWERTY01234", trans1.getTransactionId());
 
@@ -114,7 +114,7 @@ public class TransactionAttemptTest {
     shopper.setState("New York state");
 
     trans1.setShopper(shopper);
-    trans1.setStatus(TransactionStatusValue.AUTHORIZED);
+    trans1.setStatus(PaymentStatusValue.AUTHORIZED);
     trans1.setSubscriptionId(123456L);
     trans1.setTransactionId("QWERTY01234");
 

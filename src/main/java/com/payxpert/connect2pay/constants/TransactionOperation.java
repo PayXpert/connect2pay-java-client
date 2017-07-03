@@ -1,8 +1,8 @@
 package com.payxpert.connect2pay.constants;
 
 /**
- * Types of operation done by a transaction. This is enforced on the payment
- * page application and returned in the transaction status.
+ * Types of operation done by a transaction. This is enforced on the payment page application and returned in the
+ * payment status.
  * 
  * @author jsh
  * 

@@ -16,11 +16,11 @@ import com.payxpert.connect2pay.client.containers.BankTransferPaymentMeanInfo;
 import com.payxpert.connect2pay.client.containers.CreditCardPaymentMeanInfo;
 import com.payxpert.connect2pay.client.containers.Shopper;
 import com.payxpert.connect2pay.client.containers.TransactionAttempt;
-import com.payxpert.connect2pay.client.response.TransactionStatusResponse;
+import com.payxpert.connect2pay.client.response.PaymentStatusResponse;
 import com.payxpert.connect2pay.constants.PaymentType;
 import com.payxpert.connect2pay.constants.ResultCode;
 import com.payxpert.connect2pay.constants.TransactionOperation;
-import com.payxpert.connect2pay.constants.TransactionStatusValue;
+import com.payxpert.connect2pay.constants.PaymentStatusValue;
 
 public class ConnectorHandleCallbackTest extends ConnectorTransactionTest {
   @Before
@@ -90,7 +90,7 @@ public class ConnectorHandleCallbackTest extends ConnectorTransactionTest {
     receivedData.append(']');
     receivedData.append('}');
 
-    TransactionStatusResponse response = null;
+    PaymentStatusResponse response = null;
     try {
       response = connector.handleCallbackStatus(receivedData.toString());
     } catch (Exception e) {
@@ -108,7 +108,7 @@ public class ConnectorHandleCallbackTest extends ConnectorTransactionTest {
     assertEquals("Transaction successfully completed", response.getErrorMessage());
 
     assertEquals(TransactionOperation.SALE, response.getOperation());
-    assertEquals(TransactionStatusValue.AUTHORIZED, response.getStatus());
+    assertEquals(PaymentStatusValue.AUTHORIZED, response.getStatus());
     assertEquals("Give that back to me please !!", response.getCtrlCustomData());
     assertEquals("2014-04-02-14.32.45", response.getOrderId());
 
@@ -128,7 +128,7 @@ public class ConnectorHandleCallbackTest extends ConnectorTransactionTest {
     assertEquals(TransactionOperation.SALE, transactionAttempt.getOperation());
     assertEquals("000", transactionAttempt.getResultCode());
     assertEquals("Transaction successfully completed", transactionAttempt.getResultMessage());
-    assertEquals(TransactionStatusValue.AUTHORIZED, transactionAttempt.getStatus());
+    assertEquals(PaymentStatusValue.AUTHORIZED, transactionAttempt.getStatus());
     assertEquals("18253", transactionAttempt.getTransactionId());
     assertNull(transactionAttempt.getSubscriptionId());
 
@@ -228,7 +228,7 @@ public class ConnectorHandleCallbackTest extends ConnectorTransactionTest {
     receivedData.append(']');
     receivedData.append('}');
 
-    TransactionStatusResponse response = null;
+    PaymentStatusResponse response = null;
     try {
       response = connector.handleCallbackStatus(receivedData.toString());
     } catch (Exception e) {
@@ -246,7 +246,7 @@ public class ConnectorHandleCallbackTest extends ConnectorTransactionTest {
     assertEquals("Transaction successfully completed", response.getErrorMessage());
 
     assertEquals(TransactionOperation.SALE, response.getOperation());
-    assertEquals(TransactionStatusValue.AUTHORIZED, response.getStatus());
+    assertEquals(PaymentStatusValue.AUTHORIZED, response.getStatus());
     assertEquals("Give that back to me please !!", response.getCtrlCustomData());
     assertEquals("2014-04-02-14.32.45", response.getOrderId());
 
@@ -266,7 +266,7 @@ public class ConnectorHandleCallbackTest extends ConnectorTransactionTest {
     assertEquals(TransactionOperation.SALE, transactionAttempt.getOperation());
     assertEquals("000", transactionAttempt.getResultCode());
     assertEquals("Transaction successfully completed", transactionAttempt.getResultMessage());
-    assertEquals(TransactionStatusValue.AUTHORIZED, transactionAttempt.getStatus());
+    assertEquals(PaymentStatusValue.AUTHORIZED, transactionAttempt.getStatus());
     assertEquals("18253", transactionAttempt.getTransactionId());
     assertNull(transactionAttempt.getSubscriptionId());
 

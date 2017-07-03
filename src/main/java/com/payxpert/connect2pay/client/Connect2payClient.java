@@ -9,14 +9,14 @@ import java.io.UnsupportedEncodingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.payxpert.connect2pay.client.requests.PaymentRequest;
+import com.payxpert.connect2pay.client.requests.PaymentStatusRequest;
 import com.payxpert.connect2pay.client.requests.SubscriptionCancelRequest;
 import com.payxpert.connect2pay.client.requests.TransactionRefundRequest;
-import com.payxpert.connect2pay.client.requests.TransactionRequest;
-import com.payxpert.connect2pay.client.requests.TransactionStatusRequest;
+import com.payxpert.connect2pay.client.response.PaymentResponse;
+import com.payxpert.connect2pay.client.response.PaymentStatusResponse;
 import com.payxpert.connect2pay.client.response.SubscriptionCancelResponse;
 import com.payxpert.connect2pay.client.response.TransactionRefundResponse;
-import com.payxpert.connect2pay.client.response.TransactionResponse;
-import com.payxpert.connect2pay.client.response.TransactionStatusResponse;
 import com.payxpert.connect2pay.constants.APIRoute;
 import com.payxpert.connect2pay.constants.ResultCode;
 import com.payxpert.connect2pay.exception.HttpForbiddenException;
@@ -25,14 +25,14 @@ import com.payxpert.connect2pay.utils.Connect2payRESTClient;
 import com.payxpert.connect2pay.utils.CryptoHelper;
 
 /**
- * Client class for the payment page application.<br>
- * The normal transaction creation workflow is as follows:
+ * Main client class for the payment page application.<br>
+ * The normal payment creation workflow is as follows:
  * <ul>
- * <li>Instantiate the {@link TransactionRequest} class</li>
- * <li>Set all the required parameters of the transaction</li>
- * <li>Validate the request object by calling {@link TransactionRequest#validate()}</li>
- * <li>Call {@link Connect2payClient#prepareTransaction(TransactionRequest)} to create the transaction</li>
- * <li>Call {@link TransactionResponse#getCustomerRedirectURL()} and redirect the customer to this URL</li>
+ * <li>Instantiate the {@link PaymentRequest} class</li>
+ * <li>Set all the required parameters of the payment</li>
+ * <li>Validate the request object by calling {@link PaymentRequest#validate()}</li>
+ * <li>Call {@link Connect2payClient#preparePayment(PaymentRequest)} to create the payment</li>
+ * <li>Call {@link PaymentResponse#getCustomerRedirectURL()} and redirect the customer to this URL</li>
  * <li>If receiving result via callback (recommended), use {@link Connect2payClient#handleCallbackStatus(String)} to
  * initialize the status from the POST request</li>
  * <li>When receiving the result via customer redirection, use
@@ -42,7 +42,7 @@ import com.payxpert.connect2pay.utils.CryptoHelper;
  * This class does not do any sanitization on received data. This must be done externally.<br>
  * Every text must be encoded as UTF-8 when passed to this class.<br>
  * 
- * @version 1.0.6 (20170505)
+ * @version 1.0.7 (20170703)
  * @author JsH <jsh@payxpert.com><br>
  *         Copyright 2011-2017 PayXpert
  * 
@@ -73,7 +73,7 @@ public class Connect2payClient {
   }
 
   /**
-   * This is used in blocking scenario. Client will time out after waiting this amount of time in milliseconds.
+   * Client will time out after waiting this amount of time in milliseconds.
    * 
    * @param timeOutInMilliSeconds
    *          : time in MilliSeconds
@@ -84,7 +84,7 @@ public class Connect2payClient {
   }
 
   /**
-   * Set the virtual host this request will use
+   * Set the virtual host this request will use. May be required when using an outgoing proxy.
    * 
    * @since Version 1.0.6
    */
@@ -105,7 +105,7 @@ public class Connect2payClient {
   }
 
   /**
-   * Allows to set outgoing authentified proxy information.
+   * Allows to set outgoing authenticated proxy information.
    * 
    * @param host
    *          Proxy hostname
@@ -131,31 +131,42 @@ public class Connect2payClient {
   }
 
   /**
-   * Prepare a new transaction on the payment page application. This method will call the payment page application to
-   * create a new transaction.
-   * 
-   * @return The TransactionResponse object or null on error
+   * Use preparePayment instead
    */
-  public TransactionResponse prepareTransaction(TransactionRequest request) throws Exception {
+  @Deprecated
+  public PaymentResponse prepareTransaction(PaymentRequest request) throws Exception {
+    return this.preparePayment(request);
+  }
+
+  /**
+   * Prepare a new payment on the payment page application. This method will call the payment page application to create
+   * a new payment.
+   * 
+   * @param request
+   *          The PaymentRequest object
+   * @return The PaymentResponse object or null on error
+   */
+  public PaymentResponse preparePayment(PaymentRequest request) throws Exception {
     if (request == null) {
       throw new NullPointerException();
     }
 
-    this.httpClient.setUrl(this.serviceUrl + APIRoute.TRANS_PREPARE.getRoute()).setBody(request.toJson());
+    this.httpClient.setUrl(this.serviceUrl + APIRoute.PAYMENT_PREPARE.getRoute()).setBody(request.toJson());
     if (logger.isDebugEnabled()) {
-      logger.debug("Doing prepare transaction with body: " + request.toJson());
+      logger.debug("Doing prepare payment with body: " + request.toJson());
     }
-    TransactionResponse response = null;
+
+    PaymentResponse response = null;
     try {
       String json = this.httpClient.post();
-      response = new TransactionResponse().fromJson(json);
+      response = new PaymentResponse().fromJson(json);
       if (response != null) {
         response.setServiceURL(this.serviceUrl);
       }
     } catch (HttpForbiddenException e) {
-      response = new TransactionResponse().fromJson(AUTH_FAILED_JSON);
+      response = new PaymentResponse().fromJson(AUTH_FAILED_JSON);
     } catch (Exception e) {
-      logger.error("Prepare call failed: " + e.getClass().getSimpleName() + " - " + e.getMessage());
+      logger.error("Prepare payment call failed: " + e.getClass().getSimpleName() + " - " + e.getMessage());
       throw e;
     }
 
@@ -163,36 +174,45 @@ public class Connect2payClient {
   }
 
   /**
-   * Do a transaction status request on the payment page application.
+   * Use getPaymentStatus instead
+   */
+  @Deprecated
+  public PaymentStatusResponse getTransactionStatus(PaymentStatusRequest request) throws Exception {
+    return this.getPaymentStatus(request);
+  }
+
+  /**
+   * Do a payment status request on the payment page application.
    * 
    * @param request
-   *          The transaction status request object to use
-   * @return The TransactionStatus object of the transaction or null on error
+   *          The payment status request object to use
+   * @return The PaymentStatusResponse object of the payment or null on error
    */
-  public TransactionStatusResponse getTransactionStatus(TransactionStatusRequest request) throws Exception {
+  public PaymentStatusResponse getPaymentStatus(PaymentStatusRequest request) throws Exception {
     if (request == null) {
       throw new NullPointerException();
     }
 
-    String url = APIRoute.TRANS_STATUS.getRoute().replaceAll(":merchantToken", request.getMerchantToken());
+    String url = APIRoute.PAYMENT_STATUS.getRoute().replaceAll(":merchantToken", request.getMerchantToken());
     this.httpClient.setUrl(this.serviceUrl + url);
     this.httpClient.setParameter("apiVersion", request.getApiVersion());
     if (logger.isDebugEnabled()) {
-      logger.debug("Doing Transaction status request.");
+      logger.debug("Doing Payment status request.");
     }
-    TransactionStatusResponse response = null;
+
+    PaymentStatusResponse response = null;
     try {
       String json = this.httpClient.get();
-      response = new TransactionStatusResponse().fromJson(json);
+      response = new PaymentStatusResponse().fromJson(json);
       if (response != null) {
         response.setCode(ResultCode.SUCCESS);
       }
     } catch (HttpForbiddenException e) {
-      response = new TransactionStatusResponse().fromJson(AUTH_FAILED_JSON);
+      response = new PaymentStatusResponse().fromJson(AUTH_FAILED_JSON);
     } catch (HttpNotFoundException e) {
-      response = new TransactionStatusResponse().fromJson(NOT_FOUND_JSON);
+      response = new PaymentStatusResponse().fromJson(NOT_FOUND_JSON);
     } catch (Exception e) {
-      logger.error("Transaction status call failed: " + e.getClass().getSimpleName() + " - " + e.getMessage());
+      logger.error("Payment status call failed: " + e.getClass().getSimpleName() + " - " + e.getMessage());
       throw e;
     }
 
@@ -216,6 +236,7 @@ public class Connect2payClient {
     if (logger.isDebugEnabled()) {
       logger.debug("Doing Transaction Refund request.");
     }
+
     TransactionRefundResponse response = null;
     try {
       String json = this.httpClient.post();
@@ -249,6 +270,7 @@ public class Connect2payClient {
     if (logger.isDebugEnabled()) {
       logger.debug("Doing Subscription cancel request.");
     }
+
     SubscriptionCancelResponse response = null;
     try {
       String json = this.httpClient.post();
@@ -275,11 +297,11 @@ public class Connect2payClient {
    * @return The TransactionStatus object of the transaction or null on error
    * @throws Exception
    */
-  public TransactionStatusResponse handleRedirectStatus(String encryptedData, String merchantToken) throws Exception {
+  public PaymentStatusResponse handleRedirectStatus(String encryptedData, String merchantToken) throws Exception {
     if (encryptedData == null || merchantToken == null) {
       throw new NullPointerException();
     }
-    TransactionStatusResponse response = null;
+    PaymentStatusResponse response = null;
 
     // Decrypt the JSON using the merchantToken as key
     String json = null;
@@ -292,7 +314,7 @@ public class Connect2payClient {
 
     if (json != null) {
       try {
-        response = new TransactionStatusResponse().fromJson(json);
+        response = new PaymentStatusResponse().fromJson(json);
         if (response != null) {
           response.setCode(ResultCode.SUCCESS);
         }
@@ -313,7 +335,7 @@ public class Connect2payClient {
    * @return The TransactionStatus object of the transaction or null on error
    * @throws Exception
    */
-  public TransactionStatusResponse handleCallbackStatus(InputStream requestStream) throws Exception {
+  public PaymentStatusResponse handleCallbackStatus(InputStream requestStream) throws Exception {
     char[] buff = new char[1024];
     StringBuilder writer = new StringBuilder();
 
@@ -352,14 +374,14 @@ public class Connect2payClient {
    * @return The TransactionStatus object of the transaction or null on error
    * @throws Exception
    */
-  public TransactionStatusResponse handleCallbackStatus(String requestBody) throws Exception {
+  public PaymentStatusResponse handleCallbackStatus(String requestBody) throws Exception {
     if (requestBody == null) {
       throw new NullPointerException();
     }
-    TransactionStatusResponse response = null;
+    PaymentStatusResponse response = null;
 
     try {
-      response = new TransactionStatusResponse().fromJson(requestBody);
+      response = new PaymentStatusResponse().fromJson(requestBody);
       if (response != null) {
         response.setCode(ResultCode.SUCCESS);
       }

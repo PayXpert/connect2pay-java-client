@@ -1,5 +1,10 @@
 package com.payxpert.connect2pay.client.containers;
 
+/**
+ * Information about a Todito Cash card.
+ * 
+ * @author jsh
+ */
 public class ToditoPaymentMeanInfo extends PaymentMeanInfo {
   private String cardNumber;
 

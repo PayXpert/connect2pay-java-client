@@ -12,12 +12,12 @@ import com.payxpert.connect2pay.client.containers.TransactionAttempt;
 import com.payxpert.connect2pay.client.containers.TransactionAttemptTest;
 import com.payxpert.connect2pay.constants.ResultCode;
 import com.payxpert.connect2pay.constants.TransactionOperation;
-import com.payxpert.connect2pay.constants.TransactionStatusValue;
+import com.payxpert.connect2pay.constants.PaymentStatusValue;
 
 public class TransactionStatusResponseTest {
   @Test
   public void testTransactionStatusResponse() {
-    TransactionStatusResponse response = getDefaultRequest();
+    PaymentStatusResponse response = getDefaultRequest();
 
     assertEquals(Integer.valueOf(1012), response.getAmount());
     assertEquals(ResultCode.SUCCESS, response.getCode());
@@ -29,7 +29,7 @@ public class TransactionStatusResponseTest {
     assertEquals(TransactionOperation.SALE, response.getOperation());
     assertEquals("MyOrder1234", response.getOrderId());
     assertEquals("000", response.getErrorCode());
-    assertEquals(TransactionStatusValue.AUTHORIZED, response.getStatus());
+    assertEquals(PaymentStatusValue.AUTHORIZED, response.getStatus());
 
     List<TransactionAttempt> transactionAttempts = response.getTransactions();
     assertNotNull(transactionAttempts);
@@ -74,8 +74,8 @@ public class TransactionStatusResponseTest {
     assertEquals("testTransactionStatusResponse", lastTransactionAttempt.getResultMessage());
   }
 
-  public static TransactionStatusResponse getDefaultRequest() {
-    TransactionStatusResponse reponse = new TransactionStatusResponse();
+  public static PaymentStatusResponse getDefaultRequest() {
+    PaymentStatusResponse reponse = new PaymentStatusResponse();
     reponse.setAmount(1012);
     reponse.setCode(ResultCode.SUCCESS);
     reponse.setCtrlCustomData("{mydata:\"test\"}");
@@ -86,7 +86,7 @@ public class TransactionStatusResponseTest {
     reponse.setOperation(TransactionOperation.SALE);
     reponse.setOrderId("MyOrder1234");
     reponse.setErrorCode("000");
-    reponse.setStatus(TransactionStatusValue.AUTHORIZED);
+    reponse.setStatus(PaymentStatusValue.AUTHORIZED);
 
     TransactionAttempt transactionAttempt = new TransactionAttemptTest().getDefaultTransactionAttempt();
     reponse.addTransactionAttempt(transactionAttempt);

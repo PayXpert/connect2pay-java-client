@@ -10,7 +10,7 @@ import com.payxpert.connect2pay.constants.ShippingType;
 import com.payxpert.connect2pay.constants.SubscriptionCancelReason;
 import com.payxpert.connect2pay.constants.SubscriptionType;
 import com.payxpert.connect2pay.constants.TransactionOperation;
-import com.payxpert.connect2pay.constants.TransactionStatusValue;
+import com.payxpert.connect2pay.constants.PaymentStatusValue;
 
 /**
  * Jackson JSON module for the application.
@@ -36,7 +36,7 @@ public class Connect2payClientJacksonModule extends SimpleModule {
     context.setMixInAnnotations(SubscriptionType.class, SubscriptionTypeMixIn.class);
     context.setMixInAnnotations(ResultCode.class, ResultCodeMixIn.class);
     context.setMixInAnnotations(TransactionOperation.class, TransactionOperationMixIn.class);
-    context.setMixInAnnotations(TransactionStatusValue.class, TransactionStatusValueMixIn.class);
+    context.setMixInAnnotations(PaymentStatusValue.class, TransactionStatusValueMixIn.class);
     context.setMixInAnnotations(C2PLang.class, C2PLangMixIn.class);
   }
 

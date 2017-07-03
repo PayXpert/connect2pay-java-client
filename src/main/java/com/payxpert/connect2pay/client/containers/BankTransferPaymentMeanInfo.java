@@ -1,5 +1,12 @@
 package com.payxpert.connect2pay.client.containers;
 
+/**
+ * Information about a bank transfer payment mean.
+ * 
+ * Can be empty if the provider does not support this.
+ * 
+ * @author jsh
+ */
 public class BankTransferPaymentMeanInfo extends PaymentMeanInfo {
 
   private BankAccount sender;
