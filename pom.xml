@@ -8,6 +8,25 @@
 	<artifactId>connect2pay-client</artifactId>
 	<version>1.0.7</version>
 	<packaging>jar</packaging>
+
+	<name>Connect2Pay Client</name>
+	<description>This is the Java implementation of the Connect2pay Payment Page API.</description>
+	<url>https://www.payxpert.com/</url>
+
+	<licenses>
+		<license>
+			<name>Apache License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
+	<scm>
+		<connection>scm:git:git://github.com/PayXpert/connect2pay-java-client.git</connection>
+		<developerConnection>scm:git:ssh://github.com:PayXpert/connect2pay-java-client.git</developerConnection>
+		<url>https://github.com/PayXpert/connect2pay-java-client/tree/master</url>
+	</scm>
+
 	<build>
 		<plugins>
 			<plugin>
