@@ -8,8 +8,8 @@ import java.util.TimeZone;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.payxpert.connect2pay.client.Connect2payClient;
 import com.payxpert.connect2pay.constants.C2PLang;
+import com.payxpert.connect2pay.constants.PaymentMethod;
 import com.payxpert.connect2pay.constants.PaymentMode;
-import com.payxpert.connect2pay.constants.PaymentType;
 import com.payxpert.connect2pay.constants.ShippingType;
 import com.payxpert.connect2pay.constants.SubscriptionType;
 import com.payxpert.connect2pay.constants.TransactionOperation;
@@ -96,6 +96,13 @@ public class PaymentRequest extends GenericRequest<PaymentRequest> {
   @MaxLength(32)
   private String shopperIDNumber;
 
+  // Affiliation fields
+  @JsonProperty("affiliateID")
+  @MaxLength(16)
+  private String affiliateId;
+  @MaxLength(128)
+  private String campaignName;
+
   // Order fields
   @NotNull
   @NotEmpty
@@ -131,8 +138,9 @@ public class PaymentRequest extends GenericRequest<PaymentRequest> {
   @NotNull
   private PaymentMode paymentMode;
 
-  @NotNull
-  private PaymentType paymentType;
+  private PaymentMethod paymentMethod;
+
+  private String paymentNetwork;
 
   private TransactionOperation operation;
 
@@ -679,6 +687,38 @@ public class PaymentRequest extends GenericRequest<PaymentRequest> {
   }
 
   /**
+   * @return the affiliate ID
+   */
+  public String getAffiliateId() {
+    return this.affiliateId;
+  }
+
+  /**
+   * @param affiliateId
+   *          The affiliate ID to set
+   */
+  public PaymentRequest setAffiliateId(String affiliateId) {
+    this.affiliateId = this.limitLength(affiliateId, 16);
+    return getThis();
+  }
+
+  /**
+   * @return The affiliation campaign name
+   */
+  public String getCampaignName() {
+    return this.campaignName;
+  }
+
+  /**
+   * @param campaignName
+   *          The affiliation campaign name to set
+   */
+  public PaymentRequest setCampaignName(String campaignName) {
+    this.campaignName = this.limitLength(campaignName, 128);
+    return getThis();
+  }
+
+  /**
    * @return the orderID
    */
   public String getOrderId() {
@@ -915,22 +955,61 @@ public class PaymentRequest extends GenericRequest<PaymentRequest> {
     return getThis();
   }
 
-  /**
-   * @return the paymentType
-   */
-  public PaymentType getPaymentType() {
-    return paymentType;
+  @Deprecated
+  public PaymentMethod getPaymentType() {
+    return this.getPaymentMethod();
+  }
+
+  @Deprecated
+  public PaymentRequest setPaymentType(PaymentMethod paymentType) {
+    return this.setPaymentMethod(paymentType);
   }
 
   /**
-   * @param paymentType
-   *          the paymentType to set
+   * @return the paymentMethod
+   */
+  public PaymentMethod getPaymentMethod() {
+    return paymentMethod;
+  }
+
+  /**
+   * @param paymentMethod
+   *          the paymentMethod to set
    * 
    * @return The current request for method chaining
    */
-  public PaymentRequest setPaymentType(PaymentType paymentType) {
-    this.paymentType = paymentType;
+  public PaymentRequest setPaymentMethod(PaymentMethod paymentMethod) {
+    this.paymentMethod = paymentMethod;
     return getThis();
+  }
+
+  @Deprecated
+  public PaymentRequest setProvider(String provider) {
+    this.paymentNetwork = provider;
+    return getThis();
+  }
+
+  @Deprecated
+  public String getProvider() {
+    return paymentNetwork;
+  }
+
+  /**
+   * @param paymentNetwork
+   *          the Payment Network to set
+   * 
+   * @return The current request for method chaining
+   */
+  public PaymentRequest setPaymentNetwork(String paymentNetwork) {
+    this.paymentNetwork = paymentNetwork;
+    return getThis();
+  }
+
+  /**
+   * @return the Payment Network
+   */
+  public String getPaymentNetwork() {
+    return paymentNetwork;
   }
 
   /**

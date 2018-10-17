@@ -5,18 +5,30 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
+import java.util.Objects;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.payxpert.connect2pay.client.requests.AccountInformationRequest;
 import com.payxpert.connect2pay.client.requests.PaymentRequest;
 import com.payxpert.connect2pay.client.requests.PaymentStatusRequest;
 import com.payxpert.connect2pay.client.requests.SubscriptionCancelRequest;
+import com.payxpert.connect2pay.client.requests.TransactionCancelRequest;
+import com.payxpert.connect2pay.client.requests.TransactionInfoRequest;
+import com.payxpert.connect2pay.client.requests.TransactionRebillRequest;
+import com.payxpert.connect2pay.client.requests.TransactionRefundConfirmRequest;
 import com.payxpert.connect2pay.client.requests.TransactionRefundRequest;
+import com.payxpert.connect2pay.client.requests.WeChatDirectProcessRequest;
+import com.payxpert.connect2pay.client.response.AccountInformationResponse;
 import com.payxpert.connect2pay.client.response.PaymentResponse;
 import com.payxpert.connect2pay.client.response.PaymentStatusResponse;
 import com.payxpert.connect2pay.client.response.SubscriptionCancelResponse;
+import com.payxpert.connect2pay.client.response.TransactionCancelResponse;
+import com.payxpert.connect2pay.client.response.TransactionInfoResponse;
+import com.payxpert.connect2pay.client.response.TransactionRebillResponse;
 import com.payxpert.connect2pay.client.response.TransactionRefundResponse;
+import com.payxpert.connect2pay.client.response.WeChatDirectProcessResponse;
 import com.payxpert.connect2pay.constants.APIRoute;
 import com.payxpert.connect2pay.constants.ResultCode;
 import com.payxpert.connect2pay.exception.HttpForbiddenException;
@@ -220,6 +232,45 @@ public class Connect2payClient {
   }
 
   /**
+   * Do a transaction information request on the payment page application.
+   * 
+   * @param request
+   *          The transaction information request object to use
+   * @return The TransactionAttempt object for the transaction or null on error
+   */
+  public TransactionInfoResponse getTransactionInfo(TransactionInfoRequest request) throws Exception {
+    if (request == null) {
+      throw new NullPointerException();
+    }
+
+    String url = APIRoute.TRANS_INFO.getRoute().replaceAll(":transactionId", request.getTransactionId());
+    this.httpClient.setUrl(this.serviceUrl + url);
+    this.httpClient.setParameter("apiVersion", request.getApiVersion());
+    if (logger.isDebugEnabled()) {
+      logger.debug("Doing transaction info request.");
+    }
+
+    TransactionInfoResponse response = null;
+    try {
+      String json = this.httpClient.get();
+
+      response = new TransactionInfoResponse().fromJson(json);
+      if (response != null) {
+        response.setCode(ResultCode.SUCCESS);
+      }
+    } catch (HttpForbiddenException e) {
+      response = new TransactionInfoResponse().fromJson(AUTH_FAILED_JSON);
+    } catch (HttpNotFoundException e) {
+      response = new TransactionInfoResponse().fromJson(NOT_FOUND_JSON);
+    } catch (Exception e) {
+      logger.error("Transaction info call failed: " + e.getClass().getSimpleName() + " - " + e.getMessage());
+      throw e;
+    }
+
+    return response;
+  }
+
+  /**
    * Do a transaction refund request on the payment page application.
    * 
    * @param request
@@ -227,9 +278,7 @@ public class Connect2payClient {
    * @return The transaction refund response object or null on error
    */
   public TransactionRefundResponse refundTransaction(TransactionRefundRequest request) throws Exception {
-    if (request == null) {
-      throw new NullPointerException();
-    }
+    Objects.requireNonNull(request);
 
     String url = APIRoute.TRANS_REFUND.getRoute().replaceAll(":transactionId", request.getTransactionId());
     this.httpClient.setUrl(this.serviceUrl + url).setBody(request.toJson());
@@ -247,6 +296,95 @@ public class Connect2payClient {
       response = new TransactionRefundResponse().fromJson(NOT_FOUND_JSON);
     } catch (Exception e) {
       logger.error("Transaction refund call failed: " + e.getClass().getSimpleName() + " - " + e.getMessage());
+      throw e;
+    }
+
+    return response;
+  }
+
+  public TransactionRefundResponse refundConfirmTransaction(TransactionRefundConfirmRequest request) throws Exception {
+    Objects.requireNonNull(request);
+
+    String url = APIRoute.TRANS_REFUND_CONFIRM.getRoute().replaceAll(":transactionId", request.getTransactionId());
+    this.httpClient.setUrl(this.serviceUrl + url).setBody(request.toJson());
+    if (logger.isDebugEnabled()) {
+      logger.debug("Doing Transaction Refund confirm request.");
+    }
+
+    TransactionRefundResponse response = null;
+    try {
+      String json = this.httpClient.post();
+      response = new TransactionRefundResponse().fromJson(json);
+    } catch (HttpForbiddenException e) {
+      response = new TransactionRefundResponse().fromJson(AUTH_FAILED_JSON);
+    } catch (HttpNotFoundException e) {
+      response = new TransactionRefundResponse().fromJson(NOT_FOUND_JSON);
+    } catch (Exception e) {
+      logger.error("Transaction refund confirm call failed: " + e.getClass().getSimpleName() + " - " + e.getMessage());
+      throw e;
+    }
+
+    return response;
+  }
+
+  /**
+   * Do a transaction rebill request for a transaction on the payment page application.
+   * 
+   * @param request
+   *          The transaction rebill request object to use
+   * @return The transaction rebill response object or null on error
+   */
+  public TransactionRebillResponse rebillTransaction(TransactionRebillRequest request) throws Exception {
+    Objects.requireNonNull(request);
+
+    String url = APIRoute.TRANS_REBILL.getRoute().replaceAll(":transactionId", request.getTransactionId());
+    this.httpClient.setUrl(this.serviceUrl + url).setBody(request.toJson());
+    if (logger.isDebugEnabled()) {
+      logger.debug("Processing Transaction Rebill request.");
+    }
+
+    TransactionRebillResponse response = null;
+    try {
+      String json = this.httpClient.post();
+      response = new TransactionRebillResponse().fromJson(json);
+    } catch (HttpForbiddenException e) {
+      response = new TransactionRebillResponse().fromJson(AUTH_FAILED_JSON);
+    } catch (HttpNotFoundException e) {
+      response = new TransactionRebillResponse().fromJson(NOT_FOUND_JSON);
+    } catch (Exception e) {
+      logger.error("Transaction rebill call failed: " + e.getClass().getSimpleName() + " - " + e.getMessage());
+      throw e;
+    }
+
+    return response;
+  }
+
+  /**
+   * Do a transaction cancel request for a transaction on the payment page application.
+   * 
+   * @param request
+   *          The transaction cancel request object to use
+   * @return The transaction cancel response object or null on error
+   */
+  public TransactionCancelResponse cancelTransaction(TransactionCancelRequest request) throws Exception {
+    Objects.requireNonNull(request);
+
+    String url = APIRoute.TRANS_CANCEL.getRoute().replaceAll(":transactionId", request.getTransactionId());
+    this.httpClient.setUrl(this.serviceUrl + url).setBody(request.toJson());
+    if (logger.isDebugEnabled()) {
+      logger.debug("Processing Transaction Cancel request.");
+    }
+
+    TransactionCancelResponse response = null;
+    try {
+      String json = this.httpClient.post();
+      response = new TransactionCancelResponse().fromJson(json);
+    } catch (HttpForbiddenException e) {
+      response = new TransactionCancelResponse().fromJson(AUTH_FAILED_JSON);
+    } catch (HttpNotFoundException e) {
+      response = new TransactionCancelResponse().fromJson(NOT_FOUND_JSON);
+    } catch (Exception e) {
+      logger.error("Transaction cancel call failed: " + e.getClass().getSimpleName() + " - " + e.getMessage());
       throw e;
     }
 
@@ -392,4 +530,83 @@ public class Connect2payClient {
 
     return response;
   }
+
+  /**
+   * Do an account information request on the payment page application.
+   * 
+   * @param request
+   *          The account information request object to use
+   * @return The AccountInformationResponse object for the account or null on error
+   */
+  public AccountInformationResponse getAccountInformation(AccountInformationRequest request) throws Exception {
+    if (request == null) {
+      throw new NullPointerException();
+    }
+
+    String url = APIRoute.ACCOUNT_INFO.getRoute();
+    this.httpClient.setUrl(this.serviceUrl + url);
+    this.httpClient.setParameter("apiVersion", request.getApiVersion());
+    if (logger.isDebugEnabled()) {
+      logger.debug("Doing account information request.");
+    }
+
+    AccountInformationResponse response = null;
+    try {
+      String json = this.httpClient.get();
+
+      response = new AccountInformationResponse().fromJson(json);
+      if (response != null) {
+        response.setCode(ResultCode.SUCCESS);
+      }
+    } catch (HttpForbiddenException e) {
+      response = new AccountInformationResponse().fromJson(AUTH_FAILED_JSON);
+    } catch (HttpNotFoundException e) {
+      response = new AccountInformationResponse().fromJson(NOT_FOUND_JSON);
+    } catch (Exception e) {
+      logger.error("Account information call failed: " + e.getClass().getSimpleName() + " - " + e.getMessage());
+      throw e;
+    }
+
+    return response;
+  }
+
+  /**
+   * Do a direct WeChat transaction process
+   * 
+   * @param request
+   *          The WeChat direct process request object to use
+   * @return The WeChatDirectProcessResponse object or null on error
+   */
+  public WeChatDirectProcessResponse weChatDirectProcess(WeChatDirectProcessRequest request) throws Exception {
+    if (request == null) {
+      throw new NullPointerException();
+    }
+
+    String url = APIRoute.WECHAT_DIRECT.getRoute().replaceAll(":customerToken", request.getCustomerToken());
+    this.httpClient.setUrl(this.serviceUrl + url);
+
+    if (logger.isDebugEnabled()) {
+      logger.debug("Doing WeChat direct process request.");
+    }
+
+    WeChatDirectProcessResponse response = null;
+    try {
+      String json = this.httpClient.post();
+
+      response = new WeChatDirectProcessResponse().fromJson(json);
+      if (response != null) {
+        response.setCode(ResultCode.SUCCESS);
+      }
+    } catch (HttpForbiddenException e) {
+      response = new WeChatDirectProcessResponse().fromJson(AUTH_FAILED_JSON);
+    } catch (HttpNotFoundException e) {
+      response = new WeChatDirectProcessResponse().fromJson(NOT_FOUND_JSON);
+    } catch (Exception e) {
+      logger.error("weChat Direct Process call failed: " + e.getClass().getSimpleName() + " - " + e.getMessage());
+      throw e;
+    }
+
+    return response;
+  }
+
 }

@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.Version;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.payxpert.connect2pay.constants.C2PLang;
 import com.payxpert.connect2pay.constants.PaymentMode;
-import com.payxpert.connect2pay.constants.PaymentType;
+import com.payxpert.connect2pay.constants.PaymentMethod;
 import com.payxpert.connect2pay.constants.ResultCode;
 import com.payxpert.connect2pay.constants.ShippingType;
 import com.payxpert.connect2pay.constants.SubscriptionCancelReason;
@@ -30,7 +30,7 @@ public class Connect2payClientJacksonModule extends SimpleModule {
   public void setupModule(SetupContext context) {
     this.addSerializer(new CustomDateSerializer());
     context.setMixInAnnotations(PaymentMode.class, PaymentModeMixIn.class);
-    context.setMixInAnnotations(PaymentType.class, PaymentTypeMixIn.class);
+    context.setMixInAnnotations(PaymentMethod.class, PaymentMethodMixIn.class);
     context.setMixInAnnotations(ShippingType.class, ShippingTypeMixIn.class);
     context.setMixInAnnotations(SubscriptionCancelReason.class, SubscriptionCancelReasonMixIn.class);
     context.setMixInAnnotations(SubscriptionType.class, SubscriptionTypeMixIn.class);

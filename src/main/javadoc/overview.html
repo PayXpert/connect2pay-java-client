@@ -17,6 +17,7 @@
  <pre>
    // Process a payment of €39.99
    PaymentRequest request = new PaymentRequest();
+   request.setPaymentMethod(PaymentMethod.CREDIT_CARD);
    request.setOrderId("1234ABCD").setCurrency("EUR").setAmount(3999);
    request.setShippingType(ShippingType.VIRTUAL);
    request.setPaymentMode(PaymentMode.SINGLE);

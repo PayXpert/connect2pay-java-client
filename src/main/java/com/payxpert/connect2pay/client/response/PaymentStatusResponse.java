@@ -1,7 +1,10 @@
 package com.payxpert.connect2pay.client.response;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.payxpert.connect2pay.client.containers.TransactionAttempt;
@@ -11,8 +14,6 @@ import com.payxpert.connect2pay.constants.TransactionOperation;
 
 /**
  * This class represents the response to a payment status request.
- * 
- * @author jsh
  * 
  */
 public class PaymentStatusResponse extends GenericResponse<PaymentStatusResponse> {
@@ -203,20 +204,36 @@ public class PaymentStatusResponse extends GenericResponse<PaymentStatusResponse
   }
 
   public List<TransactionAttempt> getTransactions() {
-    return transactions;
+    return this.transactions;
   }
 
   /**
    * 
    * @param index
-   *          Index of the element to return
+   *          Index of the element to return (starting at 0)
    * @return The element at the specified position in this list
    */
   public TransactionAttempt getTransactionAttempt(int index) {
-    if (transactions != null && index >= 0 && index < transactions.size()) {
-      return transactions.get(index);
+    if (this.transactions != null && index >= 0 && index < this.transactions.size()) {
+      return this.transactions.get(index);
     }
+
     return null;
+  }
+
+  /**
+   * Get a transaction attempt by transactionId
+   * 
+   * @param transactionId
+   *          The transactionId to retrieve
+   * @return An optional with the transaction attempt with that id or an empty optional if not found
+   */
+  public Optional<TransactionAttempt> getTransactionAttempt(String transactionId) {
+    if (this.transactions != null && transactionId != null) {
+      return this.transactions.stream().filter(t -> transactionId.equals(t.getTransactionId())).findFirst();
+    }
+
+    return Optional.empty();
   }
 
   public void setTransactions(List<TransactionAttempt> transactions) {
@@ -230,20 +247,67 @@ public class PaymentStatusResponse extends GenericResponse<PaymentStatusResponse
    * @return true
    */
   public boolean addTransactionAttempt(TransactionAttempt transactionAttempt) {
-    if (transactions == null) {
+    if (this.transactions == null) {
       this.transactions = new ArrayList<>();
     }
-    return transactions.add(transactionAttempt);
+
+    return this.transactions.add(transactionAttempt);
   }
 
   /**
-   * 
    * @return The last transaction done
+   * @deprecated Use getLastInitialTransactionAttempt()
    */
+  @Deprecated
   public TransactionAttempt getLastTransactionAttempt() {
-    if (this.transactions != null && this.transactions.size() > 0) {
-      return this.transactions.stream().max(TransactionAttempt::compareTo).orElse(null);
-    }
-    return null;
+    return this.getLastInitialTransactionAttempt().orElse(null);
   }
+
+  /**
+   * Get the last initial transaction attempt. This will return only initial sale, authorize or submission transaction
+   * done by the customer. Subsequent transactions of this type with a referral transaction are not considered in that
+   * case.
+   * 
+   * @return An optional with the last initial transaction done or an empty optional if not found
+   */
+  public Optional<TransactionAttempt> getLastInitialTransactionAttempt() {
+    final List<TransactionOperation> includeOps = Arrays.asList(TransactionOperation.AUTHORIZE,
+        TransactionOperation.SALE, TransactionOperation.SUBMISSION);
+
+    if (this.transactions != null && this.transactions.size() > 0) {
+      return this.transactions.stream().filter(t -> t != null && t.getRefTransactionId() == null
+          && t.getOperation() != null && includeOps.contains(t.getOperation())).max(TransactionAttempt::compareTo);
+    }
+
+    return Optional.empty();
+  }
+
+  /**
+   * Get the transaction attempt referring to the provided attempt with the given operation. In case several
+   * transactions are found will return the older one.
+   * 
+   * @return An optional with the transaction found or an empty optional if not found
+   */
+  public Optional<TransactionAttempt> getReferringTransactionAttempt(TransactionAttempt refTransaction,
+      TransactionOperation operation) {
+    return getReferringTransactionAttempts(refTransaction, operation).stream().min(TransactionAttempt::compareTo);
+  }
+
+  /**
+   * Get the transaction attempts referring to the provided attempt with the given operation.
+   * 
+   * @return A list with the transactions found (sorted by date, older first) or an empty list if not found
+   */
+  public List<TransactionAttempt> getReferringTransactionAttempts(TransactionAttempt refTransaction,
+      TransactionOperation operation) {
+    if (refTransaction != null && refTransaction.getTransactionId() != null && operation != null
+        && this.transactions != null && this.transactions.size() > 0) {
+      return this.transactions.stream().filter(t -> t != null
+          && refTransaction.getTransactionId().equals(t.getRefTransactionId()) && operation.equals(t.getOperation()))
+          .sorted(TransactionAttempt::compareTo).collect(Collectors.toList());
+    }
+
+    return new ArrayList<>();
+  }
+
 }

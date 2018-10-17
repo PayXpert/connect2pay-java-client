@@ -1,7 +1,5 @@
 package com.payxpert.connect2pay.client.containers;
 
-import java.util.Date;
-
 /**
  * Information about a Credit Card.
  * 
@@ -12,7 +10,6 @@ import java.util.Date;
  */
 public class CreditCardPaymentMeanInfo extends PaymentMeanInfo {
 
-  private Date date;
   private String cardNumber;
   private String cardExpireYear;
   private String cardExpireMonth;
@@ -24,21 +21,6 @@ public class CreditCardPaymentMeanInfo extends PaymentMeanInfo {
   private String iinBankName;
   private Boolean is3DSecure;
   private String statementDescriptor;
-
-  /**
-   * @return the date
-   */
-  public Date getDate() {
-    return this.date;
-  }
-
-  /**
-   * @param date
-   *          the date to set
-   */
-  public void setDate(Date date) {
-    this.date = date;
-  }
 
   /**
    * @return the cardNumber

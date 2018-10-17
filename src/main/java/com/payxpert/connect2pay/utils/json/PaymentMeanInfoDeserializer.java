@@ -20,12 +20,15 @@ public class PaymentMeanInfoDeserializer extends StdDeserializer<String> {
   public String deserialize(JsonParser parser, DeserializationContext context)
       throws IOException, JsonProcessingException {
     JsonToken curr = parser.getCurrentToken();
+
     if (curr != null && curr.equals(JsonToken.START_OBJECT)) {
       ObjectNode node = parser.readValueAsTree();
+
       if (node != null) {
         return node.toString();
       }
     }
-    throw context.mappingException(String.class);
+
+    return null;
   }
 }

@@ -29,7 +29,7 @@ abstract public class GenericResponse<T> {
       } catch (Exception e) {
         logger.error("Error parsing JSON response : " + e.getMessage());
         logger.debug("JSON is: " + json);
-        e.printStackTrace();
+
         throw e;
       }
     }

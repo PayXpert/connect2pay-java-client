@@ -26,8 +26,6 @@ import net.sf.oval.constraint.NotNull;
 /**
  * Generic API request class.
  * 
- * @author jsh
- * 
  * @param <T>
  *          Real type of the current class used to implement method chaining.
  */
@@ -35,7 +33,7 @@ import net.sf.oval.constraint.NotNull;
 public abstract class GenericRequest<T extends GenericRequest<T>> {
   protected static final Logger logger = LoggerFactory.getLogger(GenericRequest.class);
 
-  public static final String DEFAULT_API_VERSION = "002.50";
+  public static final String DEFAULT_API_VERSION = "002.60";
 
   @NotNull
   @NotEmpty
@@ -50,7 +48,7 @@ public abstract class GenericRequest<T extends GenericRequest<T>> {
    * @return The API version used (by default 002)
    */
   public String getApiVersion() {
-    return apiVersion;
+    return this.apiVersion;
   }
 
   /**
@@ -63,6 +61,7 @@ public abstract class GenericRequest<T extends GenericRequest<T>> {
    */
   public T setApiVersion(String apiVersion) {
     this.apiVersion = apiVersion;
+
     return getThis();
   }
 
@@ -116,16 +115,16 @@ public abstract class GenericRequest<T extends GenericRequest<T>> {
     try {
       json = mapper.writeValueAsString(this);
     } catch (JsonGenerationException e) {
-      logger.error("Error generating JSON request : " + e.getMessage());
-      e.printStackTrace();
+      logger.error("Error generating JSON request : " + e.getMessage(), e);
+
       throw e;
     } catch (JsonMappingException e) {
-      logger.error("Error mapping JSON request: " + e.getMessage());
-      e.printStackTrace();
+      logger.error("Error mapping JSON request: " + e.getMessage(), e);
+
       throw e;
     } catch (IOException e) {
-      logger.error("IO Error generating JSON request: " + e.getMessage());
-      e.printStackTrace();
+      logger.error("IO Error generating JSON request: " + e.getMessage(), e);
+
       throw e;
     }
 

@@ -1,7 +1,9 @@
 package com.payxpert.connect2pay.client.containers;
 
+import java.util.Optional;
+
 /**
- * Information about a bank account used in a bank transfer payment.
+ * Information about a bank account used in a bank transfer or direct debit transaction.
  * 
  * @author jsh
  */
@@ -13,6 +15,8 @@ public class BankAccount {
   private String bic;
 
   private String countryCode;
+
+  private SepaMandate sepaMandate;
 
   /**
    * The account holder name
@@ -101,5 +105,24 @@ public class BankAccount {
    */
   public void setCountryCode(String countryCode) {
     this.countryCode = countryCode;
+  }
+
+  /**
+   * The optional SEPA mandate associated with that bank account
+   * 
+   * @return An Optional with the SEPA mandate or an empty Optional if none exists
+   */
+  public Optional<SepaMandate> getSepaMandate() {
+    return Optional.ofNullable(this.sepaMandate);
+  }
+
+  /**
+   * Set the SEPA mandate associated with that bank account
+   * 
+   * @param sepaMandate
+   *          The SEPA mandate to set
+   */
+  public void setSepaMandate(SepaMandate sepaMandate) {
+    this.sepaMandate = sepaMandate;
   }
 }

@@ -7,7 +7,7 @@ package com.payxpert.connect2pay.constants;
  * 
  */
 public enum C2PLang {
-  EN, FR, ES, IT;
+  EN, FR, ES, IT, DE, ZH_HANT;
 
   public String getValue() {
     return this.name().toLowerCase();

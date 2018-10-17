@@ -11,38 +11,47 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.payxpert.connect2pay.constants.PaymentMethod;
 import com.payxpert.connect2pay.constants.PaymentStatusValue;
-import com.payxpert.connect2pay.constants.PaymentType;
 import com.payxpert.connect2pay.constants.TransactionOperation;
 import com.payxpert.connect2pay.utils.Utils;
 import com.payxpert.connect2pay.utils.json.PaymentMeanInfoDeserializer;
 
 /**
- * This represents an attempt to process a payment. It varies according to the payment type.
- * 
- * @author AcH
+ * This represents an attempt to process a payment. It varies according to the payment method.
  */
 
 public class TransactionAttempt implements Comparable<TransactionAttempt> {
-
   protected static final Logger logger = LoggerFactory.getLogger(TransactionAttempt.class);
 
   private Date date;
 
   private Integer amount;
 
-  private PaymentType paymentType;
+  private PaymentMethod paymentMethod;
+
+  private String paymentNetwork;
 
   @JsonDeserialize(using = PaymentMeanInfoDeserializer.class)
   private String paymentMeanInfo;
 
   private TransactionOperation operation;
+
   private String resultCode;
+
   private String resultMessage;
 
   private PaymentStatusValue status;
+
   @JsonProperty("transactionID")
   private String transactionId;
+
+  @JsonProperty("refTransactionID")
+  private String refTransactionId;
+
+  @JsonProperty("providerTransactionID")
+  private String providerTransactionId;
+
   @JsonProperty("subscriptionID")
   private Long subscriptionId;
 
@@ -56,7 +65,7 @@ public class TransactionAttempt implements Comparable<TransactionAttempt> {
    * @return the date
    */
   public Date getDate() {
-    return date;
+    return this.date;
   }
 
   /**
@@ -71,7 +80,7 @@ public class TransactionAttempt implements Comparable<TransactionAttempt> {
    * @return the amount
    */
   public Integer getAmount() {
-    return amount;
+    return this.amount;
   }
 
   /**
@@ -82,70 +91,165 @@ public class TransactionAttempt implements Comparable<TransactionAttempt> {
     this.amount = amount;
   }
 
-  /**
-   * @return the paymentType
-   */
-  public PaymentType getPaymentType() {
-    return paymentType;
+  @Deprecated
+  public PaymentMethod getPaymentType() {
+    return this.getPaymentMethod();
+  }
+
+  @Deprecated
+  public void setPaymentType(PaymentMethod paymentType) {
+    this.setPaymentMethod(paymentType);
   }
 
   /**
-   * @param paymentType
-   *          the paymentType to set
+   * @return the paymentMethod
    */
-  public void setPaymentType(PaymentType paymentType) {
-    this.paymentType = paymentType;
+  public PaymentMethod getPaymentMethod() {
+    return this.paymentMethod;
+  }
+
+  /**
+   * @param paymentMethod
+   *          the paymentMethod to set
+   */
+  public void setPaymentMethod(PaymentMethod paymentMethod) {
+    this.paymentMethod = paymentMethod;
+  }
+
+  /**
+   * @return the payment network
+   */
+  public String getPaymentNetwork() {
+    return this.paymentNetwork;
+  }
+
+  /**
+   * @param paymentNetwork
+   *          The payment network to set
+   */
+  public void setPaymentNetwork(String paymentNetwork) {
+    this.paymentNetwork = paymentNetwork;
+  }
+
+  @Deprecated
+  public CreditCardPaymentMeanInfo getCCPaymentMeanInfo() {
+    return this.getCreditCardPaymentMeanInfo();
   }
 
   /**
    * Return the payment mean info for Credit Card transaction. This is a shortcut for
-   * getPaymentMeanInfo(CreditCardPaymentMeanInfo.class) (with paymentType check).
+   * getPaymentMeanInfo(CreditCardPaymentMeanInfo.class) (with paymentMethod check).
    * 
    * @return The CreditCardPaymentMeanInfo for this transaction
    */
-  public CreditCardPaymentMeanInfo getCCPaymentMeanInfo() {
-    if (!PaymentType.CREDIT_CARD.equals(this.paymentType)) {
+  public CreditCardPaymentMeanInfo getCreditCardPaymentMeanInfo() {
+    if (!PaymentMethod.CREDIT_CARD.equals(this.paymentMethod)) {
       logger.error("Payment type is not Credit Card, can not return payment mean info for credit card.");
+
       return null;
     }
+
     return this.getPaymentMeanInfo(CreditCardPaymentMeanInfo.class);
+  }
+
+  @Deprecated
+  public BankTransferPaymentMeanInfo getBTPaymentMeanInfo() {
+    return this.getBankTransferPaymentMeanInfo();
   }
 
   /**
    * Return the payment mean info for Bank transfer transaction. This is a shortcut for
-   * getPaymentMeanInfo(BankTransferPaymentMeanInfo.class) (with paymentType check).
+   * getPaymentMeanInfo(BankTransferPaymentMeanInfo.class) (with paymentMethod check).
    * 
    * @return The BankTransferPaymentMeanInfo for this transaction
    */
-  public BankTransferPaymentMeanInfo getBTPaymentMeanInfo() {
-    if (!PaymentType.BANK_TRANSFER.equals(this.paymentType)) {
+  public BankTransferPaymentMeanInfo getBankTransferPaymentMeanInfo() {
+    if (!PaymentMethod.BANK_TRANSFER.equals(this.paymentMethod)) {
       logger.error("Payment type is not Bank Transfer, can not return payment mean info for bank transfer.");
+
       return null;
     }
+
     return this.getPaymentMeanInfo(BankTransferPaymentMeanInfo.class);
+  }
+
+  @Deprecated
+  public ToditoPaymentMeanInfo getToditoPaymentMeanInfo() {
+    return this.getToditoCashPaymentMeanInfo();
   }
 
   /**
    * Return the payment mean info for Todito transaction. This is a shortcut for
-   * getPaymentMeanInfo(ToditoPaymentMeanInfo.class) (with paymentType check).
+   * getPaymentMeanInfo(ToditoPaymentMeanInfo.class) (with paymentMethod check).
    * 
    * @return The ToditoPaymentMeanInfo for this transaction
    */
-  public ToditoPaymentMeanInfo getToditoPaymentMeanInfo() {
-    if (!PaymentType.TODITO_CASH.equals(this.paymentType)) {
+  public ToditoPaymentMeanInfo getToditoCashPaymentMeanInfo() {
+    if (!PaymentMethod.TODITO_CASH.equals(this.paymentMethod)) {
       logger.error("Payment type is not Todito cash, can not return payment mean info for Todito cash.");
+
       return null;
     }
+
     return this.getPaymentMeanInfo(ToditoPaymentMeanInfo.class);
   }
 
   /**
+   * Return the payment mean info for Direct Debit transaction. This is a shortcut for
+   * getPaymentMeanInfo(DirectDebitPaymentMeanInfo.class) (with paymentMethod check).
+   * 
+   * @return The DirectDebitPaymentMeanInfo for this transaction
+   */
+  public DirectDebitPaymentMeanInfo getDirectDebitPaymentMeanInfo() {
+    if (!PaymentMethod.DIRECT_DEBIT.equals(this.paymentMethod)) {
+      logger.error("Payment type is not Direct Debit, can not return payment mean info for Direct Debit.");
+
+      return null;
+    }
+
+    return this.getPaymentMeanInfo(DirectDebitPaymentMeanInfo.class);
+  }
+
+  /**
+   * Return the payment mean info for chargeback transaction. This is a shortcut for
+   * getPaymentMeanInfo(ChargebackPaymentMeanInfo.class) (with paymentMethod check).
+   * 
+   * @return The ChargebackPaymentMeanInfo for this transaction
+   */
+  public ChargebackPaymentMeanInfo getChargebackPaymentMeanInfo() {
+    if (!PaymentMethod.CHARGEBACK.equals(this.paymentMethod)) {
+      logger.error("Payment type is not Chargeback, can not return payment mean info for Chargeback.");
+
+      return null;
+    }
+
+    return this.getPaymentMeanInfo(ChargebackPaymentMeanInfo.class);
+  }
+
+  /**
+   * Return the payment mean info for reversal transaction. This is a shortcut for
+   * getPaymentMeanInfo(ReversalPaymentMeanInfo.class) (with paymentMethod check).
+   * 
+   * @return The ReversalPaymentMeanInfo for this transaction
+   */
+  public ReversalPaymentMeanInfo getReversalPaymentMeanInfo() {
+    if (!PaymentMethod.REVERSAL.equals(this.paymentMethod)) {
+      logger.error("Payment type is not Reversal, can not return payment mean info for Reversal.");
+
+      return null;
+    }
+
+    return this.getPaymentMeanInfo(ReversalPaymentMeanInfo.class);
+  }
+
+  /**
    * @param c
-   *          Class of the PaymentMeanInfo to return, this varies according to the paymentType value
+   *          Class of the PaymentMeanInfo to return, this varies according to the paymentMethod value
    * @return the paymentMeanInfo
    */
   public <T extends PaymentMeanInfo> T getPaymentMeanInfo(Class<T> c) {
     T pmInfo = null;
+
     if (this.paymentMeanInfo != null) {
       ObjectMapper mapper = Utils.getJSONObjectMapper();
       try {
@@ -174,7 +278,7 @@ public class TransactionAttempt implements Comparable<TransactionAttempt> {
    * @return the operation
    */
   public TransactionOperation getOperation() {
-    return operation;
+    return this.operation;
   }
 
   /**
@@ -189,7 +293,7 @@ public class TransactionAttempt implements Comparable<TransactionAttempt> {
    * @return the resultCode
    */
   public String getResultCode() {
-    return resultCode;
+    return this.resultCode;
   }
 
   /**
@@ -204,7 +308,7 @@ public class TransactionAttempt implements Comparable<TransactionAttempt> {
    * @return the resultMessage
    */
   public String getResultMessage() {
-    return resultMessage;
+    return this.resultMessage;
   }
 
   /**
@@ -219,7 +323,7 @@ public class TransactionAttempt implements Comparable<TransactionAttempt> {
    * @return the status
    */
   public PaymentStatusValue getStatus() {
-    return status;
+    return this.status;
   }
 
   /**
@@ -234,7 +338,7 @@ public class TransactionAttempt implements Comparable<TransactionAttempt> {
    * @return the transactionId
    */
   public String getTransactionId() {
-    return transactionId;
+    return this.transactionId;
   }
 
   /**
@@ -246,10 +350,50 @@ public class TransactionAttempt implements Comparable<TransactionAttempt> {
   }
 
   /**
+   * @return the refTransactionId
+   */
+  public String getRefTransactionId() {
+    return this.refTransactionId;
+  }
+
+  /**
+   * @param refTransactionId
+   *          the refTransactionId to set
+   */
+  public void setRefTransactionId(String refTransactionId) {
+    this.refTransactionId = refTransactionId;
+  }
+
+  @Deprecated
+  public String getProvider() {
+    return this.getPaymentNetwork();
+  }
+
+  @Deprecated
+  public void setProvider(String provider) {
+    this.setPaymentNetwork(provider);
+  }
+
+  /**
+   * @return the providerTransactionId
+   */
+  public String getProviderTransactionId() {
+    return providerTransactionId;
+  }
+
+  /**
+   * @param providerTransactionId
+   *          the providerTransactionId to set
+   */
+  public void setProviderTransactionId(String providerTransactionId) {
+    this.providerTransactionId = providerTransactionId;
+  }
+
+  /**
    * @return the subscriptionId
    */
   public Long getSubscriptionId() {
-    return subscriptionId;
+    return this.subscriptionId;
   }
 
   /**
@@ -281,7 +425,7 @@ public class TransactionAttempt implements Comparable<TransactionAttempt> {
    */
   @Deprecated
   public String getCardHolderName() {
-    if (this.paymentMeanInfo != null && PaymentType.CREDIT_CARD.equals(this.paymentType)) {
+    if (this.paymentMeanInfo != null && PaymentMethod.CREDIT_CARD.equals(this.paymentMethod)) {
       CreditCardPaymentMeanInfo pmInfo = this.getPaymentMeanInfo(CreditCardPaymentMeanInfo.class);
       if (pmInfo != null) {
         return pmInfo.getCardHolderName();

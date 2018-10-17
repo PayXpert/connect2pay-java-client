@@ -4,14 +4,38 @@ package com.payxpert.connect2pay.constants;
  * Types of operation done by a transaction. This is enforced on the payment page application and returned in the
  * payment status.
  * 
- * @author jsh
- * 
  */
 public enum TransactionOperation {
   /* Payment authorization */
   AUTHORIZE,
+  /* Pre-Auth capture */
+  CAPTURE,
   /* Payment (authorize + capture) */
-  SALE;
+  SALE,
+  /* Initial operation for asynchronous payment type */
+  SUBMISSION,
+  /* Confirmation operation for asynchronous payment type */
+  COLLECTION,
+  /* Transaction cancel */
+  CANCEL,
+  /* Transaction refund */
+  REFUND,
+  /* Transaction refund request */
+  REFUND_REQUEST,
+  /* Transaction rebill */
+  REBILL,
+  /* Contestation operation */
+  CHARGEBACK,
+  /* Dispute by the customer */
+  DISPUTE,
+  /* Request for information from the bank */
+  RETRIEVAL,
+  /* Reversal operation (internal refund by the bank) */
+  REVERSAL,
+  /* Fraud declaration (no fund movement) */
+  FRAUD,
+  /* Chargeback cancellation by the bank */
+  REPRESENTMENT;
 
   public String valueToString() {
     return this.name().toLowerCase();
