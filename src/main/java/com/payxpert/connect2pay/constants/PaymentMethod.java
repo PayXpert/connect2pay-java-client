@@ -13,7 +13,7 @@ public enum PaymentMethod {
   TODITO_CASH("ToditoCash", false), /* */
   WECHAT("WeChat", false), /* */
   LINE("Line", false), /* */
-  ALIPAY("AliPay", false), /* */
+  ALIPAY("Alipay", false), /* */
   CHARGEBACK("Chargeback", false), /* */
   REVERSAL("Reversal", false);
 

@@ -25,6 +25,8 @@ public enum APIRoute {
   /* */
   WECHAT_DIRECT("/payment/:customerToken/process/wechat/direct"),
   /* */
+  ALIPAY_DIRECT("/payment/:customerToken/process/alipay/direct"),
+  /* */
   SUB_CANCEL("/subscription/:subscriptionID/cancel"),
   /* */
   ACCOUNT_INFO("/account");

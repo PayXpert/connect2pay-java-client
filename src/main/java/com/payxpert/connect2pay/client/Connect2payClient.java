@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.payxpert.connect2pay.client.requests.AccountInformationRequest;
+import com.payxpert.connect2pay.client.requests.AlipayDirectProcessRequest;
 import com.payxpert.connect2pay.client.requests.PaymentRequest;
 import com.payxpert.connect2pay.client.requests.PaymentStatusRequest;
 import com.payxpert.connect2pay.client.requests.SubscriptionCancelRequest;
@@ -21,6 +22,7 @@ import com.payxpert.connect2pay.client.requests.TransactionRefundConfirmRequest;
 import com.payxpert.connect2pay.client.requests.TransactionRefundRequest;
 import com.payxpert.connect2pay.client.requests.WeChatDirectProcessRequest;
 import com.payxpert.connect2pay.client.response.AccountInformationResponse;
+import com.payxpert.connect2pay.client.response.AlipayDirectProcessResponse;
 import com.payxpert.connect2pay.client.response.PaymentResponse;
 import com.payxpert.connect2pay.client.response.PaymentStatusResponse;
 import com.payxpert.connect2pay.client.response.SubscriptionCancelResponse;
@@ -583,7 +585,7 @@ public class Connect2payClient {
     }
 
     String url = APIRoute.WECHAT_DIRECT.getRoute().replaceAll(":customerToken", request.getCustomerToken());
-    this.httpClient.setUrl(this.serviceUrl + url);
+    this.httpClient.setUrl(this.serviceUrl + url).setBody(request.toJson());
 
     if (logger.isDebugEnabled()) {
       logger.debug("Doing WeChat direct process request.");
@@ -609,4 +611,42 @@ public class Connect2payClient {
     return response;
   }
 
+  /**
+   * Do a direct Alipay transaction process
+   * 
+   * @param request
+   *          The Alipay direct process request object to use
+   * @return The AlipayDirectProcessResponse object or null on error
+   */
+  public AlipayDirectProcessResponse aliPayDirectProcess(AlipayDirectProcessRequest request) throws Exception {
+    if (request == null) {
+      throw new NullPointerException();
+    }
+
+    String url = APIRoute.ALIPAY_DIRECT.getRoute().replaceAll(":customerToken", request.getCustomerToken());
+    this.httpClient.setUrl(this.serviceUrl + url).setBody(request.toJson());
+
+    if (logger.isDebugEnabled()) {
+      logger.debug("Doing Alipay direct process request.");
+    }
+
+    AlipayDirectProcessResponse response = null;
+    try {
+      String json = this.httpClient.post();
+
+      response = new AlipayDirectProcessResponse().fromJson(json);
+      if (response != null) {
+        response.setCode(ResultCode.SUCCESS);
+      }
+    } catch (HttpForbiddenException e) {
+      response = new AlipayDirectProcessResponse().fromJson(AUTH_FAILED_JSON);
+    } catch (HttpNotFoundException e) {
+      response = new AlipayDirectProcessResponse().fromJson(NOT_FOUND_JSON);
+    } catch (Exception e) {
+      logger.error("Alipay Direct Process call failed: " + e.getClass().getSimpleName() + " - " + e.getMessage());
+      throw e;
+    }
+
+    return response;
+  }
 }
