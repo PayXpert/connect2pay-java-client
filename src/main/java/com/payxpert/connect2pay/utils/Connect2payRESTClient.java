@@ -20,10 +20,8 @@ import com.payxpert.connect2pay.client.requests.GenericRequest;
 import com.payxpert.connect2pay.exception.HttpForbiddenException;
 import com.payxpert.connect2pay.exception.HttpNotFoundException;
 
-
 /**
- * REST Client for the payment page application. Should not be used directly,
- * use a Connect2payClient instead.
+ * REST Client for the payment page application. Should not be used directly, use a Connect2payClient instead.
  * 
  * @author jsh
  * 
@@ -39,13 +37,15 @@ public class Connect2payRESTClient {
    * The virtual host this request will use
    */
   private String virtualHost;
-  
+
   private int timeout;
-  
+
   /**
    * Indicate if SSL/TLS certificate verification should be done. Set it to true to disable it
    */
   private Boolean acceptAnyCertificate;
+
+  private String clientVersion;
 
   private static final Logger logger = LoggerFactory.getLogger(Connect2payRESTClient.class);
   private static final int DEFAULT_TIMEOUT = 20000;
@@ -69,8 +69,8 @@ public class Connect2payRESTClient {
     Map<String, String> params = request.getRequestParameters();
 
     if (params != null) {
-      for ( Map.Entry<String, String> entry: params.entrySet()){
-        this.setParameter(entry.getKey() , entry.getValue());
+      for (Map.Entry<String, String> entry : params.entrySet()) {
+        this.setParameter(entry.getKey(), entry.getValue());
       }
     }
   }
@@ -99,7 +99,20 @@ public class Connect2payRESTClient {
 
     return this;
   }
-  
+
+  /**
+   * Set the version of the API client
+   * 
+   * @param version
+   *          The version to set
+   * @return The current Connect2payRESTClient for method chaining
+   */
+  public Connect2payRESTClient setClientVersion(String version) {
+    this.clientVersion = version;
+
+    return this;
+  }
+
   /**
    * Set the virtual host this request will use
    */
@@ -170,16 +183,19 @@ public class Connect2payRESTClient {
         rBuilder.setHeader("Content-Length", "0");
       }
     }
-    
+
+    // Add custom user agent header with library version
+    rBuilder.setHeader("User-Agent", "PayXpert Java C2P API Client/" + this.clientVersion);
+
     if (this.virtualHost != null) {
       rBuilder.setVirtualHost(this.virtualHost);
     }
-    
+
     if (this.body != null) {
       logger.debug("Request body is: " + this.body);
     }
     // Add the parameters
-    for ( Map.Entry<String, String> entry: this.parameters.entrySet()){
+    for (Map.Entry<String, String> entry : this.parameters.entrySet()) {
       rBuilder.addQueryParam(entry.getKey(), entry.getValue());
     }
     // Add the Basic authentication if defined

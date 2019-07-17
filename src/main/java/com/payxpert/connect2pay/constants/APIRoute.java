@@ -23,6 +23,8 @@ public enum APIRoute {
   /* */
   TRANS_CANCEL("/transaction/:transactionId/cancel"),
   /* */
+  TRANS_CAPTURE("/transaction/:transactionId/capture"),
+  /* */
   WECHAT_DIRECT("/payment/:customerToken/process/wechat/direct"),
   /* */
   ALIPAY_DIRECT("/payment/:customerToken/process/alipay/direct"),

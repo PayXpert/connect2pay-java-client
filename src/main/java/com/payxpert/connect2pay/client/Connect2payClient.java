@@ -16,6 +16,7 @@ import com.payxpert.connect2pay.client.requests.PaymentRequest;
 import com.payxpert.connect2pay.client.requests.PaymentStatusRequest;
 import com.payxpert.connect2pay.client.requests.SubscriptionCancelRequest;
 import com.payxpert.connect2pay.client.requests.TransactionCancelRequest;
+import com.payxpert.connect2pay.client.requests.TransactionCaptureRequest;
 import com.payxpert.connect2pay.client.requests.TransactionInfoRequest;
 import com.payxpert.connect2pay.client.requests.TransactionRebillRequest;
 import com.payxpert.connect2pay.client.requests.TransactionRefundConfirmRequest;
@@ -27,6 +28,7 @@ import com.payxpert.connect2pay.client.response.PaymentResponse;
 import com.payxpert.connect2pay.client.response.PaymentStatusResponse;
 import com.payxpert.connect2pay.client.response.SubscriptionCancelResponse;
 import com.payxpert.connect2pay.client.response.TransactionCancelResponse;
+import com.payxpert.connect2pay.client.response.TransactionCaptureResponse;
 import com.payxpert.connect2pay.client.response.TransactionInfoResponse;
 import com.payxpert.connect2pay.client.response.TransactionRebillResponse;
 import com.payxpert.connect2pay.client.response.TransactionRefundResponse;
@@ -56,12 +58,13 @@ import com.payxpert.connect2pay.utils.CryptoHelper;
  * This class does not do any sanitization on received data. This must be done externally.<br>
  * Every text must be encoded as UTF-8 when passed to this class.<br>
  * 
- * @version 1.0.7 (20170703)
  * @author JsH <jsh@payxpert.com><br>
- *         Copyright 2011-2017 PayXpert
+ *         Copyright 2011-2019 PayXpert
  * 
  */
 public class Connect2payClient {
+  public static final String VERSION = "1.0.17";
+
   private static final String AUTH_FAILED_JSON = "{\"code\":\"403\",\"message\":\"Authentication failed\"}";
   private static final String NOT_FOUND_JSON = "{\"code\":\"404\",\"message\":\"Page not found\"}";
   private Connect2payRESTClient httpClient;
@@ -84,6 +87,7 @@ public class Connect2payClient {
       this.serviceUrl = serviceURL.replaceAll("/+$", "");
     }
     this.httpClient = new Connect2payRESTClient().addBasicAuthentication(originator, apiKey);
+    this.httpClient.setClientVersion(Connect2payClient.VERSION);
   }
 
   /**
@@ -387,6 +391,38 @@ public class Connect2payClient {
       response = new TransactionCancelResponse().fromJson(NOT_FOUND_JSON);
     } catch (Exception e) {
       logger.error("Transaction cancel call failed: " + e.getClass().getSimpleName() + " - " + e.getMessage());
+      throw e;
+    }
+
+    return response;
+  }
+
+  /**
+   * Do a transaction capture request for a transaction on the payment page application.
+   *
+   * @param request
+   *          The transaction capture request object to use
+   * @return The transaction capture response object or null on error
+   */
+  public TransactionCaptureResponse captureTransaction(TransactionCaptureRequest request) throws Exception {
+    Objects.requireNonNull(request);
+
+    String url = APIRoute.TRANS_CAPTURE.getRoute().replaceAll(":transactionId", request.getTransactionId());
+    this.httpClient.setUrl(this.serviceUrl + url).setBody(request.toJson());
+    if (logger.isDebugEnabled()) {
+      logger.debug("Processing Transaction Capture request.");
+    }
+
+    TransactionCaptureResponse response = null;
+    try {
+      String json = this.httpClient.post();
+      response = new TransactionCaptureResponse().fromJson(json);
+    } catch (HttpForbiddenException e) {
+      response = new TransactionCaptureResponse().fromJson(AUTH_FAILED_JSON);
+    } catch (HttpNotFoundException e) {
+      response = new TransactionCaptureResponse().fromJson(NOT_FOUND_JSON);
+    } catch (Exception e) {
+      logger.error("Transaction capture call failed: " + e.getClass().getSimpleName() + " - " + e.getMessage());
       throw e;
     }
 

@@ -29,6 +29,15 @@ public class WeChatDirectProcessResponse extends GenericResponse<WeChatDirectPro
 
   private TransactionAttempt transactionInfo;
 
+  // SDK mode specific parameters
+  private String appId;
+  private String partnerId;
+  private String prepayId;
+  private String packageStr;
+  private String nonceStr;
+  private String timestamp;
+  private String sign;
+
   /**
    * @return the result code
    */
@@ -128,6 +137,83 @@ public class WeChatDirectProcessResponse extends GenericResponse<WeChatDirectPro
 
   public void setTransactionInfo(TransactionAttempt transactionInfo) {
     this.transactionInfo = transactionInfo;
+  }
+
+  /**
+   * @return The appId to be used with mobile app SDK
+   */
+  public String getAppId() {
+    return this.appId;
+  }
+
+  public void setAppId(String appId) {
+    this.appId = appId;
+  }
+
+  /**
+   * @return The partnerId to be used with mobile app SDK
+   */
+  public String getPartnerId() {
+    return this.partnerId;
+  }
+
+  public void setPartnerId(String partnerId) {
+    this.partnerId = partnerId;
+  }
+
+  /**
+   * @return The prepayId to be used with mobile app SDK
+   */
+  public String getPrepayId() {
+    return this.prepayId;
+  }
+
+  public void setPrepayId(String prepayId) {
+    this.prepayId = prepayId;
+  }
+
+  /**
+   * @return The packageStr to be used with mobile app SDK
+   */
+  public String getPackageStr() {
+    return this.packageStr;
+  }
+
+  public void setPackageStr(String packageStr) {
+    this.packageStr = packageStr;
+  }
+
+  /**
+   * @return The nonceStr to be used with mobile app SDK
+   */
+  public String getNonceStr() {
+    return this.nonceStr;
+  }
+
+  public void setNonceStr(String nonceStr) {
+    this.nonceStr = nonceStr;
+  }
+
+  /**
+   * @return The timestamp to be used with mobile app SDK
+   */
+  public String getTimestamp() {
+    return this.timestamp;
+  }
+
+  public void setTimestamp(String timestamp) {
+    this.timestamp = timestamp;
+  }
+
+  /**
+   * @return The sign to be used with mobile app SDK
+   */
+  public String getSign() {
+    return this.sign;
+  }
+
+  public void setSign(String sign) {
+    this.sign = sign;
   }
 
 }

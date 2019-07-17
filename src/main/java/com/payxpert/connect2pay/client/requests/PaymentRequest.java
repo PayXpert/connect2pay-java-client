@@ -1382,6 +1382,12 @@ public class PaymentRequest extends GenericRequest<PaymentRequest> {
                 return false;
               }
               break;
+            case PARTPAYMENT:
+              if (request.rebillAmount == null || request.rebillPeriod == null || request.rebillMaxIteration == null) {
+                logger.error("rebillAMount, rebillPeriod and rebillMaxIteration must be set for a subscription of type PARTPAYMENT.");
+                return false;
+              }
+              break;
             default:
               return false;
           }

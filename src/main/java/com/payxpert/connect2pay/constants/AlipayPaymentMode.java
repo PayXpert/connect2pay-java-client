@@ -15,7 +15,12 @@ public enum AlipayPaymentMode {
   /**
    * APP mode: The merchant scans the payer's QR code
    */
-  APP;
+  APP,
+
+  /**
+   * SDK mode: to be used for in-app mode
+   */
+  SDK;
 
   @JsonValue
   public String getFormattedName() {

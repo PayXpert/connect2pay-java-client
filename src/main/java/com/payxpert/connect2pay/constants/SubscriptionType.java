@@ -26,7 +26,14 @@ public enum SubscriptionType {
   /**
    * Normal subscription but without a maximum number of iterations, can potentially last forever.
    */
-  INFINITE("infinite");
+  INFINITE("infinite"),
+
+  /**
+   * PARTPAYMENT: part payment subscription is used when the payment of the order is split in several payments.
+   * Handled specifically as the payment mean must be valid during the whole duration of the subscription,
+   * the cancel call is also not possible on this type.
+   */
+  PARTPAYMENT("partpayment");
 
   private String value;
 

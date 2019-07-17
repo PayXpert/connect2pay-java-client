@@ -15,7 +15,12 @@ public enum WeChatPaymentMode {
   /**
    * QuickPay mode: The merchant scans the payer's QR code
    */
-  QUICKPAY;
+  QUICKPAY,
+
+  /**
+   * SDK mode: to be used for in-app mode
+   */
+  SDK;
 
   @JsonValue
   public String getFormattedName() {

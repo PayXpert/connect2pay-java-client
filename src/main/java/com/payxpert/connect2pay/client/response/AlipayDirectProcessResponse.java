@@ -29,6 +29,8 @@ public class AlipayDirectProcessResponse extends GenericResponse<AlipayDirectPro
 
   private TransactionAttempt transactionInfo;
 
+  private String rawRequest;
+
   /**
    * @return the result code
    */
@@ -130,4 +132,14 @@ public class AlipayDirectProcessResponse extends GenericResponse<AlipayDirectPro
     this.transactionInfo = transactionInfo;
   }
 
+  /**
+   * @return The rawRequest to be used with mobile app SDK
+   */
+  public String getRawRequest() {
+    return this.rawRequest;
+  }
+
+  public void setRawRequest(String rawRequest) {
+    this.rawRequest = rawRequest;
+  }
 }

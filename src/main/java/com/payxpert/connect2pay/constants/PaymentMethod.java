@@ -14,6 +14,8 @@ public enum PaymentMethod {
   WECHAT("WeChat", false), /* */
   LINE("Line", false), /* */
   ALIPAY("Alipay", false), /* */
+  BANCONTACT("Bancontact", false), /* */
+  UNIONPAY("UnionPay", false), /* */
   CHARGEBACK("Chargeback", false), /* */
   REVERSAL("Reversal", false);
 
