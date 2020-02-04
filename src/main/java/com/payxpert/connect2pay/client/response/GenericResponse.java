@@ -3,7 +3,6 @@ package com.payxpert.connect2pay.client.response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.payxpert.connect2pay.utils.Utils;
 
 /**
@@ -19,21 +18,6 @@ abstract public class GenericResponse<T> {
 
   @SuppressWarnings("unchecked")
   public T fromJson(String json) throws Exception {
-    T response = null;
-
-    if (json != null) {
-      ObjectMapper mapper = Utils.getJSONObjectMapper();
-
-      try {
-        response = (T) mapper.readValue(json, this.getClass());
-      } catch (Exception e) {
-        logger.error("Error parsing JSON response : " + e.getMessage());
-        logger.debug("JSON is: " + json);
-
-        throw e;
-      }
-    }
-
-    return response;
+    return (T) Utils.readJson(json, getClass());
   }
 }

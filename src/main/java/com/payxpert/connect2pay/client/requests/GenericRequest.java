@@ -33,7 +33,7 @@ import net.sf.oval.constraint.NotNull;
 public abstract class GenericRequest<T extends GenericRequest<T>> {
   protected static final Logger logger = LoggerFactory.getLogger(GenericRequest.class);
 
-  public static final String DEFAULT_API_VERSION = "002.60";
+  public static final String DEFAULT_API_VERSION = "002.61";
 
   @NotNull
   @NotEmpty
@@ -62,7 +62,7 @@ public abstract class GenericRequest<T extends GenericRequest<T>> {
   public T setApiVersion(String apiVersion) {
     this.apiVersion = apiVersion;
 
-    return getThis();
+    return this.getThis();
   }
 
   /**

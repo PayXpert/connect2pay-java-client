@@ -17,7 +17,7 @@ public enum PaymentStatusValue {
   }
 
   public String getLabel() {
-    return label;
+    return this.label;
   }
 
   public PaymentStatusValue fromString(String label) {

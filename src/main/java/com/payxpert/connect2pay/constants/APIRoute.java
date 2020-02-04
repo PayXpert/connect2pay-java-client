@@ -15,6 +15,8 @@ public enum APIRoute {
   /* */
   TRANS_INFO("/transaction/:transactionId/info"),
   /* */
+  TRANS_EXPORT("/transactions/export"),
+  /* */
   TRANS_REFUND("/transaction/:transactionId/refund"),
   /* */
   TRANS_REFUND_CONFIRM("/transaction/:transactionId/refund/confirm"),

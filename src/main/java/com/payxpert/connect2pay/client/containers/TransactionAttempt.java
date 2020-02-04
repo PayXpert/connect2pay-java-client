@@ -2,6 +2,7 @@ package com.payxpert.connect2pay.client.containers;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,6 +55,15 @@ public class TransactionAttempt implements Comparable<TransactionAttempt> {
 
   @JsonProperty("subscriptionID")
   private Long subscriptionId;
+
+  @JsonProperty("orderID")
+  private String orderId;
+
+  private String orderDescription;
+
+  private List<TransactionLog> logs;
+
+  private List<Notification> notifications;
 
   /**
    * Shopper informations
@@ -378,7 +388,7 @@ public class TransactionAttempt implements Comparable<TransactionAttempt> {
    * @return the providerTransactionId
    */
   public String getProviderTransactionId() {
-    return providerTransactionId;
+    return this.providerTransactionId;
   }
 
   /**
@@ -442,6 +452,74 @@ public class TransactionAttempt implements Comparable<TransactionAttempt> {
    */
   @Deprecated
   public void setCardHolderName(String cardHolderName) {
+  }
+
+  /**
+   * @return the merchant internal unique order identifier as provided during payment creation
+   */
+  public String getOrderId() {
+    return this.orderId;
+  }
+
+  /**
+   * Sets the merchant internal unique order identifier as provided during payment creation
+   * 
+   * @param orderId
+   *          the orderId to set
+   */
+  public void setOrderId(String orderId) {
+    this.orderId = orderId;
+  }
+
+  /**
+   * @return the description of the product purchased by the customer as provided during payment creation
+   */
+  public String getOrderDescription() {
+    return this.orderDescription;
+  }
+
+  /**
+   * Sets the description of the product purchased by the customer as provided during payment creation
+   * 
+   * @param orderDescription
+   *          the description to set
+   */
+  public void setOrderDescription(String orderDescription) {
+    this.orderDescription = orderDescription;
+  }
+
+  /**
+   * Usage of transaction logs requires special permissions, thus the list will usually be empty.
+   * 
+   * @return the transaction logs
+   */
+  public List<TransactionLog> getLogs() {
+    return this.logs;
+  }
+
+  /**
+   * @param logs
+   *          the TransactionLogs to set
+   */
+  public void setLogs(List<TransactionLog> logs) {
+    this.logs = logs;
+  }
+
+  /**
+   * Usage of notifications requires special permissions, thus the list will usually be empty.
+   * 
+   * @return the notifications
+   */
+  public List<Notification> getNotifications() {
+    return this.notifications;
+  }
+
+  /**
+   * @param notifications
+   *          the Notifications to set
+   */
+  public void setNotifications(List<Notification> notifications) {
+    this.notifications = notifications;
   }
 
   @Override

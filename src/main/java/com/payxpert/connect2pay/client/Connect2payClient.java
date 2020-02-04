@@ -10,8 +10,10 @@ import java.util.Objects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.payxpert.connect2pay.client.containers.TransactionAttempt;
 import com.payxpert.connect2pay.client.requests.AccountInformationRequest;
 import com.payxpert.connect2pay.client.requests.AlipayDirectProcessRequest;
+import com.payxpert.connect2pay.client.requests.TransactionsExportRequest;
 import com.payxpert.connect2pay.client.requests.PaymentRequest;
 import com.payxpert.connect2pay.client.requests.PaymentStatusRequest;
 import com.payxpert.connect2pay.client.requests.SubscriptionCancelRequest;
@@ -24,6 +26,7 @@ import com.payxpert.connect2pay.client.requests.TransactionRefundRequest;
 import com.payxpert.connect2pay.client.requests.WeChatDirectProcessRequest;
 import com.payxpert.connect2pay.client.response.AccountInformationResponse;
 import com.payxpert.connect2pay.client.response.AlipayDirectProcessResponse;
+import com.payxpert.connect2pay.client.response.TransactionsExportResponse;
 import com.payxpert.connect2pay.client.response.PaymentResponse;
 import com.payxpert.connect2pay.client.response.PaymentStatusResponse;
 import com.payxpert.connect2pay.client.response.SubscriptionCancelResponse;
@@ -39,6 +42,7 @@ import com.payxpert.connect2pay.exception.HttpForbiddenException;
 import com.payxpert.connect2pay.exception.HttpNotFoundException;
 import com.payxpert.connect2pay.utils.Connect2payRESTClient;
 import com.payxpert.connect2pay.utils.CryptoHelper;
+import com.payxpert.connect2pay.utils.Utils;
 
 /**
  * Main client class for the payment page application.<br>
@@ -63,7 +67,7 @@ import com.payxpert.connect2pay.utils.CryptoHelper;
  * 
  */
 public class Connect2payClient {
-  public static final String VERSION = "1.0.17";
+  public static final String VERSION = "1.0.18";
 
   private static final String AUTH_FAILED_JSON = "{\"code\":\"403\",\"message\":\"Authentication failed\"}";
   private static final String NOT_FOUND_JSON = "{\"code\":\"404\",\"message\":\"Page not found\"}";
@@ -256,18 +260,57 @@ public class Connect2payClient {
       logger.debug("Doing transaction info request.");
     }
 
-    TransactionInfoResponse response = null;
+    TransactionInfoResponse response = new TransactionInfoResponse();
     try {
       String json = this.httpClient.get();
 
-      response = new TransactionInfoResponse().fromJson(json);
-      if (response != null) {
+      response.setTransactionInfo(Utils.readJson(json, TransactionAttempt.class));
+      if (response.getTransactionInfo() != null) {
         response.setCode(ResultCode.SUCCESS);
       }
     } catch (HttpForbiddenException e) {
       response = new TransactionInfoResponse().fromJson(AUTH_FAILED_JSON);
     } catch (HttpNotFoundException e) {
       response = new TransactionInfoResponse().fromJson(NOT_FOUND_JSON);
+    } catch (Exception e) {
+      logger.error("Transaction info call failed: " + e.getClass().getSimpleName() + " - " + e.getMessage());
+      throw e;
+    }
+
+    return response;
+  }
+
+  /**
+   * Get transaction informations for all transactions from a certain time period matching the given criteria.
+   * 
+   * @param request
+   *          the request containing the filter criteria
+   * @return
+   */
+  public TransactionsExportResponse exportTransactions(TransactionsExportRequest request) throws Exception {
+    request.validate();
+
+    String url = APIRoute.TRANS_EXPORT.getRoute();
+
+    this.httpClient.setUrl(this.serviceUrl + url);
+    this.httpClient.setParameter("apiVersion", request.getApiVersion());
+    this.httpClient.setParameters(request);
+
+    if (logger.isDebugEnabled()) {
+      logger.debug("Doing exportTransactions request.");
+    }
+
+    TransactionsExportResponse response = new TransactionsExportResponse();
+
+    try {
+      response = Utils.readJson(this.httpClient.get(), TransactionsExportResponse.class);
+      if (response != null) {
+        response.setCode(ResultCode.SUCCESS);
+      }
+    } catch (HttpForbiddenException e) {
+      response.setCode(ResultCode.AUTH_FAILED);
+    } catch (HttpNotFoundException e) {
+      response.setCode(ResultCode.NOT_FOUND);
     } catch (Exception e) {
       logger.error("Transaction info call failed: " + e.getClass().getSimpleName() + " - " + e.getMessage());
       throw e;
@@ -539,7 +582,7 @@ public class Connect2payClient {
       }
     }
 
-    return handleCallbackStatus(writer.toString());
+    return this.handleCallbackStatus(writer.toString());
   }
 
   /**
