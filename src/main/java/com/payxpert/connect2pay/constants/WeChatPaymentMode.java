@@ -20,7 +20,12 @@ public enum WeChatPaymentMode {
   /**
    * SDK mode: to be used for in-app mode
    */
-  SDK;
+  SDK,
+
+  /**
+   * MiniProgram mode: used when the payment must be performed from WeChat Mini Program
+   */
+  MINIPROGRAM;
 
   @JsonValue
   public String getFormattedName() {

@@ -38,6 +38,10 @@ public class WeChatDirectProcessResponse extends GenericResponse<WeChatDirectPro
   private String timestamp;
   private String sign;
 
+  // Mini Program specific parameters
+  private String paySign;
+  private String signType;
+
   /**
    * @return the result code
    */
@@ -216,4 +220,25 @@ public class WeChatDirectProcessResponse extends GenericResponse<WeChatDirectPro
     this.sign = sign;
   }
 
+  /**
+   * @return The signature to be used with mini program mode
+   */
+  public String getPaySign() {
+    return paySign;
+  }
+
+  public void setPaySign(String paySign) {
+    this.paySign = paySign;
+  }
+
+  /**
+   * @return The signature type used with mini program mode
+   */
+  public String getSignType() {
+    return signType;
+  }
+
+  public void setSignType(String signType) {
+    this.signType = signType;
+  }
 }

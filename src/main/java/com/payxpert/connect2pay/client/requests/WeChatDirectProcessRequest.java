@@ -1,6 +1,7 @@
 package com.payxpert.connect2pay.client.requests;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.payxpert.connect2pay.constants.WeChatPaymentMode;
 
 import net.sf.oval.constraint.CheckWith;
@@ -29,6 +30,10 @@ public class WeChatDirectProcessRequest extends GenericRequest<WeChatDirectProce
 
   @MaxLength(64)
   private String notificationTimeZone;
+
+  @JsonProperty("openID")
+  @MaxLength(64)
+  private String openId;
 
   public String getCustomerToken() {
     return customerToken;
@@ -72,6 +77,15 @@ public class WeChatDirectProcessRequest extends GenericRequest<WeChatDirectProce
 
   public WeChatDirectProcessRequest setNotificationTimeZone(String notificationTimeZone) {
     this.notificationTimeZone = this.limitLength(notificationTimeZone, 64);
+    return getThis();
+  }
+
+  public String getOpenId() {
+    return openId;
+  }
+
+  public WeChatDirectProcessRequest setOpenId(String openId) {
+    this.openId = openId;
     return getThis();
   }
 
