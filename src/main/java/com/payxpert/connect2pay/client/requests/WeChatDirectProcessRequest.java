@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.payxpert.connect2pay.constants.WeChatPaymentMode;
 
+import com.payxpert.connect2pay.utils.Utils;
 import net.sf.oval.constraint.CheckWith;
 import net.sf.oval.constraint.CheckWithCheck;
 import net.sf.oval.constraint.MaxLength;
@@ -58,7 +59,7 @@ public class WeChatDirectProcessRequest extends GenericRequest<WeChatDirectProce
   }
 
   public WeChatDirectProcessRequest setQuickPayCode(String quickPayCode) {
-    this.quickPayCode = this.limitLength(quickPayCode, 18);
+    this.quickPayCode = Utils.limitLength(quickPayCode, 18);
     return getThis();
   }
 
@@ -67,7 +68,7 @@ public class WeChatDirectProcessRequest extends GenericRequest<WeChatDirectProce
   }
 
   public WeChatDirectProcessRequest setNotificationLang(String notificationLang) {
-    this.notificationLang = this.limitLength(notificationLang, 10);
+    this.notificationLang = Utils.limitLength(notificationLang, 10);
     return getThis();
   }
 
@@ -76,7 +77,7 @@ public class WeChatDirectProcessRequest extends GenericRequest<WeChatDirectProce
   }
 
   public WeChatDirectProcessRequest setNotificationTimeZone(String notificationTimeZone) {
-    this.notificationTimeZone = this.limitLength(notificationTimeZone, 64);
+    this.notificationTimeZone = Utils.limitLength(notificationTimeZone, 64);
     return getThis();
   }
 

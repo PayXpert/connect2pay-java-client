@@ -33,7 +33,7 @@ import net.sf.oval.constraint.NotNull;
 public abstract class GenericRequest<T extends GenericRequest<T>> {
   protected static final Logger logger = LoggerFactory.getLogger(GenericRequest.class);
 
-  public static final String DEFAULT_API_VERSION = "002.61";
+  public static final String DEFAULT_API_VERSION = "002.70";
 
   @NotNull
   @NotEmpty
@@ -129,13 +129,5 @@ public abstract class GenericRequest<T extends GenericRequest<T>> {
     }
 
     return json;
-  }
-
-  protected String limitLength(String value, int length) {
-    if (value != null && value.length() > length) {
-      value = value.substring(0, length);
-    }
-
-    return value;
   }
 }

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.payxpert.connect2pay.constants.AlipayIdentityCodeType;
 import com.payxpert.connect2pay.constants.AlipayPaymentMode;
 
+import com.payxpert.connect2pay.utils.Utils;
 import net.sf.oval.constraint.CheckWith;
 import net.sf.oval.constraint.CheckWithCheck;
 import net.sf.oval.constraint.MaxLength;
@@ -57,7 +58,7 @@ public class AlipayDirectProcessRequest extends GenericRequest<AlipayDirectProce
   }
 
   public AlipayDirectProcessRequest setBuyerIdentityCode(String buyerIdentityCode) {
-    this.buyerIdentityCode = this.limitLength(buyerIdentityCode, 32);
+    this.buyerIdentityCode = Utils.limitLength(buyerIdentityCode, 32);
     return getThis();
   }
 
@@ -75,7 +76,7 @@ public class AlipayDirectProcessRequest extends GenericRequest<AlipayDirectProce
   }
 
   public AlipayDirectProcessRequest setNotificationLang(String notificationLang) {
-    this.notificationLang = this.limitLength(notificationLang, 10);
+    this.notificationLang = Utils.limitLength(notificationLang, 10);
     return getThis();
   }
 
@@ -84,7 +85,7 @@ public class AlipayDirectProcessRequest extends GenericRequest<AlipayDirectProce
   }
 
   public AlipayDirectProcessRequest setNotificationTimeZone(String notificationTimeZone) {
-    this.notificationTimeZone = this.limitLength(notificationTimeZone, 64);
+    this.notificationTimeZone = Utils.limitLength(notificationTimeZone, 64);
     return getThis();
   }
 

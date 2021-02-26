@@ -29,6 +29,10 @@ public enum PaymentNetwork {
     this.supportedPaymentMethod = belongsToMethod;
   }
 
+  public String getValue() {
+    return this.value;
+  }
+
   public String valueToString() {
     return this.value;
   }
@@ -37,7 +41,7 @@ public enum PaymentNetwork {
     return paymentMethod == this.supportedPaymentMethod;
   }
 
-  public static PaymentNetwork fromValue(String value) {
+  public static PaymentNetwork valueOfFromString(String value) {
     for (PaymentNetwork network : PaymentNetwork.values()) {
       if (network.value.equalsIgnoreCase(value)) {
         return network;

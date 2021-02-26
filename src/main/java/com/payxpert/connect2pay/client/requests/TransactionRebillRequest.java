@@ -2,6 +2,8 @@ package com.payxpert.connect2pay.client.requests;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import com.payxpert.connect2pay.utils.Utils;
+import net.sf.oval.constraint.MaxLength;
 import net.sf.oval.constraint.NotNull;
 
 /**
@@ -15,6 +17,9 @@ public class TransactionRebillRequest extends GenericRequest<TransactionRebillRe
 
   @NotNull
   private Integer amount;
+
+  @MaxLength(100)
+  private String orderId;
 
   @Override
   protected TransactionRebillRequest getThis() {
@@ -43,6 +48,15 @@ public class TransactionRebillRequest extends GenericRequest<TransactionRebillRe
 
   public TransactionRebillRequest setAmount(Integer amount) {
     this.amount = amount;
+    return getThis();
+  }
+
+  public String getOrderId() {
+    return orderId;
+  }
+
+  public TransactionRebillRequest setOrderId(String orderId) {
+    this.orderId = Utils.limitLength(orderId, 100);
     return getThis();
   }
 }

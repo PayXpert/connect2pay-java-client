@@ -7,6 +7,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.payxpert.connect2pay.client.containers.Order;
+import com.payxpert.connect2pay.client.containers.Shipping;
 import com.payxpert.connect2pay.client.containers.TransactionAttempt;
 import com.payxpert.connect2pay.constants.PaymentStatusValue;
 import com.payxpert.connect2pay.constants.ResultCode;
@@ -31,12 +33,14 @@ public class PaymentStatusResponse extends GenericResponse<PaymentStatusResponse
   private PaymentStatusValue status;
 
   private String ctrlCustomData;
-  @JsonProperty("orderID")
-  private String orderId;
   private String currency;
   private Integer amount;
 
   private List<TransactionAttempt> transactions;
+
+  private Order order;
+
+  private Shipping shipping;
 
   /**
    * @return the code
@@ -159,21 +163,6 @@ public class PaymentStatusResponse extends GenericResponse<PaymentStatusResponse
   }
 
   /**
-   * @return the orderId
-   */
-  public String getOrderId() {
-    return orderId;
-  }
-
-  /**
-   * @param orderId
-   *          the orderId to set
-   */
-  public void setOrderId(String orderId) {
-    this.orderId = orderId;
-  }
-
-  /**
    * @return the currency
    */
   public String getCurrency() {
@@ -205,6 +194,24 @@ public class PaymentStatusResponse extends GenericResponse<PaymentStatusResponse
 
   public List<TransactionAttempt> getTransactions() {
     return this.transactions;
+  }
+
+  public Order getOrder() {
+    return order;
+  }
+
+  public PaymentStatusResponse setOrder(Order order) {
+    this.order = order;
+    return this;
+  }
+
+  public Shipping getShipping() {
+    return shipping;
+  }
+
+  public PaymentStatusResponse setShipping(Shipping shipping) {
+    this.shipping = shipping;
+    return this;
   }
 
   /**

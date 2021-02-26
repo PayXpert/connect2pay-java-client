@@ -16,6 +16,16 @@ import com.payxpert.connect2pay.utils.Utils;
 abstract public class GenericResponse<T> {
   protected static final Logger logger = LoggerFactory.getLogger(GenericResponse.class);
 
+  private String apiVersion;
+
+  public String getApiVersion() {
+    return apiVersion;
+  }
+
+  public void setApiVersion(String apiVersion) {
+    this.apiVersion = apiVersion;
+  }
+
   @SuppressWarnings("unchecked")
   public T fromJson(String json) throws Exception {
     return (T) Utils.readJson(json, getClass());
